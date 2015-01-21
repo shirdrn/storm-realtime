@@ -19,8 +19,8 @@ public interface StatIndicators {
 	int LAUNCH_TIMES = 31;
 	int PLAY_TIMES = 32;
 	
-	int NEW_PLAY_DURATION = 41;
-	int ACTIVE_PLAY_DURATION = 42;
+	int PLAY_NU_DURATION = 41;
+	int PLAY_AU_DURATION = 42;
 	
 	
 }

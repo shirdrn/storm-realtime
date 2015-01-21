@@ -20,8 +20,8 @@ public class PlayEndEventHandler extends MappedEventHandler<TreeSet<AbstractResu
 	public PlayEndEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(jedisBolt, eventCode);
 		// indicator -> calculator
-		mapTo(StatIndicators.NEW_PLAY_DURATION, IndicatorCalculatorUtils.getPlayNUDurationCalculator());
-		mapTo(StatIndicators.ACTIVE_PLAY_DURATION, IndicatorCalculatorUtils.getPlayAUDurationCalculator());
+		mapTo(StatIndicators.PLAY_NU_DURATION, IndicatorCalculatorUtils.getPlayNUDurationCalculator());
+		mapTo(StatIndicators.PLAY_AU_DURATION, IndicatorCalculatorUtils.getPlayAUDurationCalculator());
 	}
 
 	@Override
@@ -29,11 +29,11 @@ public class PlayEndEventHandler extends MappedEventHandler<TreeSet<AbstractResu
 		TreeSet<AbstractResult> results = Sets.newTreeSet();
 		for(int indicator : indicators) {
 			switch(indicator) {
-				case StatIndicators.NEW_PLAY_DURATION:
+				case StatIndicators.PLAY_NU_DURATION:
 					// compute new user play duration
 					super.compute(results, indicator, event);
 					break;
-				case StatIndicators.ACTIVE_PLAY_DURATION:
+				case StatIndicators.PLAY_AU_DURATION:
 					// compute active user play duration
 					super.compute(results, indicator, event);
 					break;

@@ -48,8 +48,8 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 			case StatIndicators.PLAY_NU:
 			case StatIndicators.LAUNCH_TIMES:
 			case StatIndicators.PLAY_TIMES:
-			case StatIndicators.NEW_PLAY_DURATION:
-			case StatIndicators.ACTIVE_PLAY_DURATION:
+			case StatIndicators.PLAY_NU_DURATION:
+			case StatIndicators.PLAY_AU_DURATION:
 				StatResult statResult = (StatResult) obj;
 				// <key, field, value> like: 
 				// <2015011520, 11::0::A-Baidu::3.1.0, 43997>

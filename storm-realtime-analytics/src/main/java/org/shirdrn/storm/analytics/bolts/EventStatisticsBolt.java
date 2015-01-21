@@ -16,7 +16,7 @@ import org.shirdrn.storm.analytics.constants.EventCode;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.StatFields;
 import org.shirdrn.storm.analytics.handlers.InstallEventHandler;
-import org.shirdrn.storm.analytics.handlers.LaunchEventHandler;
+import org.shirdrn.storm.analytics.handlers.OpenEventHandler;
 import org.shirdrn.storm.analytics.handlers.PlayEndEventHandler;
 import org.shirdrn.storm.analytics.handlers.PlayStartEventHandler;
 
@@ -50,7 +50,7 @@ public class EventStatisticsBolt extends JedisRichBolt {
 		// register mappings: event-->StatHandler
 		statHandlers.put(EventCode.PLAY_START, new PlayStartEventHandler(this, EventCode.PLAY_START));
 		statHandlers.put(EventCode.PLAY_END, new PlayEndEventHandler(this, EventCode.PLAY_END));
-		statHandlers.put(EventCode.LAUNCH, new LaunchEventHandler(this, EventCode.LAUNCH));
+		statHandlers.put(EventCode.LAUNCH, new OpenEventHandler(this, EventCode.LAUNCH));
 		statHandlers.put(EventCode.INSTALL, new InstallEventHandler(this, EventCode.INSTALL));
 	}
 	

@@ -36,7 +36,7 @@ public class TestUtils {
 			events = new String[] {
 					// install
 					"{\"event_code\":\"400000\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 00:51:12\",\"app_key\":\"1\",\"device_type\":0,\"version\":\"3.1.2\",\"channel\":\"A-xop\"}",
-					// launch
+					// open
 					"{\"event_code\":\"100010\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 11:11:48\"}",
 					// play start
 					"{\"event_code\":\"101013\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 22:00:15\"}",

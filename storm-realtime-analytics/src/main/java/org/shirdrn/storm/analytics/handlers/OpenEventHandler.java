@@ -15,12 +15,12 @@ import org.shirdrn.storm.analytics.utils.IndicatorCalculatorUtils;
 
 import com.google.common.collect.Sets;
 
-public class LaunchEventHandler extends MappedEventHandler<TreeSet<AbstractResult>, JSONObject> {
+public class OpenEventHandler extends MappedEventHandler<TreeSet<AbstractResult>, JSONObject> {
 
 	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(LaunchEventHandler.class);
+	private static final Log LOG = LogFactory.getLog(OpenEventHandler.class);
 	
-	public LaunchEventHandler(JedisRichBolt jedisBolt, String eventCode) {
+	public OpenEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(jedisBolt, eventCode);
 		// indicator -> calculator
 		mapTo(StatIndicators.USER_DYNAMIC_INFO, IndicatorCalculatorUtils.getUserDynamicInfoCalculator());
