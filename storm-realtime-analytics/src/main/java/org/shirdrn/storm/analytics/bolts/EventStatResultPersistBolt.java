@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
-import org.shirdrn.storm.analytics.common.KeyedObject;
+import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.common.LazyCallback;
 import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.StatIndicators;
@@ -70,9 +70,9 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 				
 			case StatIndicators.USER_DEVICE_INFO:
 			case StatIndicators.USER_DYNAMIC_INFO:
-				KeyedObject<JSONObject> keyedObject = (KeyedObject<JSONObject>) obj;
-				String k = keyedObject.getKey();
-				JSONObject v = keyedObject.getObject();
+				KeyedResult<JSONObject> result = (KeyedResult<JSONObject>) obj;
+				key = result.getKey();
+				JSONObject value = result.getData();
 				// user device information:
 				// <key, value> like: 
 				// key  -> us::9d11f3ee0242a15026e51d1b3efba454
@@ -83,13 +83,13 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 				// key  -> ud::9d11f3ee0242a15026e51d1b3efba454
 				// field-> fod  fpd
 				// value-> 2015-01-15
-				callback = keyedObject.getCallback();
+				callback = result.getCallback();
 				if(callback != null) {
 					try {
 						callback.call(super.getJedis());
 						collector.ack(input);
 					} catch (Exception e) {
-						LOG.error("Fail to update value for: k=" + k + ", v=" + v, e);
+						LOG.error("Fail to update value for: k=" + key + ", v=" + value, e);
 						collector.fail(input);
 					}
 				}

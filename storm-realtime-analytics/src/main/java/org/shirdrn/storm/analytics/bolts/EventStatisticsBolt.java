@@ -40,18 +40,18 @@ public class EventStatisticsBolt extends JedisRichBolt {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventStatisticsBolt.class);
-	private final Map<String, EventHandler<?, ?>> statHandlers = Maps.newHashMap();
+	private final Map<String, EventHandler<?, ?>> eventHandlers = Maps.newHashMap();
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void prepare(Map stormConf, TopologyContext context,
 			OutputCollector collector) {
 		super.prepare(stormConf, context, collector);
-		// register mappings: event-->StatHandler
-		statHandlers.put(EventCode.PLAY_START, new PlayStartEventHandler(this, EventCode.PLAY_START));
-		statHandlers.put(EventCode.PLAY_END, new PlayEndEventHandler(this, EventCode.PLAY_END));
-		statHandlers.put(EventCode.LAUNCH, new OpenEventHandler(this, EventCode.LAUNCH));
-		statHandlers.put(EventCode.INSTALL, new InstallEventHandler(this, EventCode.INSTALL));
+		// register mappings: event-->EventHandler
+		eventHandlers.put(EventCode.PLAY_START, new PlayStartEventHandler(this, EventCode.PLAY_START));
+		eventHandlers.put(EventCode.PLAY_END, new PlayEndEventHandler(this, EventCode.PLAY_END));
+		eventHandlers.put(EventCode.LAUNCH, new OpenEventHandler(this, EventCode.LAUNCH));
+		eventHandlers.put(EventCode.INSTALL, new InstallEventHandler(this, EventCode.INSTALL));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -61,9 +61,9 @@ public class EventStatisticsBolt extends JedisRichBolt {
 		LOG.debug("INPUT: event=" + event);
 		JSONObject eventData = JSONObject.fromObject(event);
 		String eventCode = eventData.getString(EventFields.EVENT_CODE);
-		EventHandler<?, ?> handler = statHandlers.get(eventCode);
+		EventHandler<?, ?> handler = eventHandlers.get(eventCode);
 		LOG.debug("Get handler: handler=" + handler);
-		// for JedisEventHandler<List<Object>, JSONObject>
+		// for JedisEventHandler<TreeSet<AbstractResult>, JSONObject>
 		if(handler != null) {
 			JedisEventHandler<TreeSet<AbstractResult>, JSONObject> h = (JedisEventHandler<TreeSet<AbstractResult>, JSONObject>) handler;
 			Collection<Integer> indicators = h.getMappedIndicators();

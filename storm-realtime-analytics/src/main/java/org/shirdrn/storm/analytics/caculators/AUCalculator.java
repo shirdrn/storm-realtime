@@ -5,13 +5,13 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.IndicatorCalculator;
-import org.shirdrn.storm.analytics.common.JedisTimeoutCache;
+import org.shirdrn.storm.analytics.common.RedisTimeoutCache;
 import org.shirdrn.storm.analytics.common.LazyCallback;
 import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
-import org.shirdrn.storm.analytics.utils.IndicatorCalculatorUtils;
+import org.shirdrn.storm.analytics.utils.EventUtils;
 import org.shirdrn.storm.analytics.utils.RedisCmdUtils;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
@@ -21,17 +21,17 @@ public class AUCalculator implements IndicatorCalculator<StatResult> {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(AUCalculator.class);
-	private final JedisTimeoutCache timeoutCache = new JedisTimeoutCache();
+	private final RedisTimeoutCache timeoutCache = new RedisTimeoutCache();
 
 	@SuppressWarnings("serial")
 	@Override
-	public StatResult caculate(Jedis jedis, JSONObject event, int indicator) {
+	public StatResult caculate(final Jedis jedis, JSONObject event, int indicator) {
 		StatResult statResult = null;
 		final String udid = event.getString(EventFields.UDID);
 		String time = event.getString(EventFields.EVENT_TIME);
 		final String strHour = DateTimeUtils.format(time, Constants.DT_EVENT_PATTERN, Constants.DT_HOUR_PATTERN);
 		// get user device information
-		JSONObject user =  IndicatorCalculatorUtils.getUserInfo(jedis, udid);
+		JSONObject user =  EventUtils.getUserInfo(jedis, udid);
 		if(user != null) {
 			String channel = user.getString(UserInfoKeys.CHANNEL);
 			String version = user.getString(UserInfoKeys.VERSION);
@@ -49,7 +49,7 @@ public class AUCalculator implements IndicatorCalculator<StatResult> {
 			statResult.setCallback(new LazyCallback<Jedis>() {
 
 				@Override
-				public void call(Jedis client) throws Exception {
+				public void call(final Jedis client) throws Exception {
 					String field = result.toField();
 					String cacheKey = field + Constants.REDIS_KEY_NS_SEPARATOR + udid;
 					String status = timeoutCache.get(client, cacheKey);

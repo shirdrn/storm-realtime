@@ -1,10 +1,10 @@
 package org.shirdrn.storm.analytics.common;
 
-public class KeyedObject<T> extends AbstractResult {
+public class KeyedResult<T> extends AbstractResult {
 
 	private static final long serialVersionUID = 1L;
 	private String key;
-	private T object;
+	private T data;
 	
 	public String getKey() {
 		return key;
@@ -12,11 +12,11 @@ public class KeyedObject<T> extends AbstractResult {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public T getObject() {
-		return object;
+	public T getData() {
+		return data;
 	}
-	public void setObject(T object) {
-		this.object = object;
+	public void setData(T data) {
+		this.data = data;
 	}
 	
 	@Override
@@ -25,10 +25,10 @@ public class KeyedObject<T> extends AbstractResult {
 		sb
 		.append("[indicator=").append(indicator).append(",")
 		.append("key=").append(key).append(",");
-		if(object == null) {
-			sb.append("object=").append("]");
+		if(data == null) {
+			sb.append("data=").append("]");
 		} else {
-			sb.append("object=").append(object).append("]");
+			sb.append("data=").append(data).append("]");
 		}
 		return sb.toString();
 	}

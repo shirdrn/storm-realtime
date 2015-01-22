@@ -40,21 +40,19 @@ public class StatResult extends AbstractResult {
 	
 	public String toField() {
 		return new StringBuffer()
-		.append(indicator).append(NS_SEPARATOR)
-		.append(osType).append(NS_SEPARATOR)
-		.append(channel).append(NS_SEPARATOR)
-		.append(version).toString();
+			.append(indicator).append(NS_SEPARATOR)
+			.append(osType).append(NS_SEPARATOR)
+			.append(channel).append(NS_SEPARATOR)
+			.append(version).toString();
 	}
 	
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb
-		.append("[indicator=").append(indicator).append(",")
-		.append("strHour=").append(strHour).append(",")
-		.append("osType=").append(osType).append(",")
-		.append("channel=").append(channel).append(",")
-		.append("version=").append(version).append("]");
-		return sb.toString();
+		return new StringBuffer()
+			.append("[indicator=").append(indicator).append(",")
+			.append("strHour=").append(strHour).append(",")
+			.append("osType=").append(osType).append(",")
+			.append("channel=").append(channel).append(",")
+			.append("version=").append(version).append("]").toString();
 	}
 }

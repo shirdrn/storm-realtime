@@ -7,5 +7,5 @@ import redis.clients.jedis.Jedis;
 
 public interface IndicatorCalculator<R> extends Serializable {
 
-	R caculate(Jedis jedis, JSONObject e, int indicator);
+	R caculate(final Jedis jedis, JSONObject e, int indicator);
 }

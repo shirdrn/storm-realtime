@@ -9,7 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
-import org.shirdrn.storm.analytics.common.KeyedObject;
+import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.common.MappedEventHandler;
 import org.shirdrn.storm.analytics.constants.StatIndicators;
 import org.shirdrn.storm.analytics.utils.IndicatorCalculatorUtils;
@@ -31,7 +31,7 @@ public class InstallEventHandler extends MappedEventHandler<TreeSet<AbstractResu
 	public TreeSet<AbstractResult> handle(JSONObject event, Collection<Integer> indicators) throws Exception {
 		TreeSet<AbstractResult> userInfos = Sets.newTreeSet();
 		for(int indicator : indicators) {
-			KeyedObject<JSONObject> userInfo = null;
+			KeyedResult<JSONObject> userInfo = null;
 			switch(indicator) {
 				case StatIndicators.USER_DEVICE_INFO:
 					// compute and cache user device information

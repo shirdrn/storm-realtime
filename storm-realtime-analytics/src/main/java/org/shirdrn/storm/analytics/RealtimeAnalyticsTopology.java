@@ -31,10 +31,10 @@ import backtype.storm.tuple.Fields;
  * +------------+     +-----------------------+     +---------------------+     +----------------------------+
  * </pre>
  * <ol>
- * 		<li>{@link KafkaSpout}                 </li> : Read data from Kafka MQ(topic: json_basis_event) 
- * 		<li>{@link EventDistributionBolt}      </li> : Distribute events
- * 		<li>{@link EventStatisticsBolt}        </li> : Event statistics
- * 		<li>{@link EventStatResultPersistBolt} </li> : Persist result to Redis, and insert into MySQL from Redis.
+ * 		<li>{@link KafkaSpout}                 </li> : Read event data from Kafka MQ(topic: topic_json_event) 
+ * 		<li>{@link EventDistributionBolt}      </li> : Filter and distribute events.
+ * 		<li>{@link EventStatisticsBolt}        </li> : Event statistics.
+ * 		<li>{@link EventStatResultPersistBolt} </li> : Persist result to Redis.
  * </ol>
  * 
  * @author yanjun

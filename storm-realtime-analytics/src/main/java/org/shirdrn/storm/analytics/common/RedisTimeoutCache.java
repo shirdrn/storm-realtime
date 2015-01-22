@@ -6,10 +6,10 @@ import org.shirdrn.storm.analytics.utils.RedisCmdUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class JedisTimeoutCache implements TimeoutCache<Jedis, String, String> {
+public class RedisTimeoutCache implements TimeoutCache<Jedis, String, String> {
 
 	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(JedisTimeoutCache.class);
+	private static final Log LOG = LogFactory.getLog(RedisTimeoutCache.class);
 	
 	@Override
 	public void put(Jedis client, String key, String value, int seconds) {

@@ -5,7 +5,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.IndicatorCalculator;
-import org.shirdrn.storm.analytics.common.KeyedObject;
+import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.common.LazyCallback;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
@@ -15,14 +15,14 @@ import org.shirdrn.storm.analytics.utils.RedisCmdUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class UserDeviceInfoCalculator implements IndicatorCalculator<KeyedObject<JSONObject>> {
+public class UserDeviceInfoCalculator implements IndicatorCalculator<KeyedResult<JSONObject>> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(UserDeviceInfoCalculator.class);
 	
 	@SuppressWarnings("serial")
 	@Override
-	public KeyedObject<JSONObject> caculate(Jedis jedis, JSONObject event, int indicator) {
+	public KeyedResult<JSONObject> caculate(final Jedis jedis, JSONObject event, int indicator) {
 		// install event
 		String udid = event.getString(EventFields.UDID);
 		
@@ -38,19 +38,19 @@ public class UserDeviceInfoCalculator implements IndicatorCalculator<KeyedObject
 		
 		String userKey = Constants.USER_INFO_KEY_PREFIX + udid;
 		
-		KeyedObject<JSONObject> keyedObj = new KeyedObject<JSONObject>();
+		KeyedResult<JSONObject> keyedObj = new KeyedResult<JSONObject>();
 		keyedObj.setIndicator(StatIndicators.USER_DEVICE_INFO);
 		keyedObj.setKey(userKey);
-		keyedObj.setObject(user);
+		keyedObj.setData(user);
 		
 		// set callback handler for lazy computation
-		final KeyedObject<JSONObject> result =  keyedObj;
+		final KeyedResult<JSONObject> result =  keyedObj;
 		keyedObj.setCallback(new LazyCallback<Jedis>() {
 
 			@Override
-			public void call(Jedis client) throws Exception {
+			public void call(final Jedis client) throws Exception {
 				String key = result.getKey();
-				String value = result.getObject().toString();
+				String value = result.getData().toString();
 				client.set(key, value);
 				RedisCmdUtils.printCmd(LOG, "SET " + key + " " + value);
 			}
