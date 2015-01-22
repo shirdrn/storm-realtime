@@ -33,8 +33,8 @@ public class UserDeviceInfoCalculator implements IndicatorCalculator<KeyedResult
 		user.put(UserInfoKeys.CHANNEL, channel);
 		String version = event.getString(EventFields.VERSION);
 		user.put(UserInfoKeys.VERSION, version);
-		int deviceType = event.getInt(EventFields.DEVICE_TYPE);
-		user.put(UserInfoKeys.DEVICE_TYPE, deviceType);
+		int osType = event.getInt(EventFields.OS_TYPE);
+		user.put(UserInfoKeys.OS_TYPE, osType);
 		
 		String userKey = Constants.USER_INFO_KEY_PREFIX + udid;
 		

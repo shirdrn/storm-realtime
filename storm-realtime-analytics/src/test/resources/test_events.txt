@@ -1,25 +1,25 @@
-{"event_code":"400000","install_id":"000000HK","udid":"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL","event_time":"2015-11-11 00:51:12","app_key":"1","device_type":0,"version":"3.1.2","channel":"A-360"}
+{"event_code":"400000","install_id":"000000HK","udid":"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL","event_time":"2015-11-11 00:51:12","app_key":"1","os_type":0,"version":"3.1.2","channel":"A-360"}
 {"event_code":"100010","install_id":"000000HK","udid":"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL","event_time":"2015-11-11 11:11:48"}
 {"event_code":"101013","install_id":"000000HK","udid":"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL","event_time":"2015-11-11 22:00:15"}
 {"event_code":"101013","install_id":"000000HK","udid":"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL","event_time":"2015-11-11 22:30:33"}
 {"event_code":"101013","install_id":"000000HK","udid":"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL","event_time":"2015-11-11 22:55:09"}
 {"event_code":"101010","install_id":"000000HK","udid":"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL","event_time":"2015-11-11 22:42:09","duration":"9999"}
 
-{"event_code":"400000","install_id":"000000HM","udid":"MMMMMMMMMMMMMMMMMMMM","event_time":"2015-11-11 00:51:12","app_key":"1","device_type":0,"version":"3.1.2","channel":"A-Baidu"}
+{"event_code":"400000","install_id":"000000HM","udid":"MMMMMMMMMMMMMMMMMMMM","event_time":"2015-11-11 00:51:12","app_key":"1","os_type":0,"version":"3.1.2","channel":"A-Baidu"}
 {"event_code":"100010","install_id":"000000HM","udid":"MMMMMMMMMMMMMMMMMMMM","event_time":"2015-11-11 11:10:26"}
 {"event_code":"100010","install_id":"000000HM","udid":"MMMMMMMMMMMMMMMMMMMM","event_time":"2015-11-11 11:21:08"}
 {"event_code":"100010","install_id":"000000HM","udid":"MMMMMMMMMMMMMMMMMMMM","event_time":"2015-01-11 11:47:15"}
 {"event_code":"101013","install_id":"000000HM","udid":"MMMMMMMMMMMMMMMMMMMM","event_time":"2015-01-11 22:00:15"}
 {"event_code":"101010","install_id":"000000HM","udid":"MMMMMMMMMMMMMMMMMMMM","event_time":"2015-11-11 22:42:09","duration":"3201"}
 
-{"event_code":"400000","install_id":"000000HN","udid":"NNNNNNNNNNNNNNNNNNNNNNNN","event_time":"2015-11-11 00:51:12","app_key":"1","device_type":0,"version":"3.1.1","channel":"A-360"}
+{"event_code":"400000","install_id":"000000HN","udid":"NNNNNNNNNNNNNNNNNNNNNNNN","event_time":"2015-11-11 00:51:12","app_key":"1","os_type":0,"version":"3.1.1","channel":"A-360"}
 {"event_code":"100010","install_id":"000000HN","udid":"NNNNNNNNNNNNNNNNNNNNNNNN","event_time":"2015-11-11 11:11:48"}
 {"event_code":"101013","install_id":"000000HN","udid":"NNNNNNNNNNNNNNNNNNNNNNNN","event_time":"2015-11-11 22:00:15"}
 {"event_code":"101013","install_id":"000000HN","udid":"NNNNNNNNNNNNNNNNNNNNNNNN","event_time":"2015-11-11 22:30:33"}
 {"event_code":"101013","install_id":"000000HN","udid":"NNNNNNNNNNNNNNNNNNNNNNNN","event_time":"2015-11-11 22:55:09"}
 {"event_code":"101010","install_id":"000000HN","udid":"NNNNNNNNNNNNNNNNNNNNNNNN","event_time":"2015-11-11 22:42:09","duration":"105"}
 
-{"event_code":"400000","install_id":"000000HO","udid":"OOOOOOOOOOOOOOOOOOOOOOOO","event_time":"2015-11-11 00:51:12","app_key":"1","device_type":0,"version":"3.1.2","channel":"A-360"}
+{"event_code":"400000","install_id":"000000HO","udid":"OOOOOOOOOOOOOOOOOOOOOOOO","event_time":"2015-11-11 00:51:12","app_key":"1","os_type":0,"version":"3.1.2","channel":"A-360"}
 {"event_code":"100010","install_id":"000000HO","udid":"OOOOOOOOOOOOOOOOOOOOOOOO","event_time":"2015-11-11 11:10:26"}
 {"event_code":"100010","install_id":"000000HO","udid":"OOOOOOOOOOOOOOOOOOOOOOOO","event_time":"2015-11-11 11:21:08"}
 {"event_code":"100010","install_id":"000000HO","udid":"OOOOOOOOOOOOOOOOOOOOOOOO","event_time":"2015-01-11 11:47:15"}

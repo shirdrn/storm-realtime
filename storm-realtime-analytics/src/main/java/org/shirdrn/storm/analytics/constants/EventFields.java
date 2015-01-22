@@ -9,5 +9,5 @@ public interface EventFields {
 	String PLAY_DURATION = "duration";
 	String CHANNEL = "channel";
 	String VERSION = "version";
-	String DEVICE_TYPE = "device_type";
+	String OS_TYPE = "os_type";
 }

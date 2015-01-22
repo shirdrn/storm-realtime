@@ -37,7 +37,7 @@ public class NUCalculator implements IndicatorCalculator<StatResult> {
 			if(isNewUserOpen) {
 				String channel = user.getString(UserInfoKeys.CHANNEL);
 				String version = user.getString(UserInfoKeys.VERSION);
-				int osType = user.getInt(UserInfoKeys.DEVICE_TYPE);
+				int osType = user.getInt(UserInfoKeys.OS_TYPE);
 				// shared field values
 				statResult = new StatResult();
 				statResult.setOsType(osType);

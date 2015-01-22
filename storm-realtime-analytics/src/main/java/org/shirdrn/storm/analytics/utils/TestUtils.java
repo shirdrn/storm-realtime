@@ -35,7 +35,7 @@ public class TestUtils {
 			this.collector = collector;
 			events = new String[] {
 					// install
-					"{\"event_code\":\"400000\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 00:51:12\",\"app_key\":\"1\",\"device_type\":0,\"version\":\"3.1.2\",\"channel\":\"A-xop\"}",
+					"{\"event_code\":\"400000\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 00:51:12\",\"app_key\":\"1\",\"os_type\":0,\"version\":\"3.1.2\",\"channel\":\"A-xop\"}",
 					// open
 					"{\"event_code\":\"100010\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 11:11:48\"}",
 					// play start
