@@ -29,18 +29,20 @@ public class InstallEventHandler extends MappedEventHandler<TreeSet<AbstractResu
 
 	@Override
 	public TreeSet<AbstractResult> handle(JSONObject event, Collection<Integer> indicators) throws Exception {
-		TreeSet<AbstractResult> userInfos = Sets.newTreeSet();
+		LOG.info(this.getClass().getSimpleName() + ": indicators=" + indicators);
+		TreeSet<AbstractResult> results = Sets.newTreeSet();
 		for(int indicator : indicators) {
 			KeyedResult<JSONObject> userInfo = null;
 			switch(indicator) {
 				case StatIndicators.USER_DEVICE_INFO:
 					// compute and cache user device information
-					super.compute(userInfos, indicator, event);
+					super.compute(results, indicator, event);
 					LOG.debug("userInfo: " + userInfo);
 					break;
 			}
 		}
-		return userInfos;
+		LOG.info(this.getClass().getSimpleName() + ": results=" + results);
+		return results;
 	}
 
 }

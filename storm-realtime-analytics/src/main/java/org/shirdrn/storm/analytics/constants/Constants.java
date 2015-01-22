@@ -6,6 +6,7 @@ public interface Constants {
 	String REDIS_KEY_NS_SEPARATOR = "::";
 	
 	String CACHE_ITEM_KEYD_VALUE = "Y";
+	String NS_STAT_HKEY = "S";
 	String NS_PLAY_NU_DURATION_USER = "NU";
 	String NS_PLAY_AU_DURATION_USER = "AU";
 	int CACHE_ITEM_EXPIRE_TIME = 1 * 60 * 60; // 1 hour

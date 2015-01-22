@@ -5,6 +5,8 @@ import java.util.TreeSet;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.common.MappedEventHandler;
@@ -16,6 +18,7 @@ import com.google.common.collect.Sets;
 public class PlayEndEventHandler extends MappedEventHandler<TreeSet<AbstractResult>, JSONObject> {
 
 	private static final long serialVersionUID = 1L;
+	private static final Log LOG = LogFactory.getLog(PlayEndEventHandler.class);
 	
 	public PlayEndEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(jedisBolt, eventCode);
@@ -26,6 +29,7 @@ public class PlayEndEventHandler extends MappedEventHandler<TreeSet<AbstractResu
 
 	@Override
 	public TreeSet<AbstractResult> handle(JSONObject event, Collection<Integer> indicators) throws Exception {
+		LOG.info(this.getClass().getSimpleName() + ": indicators=" + indicators);
 		TreeSet<AbstractResult> results = Sets.newTreeSet();
 		for(int indicator : indicators) {
 			switch(indicator) {
@@ -39,6 +43,7 @@ public class PlayEndEventHandler extends MappedEventHandler<TreeSet<AbstractResu
 					break;
 			}
 		}
+		LOG.info(this.getClass().getSimpleName() + ": results=" + results);
 		return results;
 	}
 

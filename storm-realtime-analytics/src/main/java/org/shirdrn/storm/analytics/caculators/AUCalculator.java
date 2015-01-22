@@ -51,11 +51,12 @@ public class AUCalculator implements IndicatorCalculator<StatResult> {
 				@Override
 				public void call(final Jedis client) throws Exception {
 					String field = result.toField();
-					String cacheKey = field + Constants.REDIS_KEY_NS_SEPARATOR + udid;
+					String cacheKey = result.getIndicator() + Constants.REDIS_KEY_NS_SEPARATOR +
+							field + Constants.REDIS_KEY_NS_SEPARATOR + udid;
 					String status = timeoutCache.get(client, cacheKey);
 					if(status == null) {
 						// real time update counter in Redis
-						String key = result.getStrHour();
+						String key = result.createKey(Constants.NS_STAT_HKEY);
 						long count = Constants.DEFAULT_INCREMENT_VALUE;
 						client.hincrBy(key, field, count);
 						RedisCmdUtils.printCmd(LOG, "HINCRBY " + key + " " + field + " " + count);

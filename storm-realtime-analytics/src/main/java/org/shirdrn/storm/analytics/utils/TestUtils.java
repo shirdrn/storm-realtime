@@ -35,13 +35,13 @@ public class TestUtils {
 			this.collector = collector;
 			events = new String[] {
 					// install
-					"{\"event_code\":\"400000\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 00:51:12\",\"app_key\":\"1\",\"os_type\":0,\"version\":\"3.1.2\",\"channel\":\"A-xop\"}",
+					"{\"event_code\":\"400000\",\"install_id\":\"000000HX\",\"udid\":\"AQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2055-11-11 00:51:12\",\"app_key\":\"1\",\"os_type\":0,\"version\":\"3.1.2\",\"channel\":\"A-xop\"}",
 					// open
-					"{\"event_code\":\"100010\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 11:11:48\"}",
+					"{\"event_code\":\"100010\",\"install_id\":\"000000HX\",\"udid\":\"AQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2055-11-11 11:11:48\"}",
 					// play start
-					"{\"event_code\":\"101013\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 22:00:15\"}",
+					"{\"event_code\":\"101013\",\"install_id\":\"000000HX\",\"udid\":\"AQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2055-11-11 22:00:15\"}",
 					// play end
-					"{\"event_code\":\"101010\",\"install_id\":\"000000HX\",\"udid\":\"QQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-11-11 22:42:09\",\"duration\":\"9999\"}"
+					"{\"event_code\":\"101010\",\"install_id\":\"000000HX\",\"udid\":\"AQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2055-11-11 22:42:09\",\"duration\":\"9999\"}"
 			};
 			
 		}
@@ -53,6 +53,7 @@ public class TestUtils {
 				collector.emit(new Values(data));
 				LOG.info("Spout emitted: " + data);
 				++pointer;
+				Utils.sleep(3000);
 			} else {
 				Utils.sleep(100000);
 			}

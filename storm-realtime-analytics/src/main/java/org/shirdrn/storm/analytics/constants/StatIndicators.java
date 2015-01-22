@@ -11,16 +11,15 @@ public interface StatIndicators {
 	////// Statistical indicators
 	
 	int NU = 11; // New Users
-	int PLAY_NU = 12; // Play New Users
+	int AU = 12; // Active Users
+	int LAUNCH_TIMES = 13;
 	
-	int AU = 21; // Active Users
+	int PLAY_NU = 21; // Play New Users
 	int PLAY_AU = 22; // Play Active Users
+	int PLAY_TIMES = 23;
 	
-	int LAUNCH_TIMES = 31;
-	int PLAY_TIMES = 32;
-	
-	int PLAY_NU_DURATION = 41;
-	int PLAY_AU_DURATION = 42;
+	int PLAY_NU_DURATION = 31;
+	int PLAY_AU_DURATION = 32;
 	
 	
 }

@@ -31,7 +31,7 @@ public class PlayStartEventHandler extends MappedEventHandler<TreeSet<AbstractRe
 
 	@Override
 	public TreeSet<AbstractResult> handle(JSONObject event, Collection<Integer> indicators) throws Exception {
-		LOG.info("PlayStartEventStatHandler indicators=" + indicators);
+		LOG.info(this.getClass().getSimpleName() + ": indicators=" + indicators);
 		TreeSet<AbstractResult> results = Sets.newTreeSet();
 		for(int indicator : indicators) {
 			switch(indicator) {
@@ -56,7 +56,7 @@ public class PlayStartEventHandler extends MappedEventHandler<TreeSet<AbstractRe
 					break;
 			}
 		}
-		LOG.info("PlayStartEventStatHandler: results=" + results);
+		LOG.info(this.getClass().getSimpleName() + ": results=" + results);
 		return results;
 	}
 	

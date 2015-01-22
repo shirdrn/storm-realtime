@@ -2,7 +2,7 @@ package org.shirdrn.storm.analytics.common;
 
 import org.shirdrn.storm.analytics.constants.Constants;
 
-public class StatResult extends AbstractResult {
+public class StatResult extends AbstractResult implements KeyCreateable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String NS_SEPARATOR = Constants.REDIS_KEY_NS_SEPARATOR;
@@ -37,6 +37,20 @@ public class StatResult extends AbstractResult {
 		this.version = version;
 	}
 	
+	@Override
+	public String createKey(String type) {
+		// hkeys 2015111122::31::S
+		// field 0::A-360::3.1.2
+		// value 103
+		
+		// hkeys 2015111122::42::AU
+		// field 0::A-360::3.1.2::YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+		// value Y
+		return new StringBuffer()
+			.append(strHour).append(NS_SEPARATOR)
+			.append(indicator).append(NS_SEPARATOR)
+			.append(type).toString();
+	}
 	
 	public String toField() {
 		return new StringBuffer()
@@ -55,4 +69,5 @@ public class StatResult extends AbstractResult {
 			.append("channel=").append(channel).append(",")
 			.append("version=").append(version).append("]").toString();
 	}
+	
 }

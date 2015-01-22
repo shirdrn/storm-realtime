@@ -54,27 +54,25 @@ public class PlayNUDurationCalculator implements IndicatorCalculator<StatResult>
 
 						@Override
 						public void call(final Jedis client) throws Exception {
-							String key = result.getStrHour();
+							String key = result.createKey(Constants.NS_STAT_HKEY);
+							String userKey = result.createKey(Constants.NS_PLAY_NU_DURATION_USER);
 							String field = result.toField();
 							// save new users for play NU
 							// like 41::0::A-360::3.1.2 1::NU::AAAAAAAAAAAAAAAAAAAAA Y
-							String userField = field + 
-									Constants.REDIS_KEY_NS_SEPARATOR + Constants.NS_PLAY_NU_DURATION_USER + 
-									Constants.REDIS_KEY_NS_SEPARATOR + udid;
+							String userField = field + Constants.REDIS_KEY_NS_SEPARATOR + udid;
 							String userValue = client.hget(key, userField);
 							if(userValue == null) {
 								userValue = Constants.CACHE_ITEM_KEYD_VALUE;
 								Transaction tx = client.multi();
-								tx.hset(key, userField, userValue);
+								tx.hset(userKey, userField, userValue);
 								tx.hincrBy(key, field, duration);
 								tx.exec();
-								RedisCmdUtils.printCmd(LOG, "HSET " + key + " " + userField + " " + userValue);
+								RedisCmdUtils.printCmd(LOG, "HSET " + userKey + " " + userField + " " + userValue);
 								RedisCmdUtils.printCmd(LOG, "HINCRBY " + key + " " + field + " " + duration);
 							} else {
 								client.hincrBy(key, field, duration);
 								RedisCmdUtils.printCmd(LOG, "HINCRBY " + key + " " + field + " " + duration);
 							}
-							
 						}
 						
 					});

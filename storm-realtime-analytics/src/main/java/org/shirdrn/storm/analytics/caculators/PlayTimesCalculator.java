@@ -48,7 +48,7 @@ public class PlayTimesCalculator implements IndicatorCalculator<StatResult> {
 
 				@Override
 				public void call(final Jedis client) throws Exception {
-					String key = result.getStrHour();
+					String key = result.createKey(Constants.NS_STAT_HKEY);
 					String field = result.toField();
 					long count = Constants.DEFAULT_INCREMENT_VALUE;
 					client.hincrBy(key, field, count);

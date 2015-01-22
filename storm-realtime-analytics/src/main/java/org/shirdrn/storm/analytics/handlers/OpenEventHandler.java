@@ -25,12 +25,13 @@ public class OpenEventHandler extends MappedEventHandler<TreeSet<AbstractResult>
 		// indicator -> calculator
 		mapTo(StatIndicators.USER_DYNAMIC_INFO, IndicatorCalculatorUtils.getUserDynamicInfoCalculator());
 		mapTo(StatIndicators.NU, IndicatorCalculatorUtils.getNUCalculator());
+		mapTo(StatIndicators.AU, IndicatorCalculatorUtils.getAUCalculator());
 		mapTo(StatIndicators.LAUNCH_TIMES, IndicatorCalculatorUtils.getOPenTimesCalculator());
 	}
 
 	@Override
 	public TreeSet<AbstractResult> handle(JSONObject event, Collection<Integer> indicators) throws Exception {
-		LOG.info("LaunchEventStatHandler indicators=" + indicators);
+		LOG.info(this.getClass().getSimpleName() + ": indicators=" + indicators);
 		TreeSet<AbstractResult> results = Sets.newTreeSet();
 		for(int indicator : indicators) {
 			switch(indicator) {
@@ -49,7 +50,7 @@ public class OpenEventHandler extends MappedEventHandler<TreeSet<AbstractResult>
 					break;
 			}
 		}
-		LOG.info("LaunchEventStatHandler results: " + results);
+		LOG.info(this.getClass().getSimpleName() + ": results=" + results);
 		return results;
 	}
 
