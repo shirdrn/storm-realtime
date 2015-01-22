@@ -37,7 +37,7 @@ public class PlayAUDurationCalculator implements IndicatorCalculator<StatResult>
 				String channel = user.getString(UserInfoKeys.CHANNEL);
 				String version = user.getString(UserInfoKeys.VERSION);
 				int osType = user.getInt(UserInfoKeys.OS_TYPE);
-				// shared field values
+				// create StatResult
 				statResult = new StatResult();
 				statResult.setOsType(osType);
 				statResult.setVersion(version);
@@ -55,7 +55,8 @@ public class PlayAUDurationCalculator implements IndicatorCalculator<StatResult>
 						String userKey = result.createKey(Constants.NS_PLAY_AU_DURATION_USER);
 						String field = result.toField();
 						// save new users for play AU
-						// like 42::0::A-360::3.1.2 1::AU::AAAAAAAAAAAAAAAAAAAAA Y
+						// like: <key, field, value>
+						// <2311010202::32::AU, 0::A-360::3.1.2::AAAAAAAAAADDDDDDDDD, Y>
 						String userField = field + Constants.REDIS_KEY_NS_SEPARATOR  + udid;
 						String userValue = client.hget(key, userField);
 						if(userValue == null) {

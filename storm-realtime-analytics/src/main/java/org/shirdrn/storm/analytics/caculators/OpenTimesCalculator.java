@@ -34,7 +34,7 @@ public class OpenTimesCalculator implements IndicatorCalculator<StatResult> {
 			String channel = user.getString(UserInfoKeys.CHANNEL);
 			String version = user.getString(UserInfoKeys.VERSION);
 			int osType = user.getInt(UserInfoKeys.OS_TYPE);
-			// shared field values
+			// create StatResult
 			statResult = new StatResult();
 			statResult.setIndicator(indicator);
 			statResult.setOsType(osType);

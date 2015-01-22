@@ -52,8 +52,10 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 			case StatIndicators.PLAY_AU_DURATION:
 				StatResult statResult = (StatResult) obj;
 				// <key, field, value> like: 
-				// <2015011520, 11::0::A-Baidu::3.1.0, 43997>
-				// explanation: hour->2015011520, NU->11, os type->0, channel->A-Baidu, version->3.1.0, counter->43997
+				// <2015011520::11::S, 0::A-Baidu::3.1.0, 43997>
+				// Explanations: 
+				// 		hour->2015011520, NU->11, os type->0, channel->A-Baidu, version->3.1.0, 
+				// 		statistical type->S, counter->43997
 				String key = statResult.getStrHour();
 				String field = statResult.toField();
 				LazyCallback<Jedis> callback = statResult.getCallback();
