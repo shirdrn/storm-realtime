@@ -16,10 +16,10 @@ import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class LaunchTimesCalculator implements IndicatorCalculator<StatResult> {
+public class OpenTimesCalculator implements IndicatorCalculator<StatResult> {
 
 	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(LaunchTimesCalculator.class);
+	private static final Log LOG = LogFactory.getLog(OpenTimesCalculator.class);
 	
 	@SuppressWarnings("serial")
 	@Override

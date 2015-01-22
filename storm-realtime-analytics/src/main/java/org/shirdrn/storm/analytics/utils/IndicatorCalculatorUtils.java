@@ -3,7 +3,7 @@ package org.shirdrn.storm.analytics.utils;
 import net.sf.json.JSONObject;
 
 import org.shirdrn.storm.analytics.caculators.AUCalculator;
-import org.shirdrn.storm.analytics.caculators.LaunchTimesCalculator;
+import org.shirdrn.storm.analytics.caculators.OpenTimesCalculator;
 import org.shirdrn.storm.analytics.caculators.NUCalculator;
 import org.shirdrn.storm.analytics.caculators.PlayAUCalculator;
 import org.shirdrn.storm.analytics.caculators.PlayAUDurationCalculator;
@@ -25,7 +25,7 @@ public class IndicatorCalculatorUtils {
 	private static final IndicatorCalculator<StatResult> PLAY_AU_CALCULATOR = new PlayAUCalculator();
 	private static final IndicatorCalculator<StatResult> PLAY_NU_CALCULATOR = new PlayNUCalculator();
 	private static final IndicatorCalculator<StatResult> PLAY_TIMES_CALCULATOR = new PlayTimesCalculator();
-	private static final IndicatorCalculator<StatResult> LAUNCH_TIMES_CALCULATOR = new LaunchTimesCalculator();
+	private static final IndicatorCalculator<StatResult> OPEN_TIMES_CALCULATOR = new OpenTimesCalculator();
 	private static final IndicatorCalculator<StatResult> PLAY_NU_DURATION_CALCULATOR = new PlayNUDurationCalculator();
 	private static final IndicatorCalculator<StatResult> PLAY_AU_DURATION_CALCULATOR = new PlayAUDurationCalculator();
 	
@@ -49,8 +49,8 @@ public class IndicatorCalculatorUtils {
 		return PLAY_TIMES_CALCULATOR;
 	}
 	
-	public static IndicatorCalculator<StatResult> getLaunchTimesCalculator() {
-		return LAUNCH_TIMES_CALCULATOR;
+	public static IndicatorCalculator<StatResult> getOPenTimesCalculator() {
+		return OPEN_TIMES_CALCULATOR;
 	}
 	
 	public static IndicatorCalculator<StatResult> getPlayNUDurationCalculator() {

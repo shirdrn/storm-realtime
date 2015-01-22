@@ -25,7 +25,7 @@ public class OpenEventHandler extends MappedEventHandler<TreeSet<AbstractResult>
 		// indicator -> calculator
 		mapTo(StatIndicators.USER_DYNAMIC_INFO, IndicatorCalculatorUtils.getUserDynamicInfoCalculator());
 		mapTo(StatIndicators.NU, IndicatorCalculatorUtils.getNUCalculator());
-		mapTo(StatIndicators.LAUNCH_TIMES, IndicatorCalculatorUtils.getLaunchTimesCalculator());
+		mapTo(StatIndicators.LAUNCH_TIMES, IndicatorCalculatorUtils.getOPenTimesCalculator());
 	}
 
 	@Override
