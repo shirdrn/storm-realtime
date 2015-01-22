@@ -50,7 +50,7 @@ public class EventStatisticsBolt extends JedisRichBolt {
 		// register mappings: event-->EventHandler
 		eventHandlers.put(EventCode.PLAY_START, new PlayStartEventHandler(this, EventCode.PLAY_START));
 		eventHandlers.put(EventCode.PLAY_END, new PlayEndEventHandler(this, EventCode.PLAY_END));
-		eventHandlers.put(EventCode.LAUNCH, new OpenEventHandler(this, EventCode.LAUNCH));
+		eventHandlers.put(EventCode.OPEN, new OpenEventHandler(this, EventCode.OPEN));
 		eventHandlers.put(EventCode.INSTALL, new InstallEventHandler(this, EventCode.INSTALL));
 	}
 	

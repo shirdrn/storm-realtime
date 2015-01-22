@@ -39,7 +39,7 @@ public class EventDistributionBolt extends BaseRichBolt {
 		this.collector = collector;
 		interestedEvents = new HashSet<String>() {{
 			add(EventCode.INSTALL);
-			add(EventCode.LAUNCH);
+			add(EventCode.OPEN);
 			add(EventCode.PLAY_START);
 			add(EventCode.PLAY_END);
 		}};

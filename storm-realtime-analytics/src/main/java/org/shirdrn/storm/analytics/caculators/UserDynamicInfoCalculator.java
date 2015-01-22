@@ -41,7 +41,7 @@ public class UserDynamicInfoCalculator implements IndicatorCalculator<KeyedResul
 				JSONObject info = null;
 				String field = null;
 				// first open date
-				if(eventCode.equals(EventCode.LAUNCH)) {
+				if(eventCode.equals(EventCode.OPEN)) {
 					field = Constants.FIRST_OPEN_DATE; 
 					String firstOpenDate = client.hget(key, Constants.FIRST_OPEN_DATE);
 					if(firstOpenDate == null) {
