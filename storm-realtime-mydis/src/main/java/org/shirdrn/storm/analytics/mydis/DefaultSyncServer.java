@@ -31,9 +31,9 @@ public class DefaultSyncServer extends RedisSyncServer {
 		// add SyncWorker
 		register(syncServer, new DefaultSyncWorker(syncServer));
 		register(syncServer,
-				new UserSyncWorker(syncServer, StatIndicators.NEW_PLAY_DURATION, Constants.NS_PLAY_NU_DURATION_USER));
+				new UserSyncWorker(syncServer, StatIndicators.PLAY_NU_DURATION, Constants.NS_PLAY_NU_DURATION_USER));
 		register(syncServer,
-				new UserSyncWorker(syncServer, StatIndicators.ACTIVE_PLAY_DURATION, Constants.NS_PLAY_AU_DURATION_USER));
+				new UserSyncWorker(syncServer, StatIndicators.PLAY_AU_DURATION, Constants.NS_PLAY_AU_DURATION_USER));
 		// start server
 		syncServer.start();
 		syncServer.join();

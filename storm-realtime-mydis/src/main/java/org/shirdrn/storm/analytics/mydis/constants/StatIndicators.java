@@ -18,8 +18,8 @@ public interface StatIndicators {
 	int PLAY_AU = 22; // Play Active Users
 	int PLAY_TIMES = 23;
 	
-	int NEW_PLAY_DURATION = 31;
-	int ACTIVE_PLAY_DURATION = 32;
+	int PLAY_NU_DURATION = 31;
+	int PLAY_AU_DURATION = 32;
 	
 	
 }

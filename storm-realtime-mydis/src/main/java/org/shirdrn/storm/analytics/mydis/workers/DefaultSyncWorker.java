@@ -26,8 +26,8 @@ public class DefaultSyncWorker extends RedisSyncWorker {
 			StatIndicators.PLAY_NU, 
 			StatIndicators.PLAY_AU, 
 			StatIndicators.PLAY_TIMES,
-			StatIndicators.NEW_PLAY_DURATION, 
-			StatIndicators.ACTIVE_PLAY_DURATION
+			StatIndicators.PLAY_NU_DURATION, 
+			StatIndicators.PLAY_AU_DURATION
 	};
 	// PRIMARY KEY(indicator, hour, os_type, channel, version)
 	private static final String SQL = 
