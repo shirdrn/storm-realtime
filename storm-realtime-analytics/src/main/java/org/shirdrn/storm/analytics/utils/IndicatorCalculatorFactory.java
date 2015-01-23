@@ -16,7 +16,7 @@ import org.shirdrn.storm.analytics.common.IndicatorCalculator;
 import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.common.StatResult;
 
-public class IndicatorCalculatorUtils {
+public class IndicatorCalculatorFactory {
 
 	//// Statistical indicator calculators
 	

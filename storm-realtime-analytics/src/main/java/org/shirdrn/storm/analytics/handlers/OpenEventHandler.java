@@ -11,7 +11,7 @@ import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.common.MappedEventHandler;
 import org.shirdrn.storm.analytics.constants.StatIndicators;
-import org.shirdrn.storm.analytics.utils.IndicatorCalculatorUtils;
+import org.shirdrn.storm.analytics.utils.IndicatorCalculatorFactory;
 
 import com.google.common.collect.Sets;
 
@@ -23,10 +23,10 @@ public class OpenEventHandler extends MappedEventHandler<TreeSet<AbstractResult>
 	public OpenEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(jedisBolt, eventCode);
 		// indicator -> calculator
-		mapTo(StatIndicators.USER_DYNAMIC_INFO, IndicatorCalculatorUtils.getUserDynamicInfoCalculator());
-		mapTo(StatIndicators.NU, IndicatorCalculatorUtils.getNUCalculator());
-		mapTo(StatIndicators.AU, IndicatorCalculatorUtils.getAUCalculator());
-		mapTo(StatIndicators.LAUNCH_TIMES, IndicatorCalculatorUtils.getOPenTimesCalculator());
+		mapTo(StatIndicators.USER_DYNAMIC_INFO, IndicatorCalculatorFactory.getUserDynamicInfoCalculator());
+		mapTo(StatIndicators.NU, IndicatorCalculatorFactory.getNUCalculator());
+		mapTo(StatIndicators.AU, IndicatorCalculatorFactory.getAUCalculator());
+		mapTo(StatIndicators.LAUNCH_TIMES, IndicatorCalculatorFactory.getOPenTimesCalculator());
 	}
 
 	@Override

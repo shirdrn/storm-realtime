@@ -11,7 +11,7 @@ import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.common.MappedEventHandler;
 import org.shirdrn.storm.analytics.constants.StatIndicators;
-import org.shirdrn.storm.analytics.utils.IndicatorCalculatorUtils;
+import org.shirdrn.storm.analytics.utils.IndicatorCalculatorFactory;
 
 import com.google.common.collect.Sets;
 
@@ -23,8 +23,8 @@ public class PlayEndEventHandler extends MappedEventHandler<TreeSet<AbstractResu
 	public PlayEndEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(jedisBolt, eventCode);
 		// indicator -> calculator
-		mapTo(StatIndicators.PLAY_NU_DURATION, IndicatorCalculatorUtils.getPlayNUDurationCalculator());
-		mapTo(StatIndicators.PLAY_AU_DURATION, IndicatorCalculatorUtils.getPlayAUDurationCalculator());
+		mapTo(StatIndicators.PLAY_NU_DURATION, IndicatorCalculatorFactory.getPlayNUDurationCalculator());
+		mapTo(StatIndicators.PLAY_AU_DURATION, IndicatorCalculatorFactory.getPlayAUDurationCalculator());
 	}
 
 	@Override

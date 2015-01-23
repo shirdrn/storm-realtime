@@ -12,7 +12,7 @@ import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.common.MappedEventHandler;
 import org.shirdrn.storm.analytics.constants.StatIndicators;
-import org.shirdrn.storm.analytics.utils.IndicatorCalculatorUtils;
+import org.shirdrn.storm.analytics.utils.IndicatorCalculatorFactory;
 
 import com.google.common.collect.Sets;
 
@@ -24,7 +24,7 @@ public class InstallEventHandler extends MappedEventHandler<TreeSet<AbstractResu
 	public InstallEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(jedisBolt, eventCode);
 		// indicator -> calculator
-		mapTo(StatIndicators.USER_DEVICE_INFO, IndicatorCalculatorUtils.getUserDeviceInfoCalculator());
+		mapTo(StatIndicators.USER_DEVICE_INFO, IndicatorCalculatorFactory.getUserDeviceInfoCalculator());
 	}
 
 	@Override

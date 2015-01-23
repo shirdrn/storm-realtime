@@ -9,15 +9,10 @@
 		<module>storm-realtime-analytics</module>
 		<module>storm-realtime-commons</module>
 		<module>storm-realtime-spring</module>
+		<module>storm-realtime-mydis</module>
 	</modules>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.storm</groupId>
-			<artifactId>storm-core</artifactId>
-			<version>0.9.2-incubating</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

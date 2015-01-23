@@ -2,8 +2,12 @@ package org.shirdrn.storm.commons.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+
+import com.google.common.collect.Lists;
 
 public class DateTimeUtils {
 	
@@ -47,9 +51,20 @@ public class DateTimeUtils {
 		Date d = parse(srcDatetime, srcFormat);
 		return format(d, dstFormat);
 	}
+	
+	public static LinkedList<String> getLatestHours(int nHours, String format) {
+		LinkedList<String> hours = Lists.newLinkedList();
+		Calendar c = Calendar.getInstance();
+		for (int i = 0; i < nHours; i++) {
+			c.add(Calendar.HOUR_OF_DAY, -1);
+			hours.add(format(c.getTime(), format));
+		}
+		return hours;
+	}
 
 	public static void main(String[] args) {
 		System.out.println(format(System.currentTimeMillis(), "yyyyMMddHHmmssSSS"));
 		System.out.println(getDaysBetween("2015-01-09", "2015-01-10", "yyyy-MM-dd"));
+		System.out.println(getLatestHours(3, "yyyyMMddHH"));
 	}
 }
