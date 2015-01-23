@@ -12,7 +12,6 @@ import org.shirdrn.storm.analytics.mydis.constants.Constants;
 import org.shirdrn.storm.commons.utils.ThreadPoolUtils;
 import org.shirdrn.storm.spring.utils.SpringFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.google.common.collect.Sets;
 
@@ -27,7 +26,6 @@ public abstract class SyncServer implements Server {
 	private final String poolName = "SYNC";
 	private final ScheduledExecutorService scheduledExecutorService;
 	private final int period;
-	private final JdbcTemplate jdbcTemplate;
 	private final Set<SyncWorker<?, ?>> syncWorkers = Sets.newHashSet();
 	
 	public SyncServer(Configuration conf) {
@@ -35,7 +33,6 @@ public abstract class SyncServer implements Server {
 		// Spring context
 		context = SpringFactory.getContextFactory(ctxId, SPTING_CONFIGS).getContext(ctxId);
 		LOG.info("Spring context initialized: " + context);
-		jdbcTemplate = context.getBean(JdbcTemplate.class);
 		
 		// configure sync server
 		int nThreads = conf.getInt(Constants.SYNC_SCHEDULER_THREAD_COUNT, 1);
