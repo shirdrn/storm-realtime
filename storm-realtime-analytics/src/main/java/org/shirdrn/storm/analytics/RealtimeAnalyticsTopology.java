@@ -6,7 +6,7 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.bolts.EventDistributionBolt;
+import org.shirdrn.storm.analytics.bolts.EventFilterBolt;
 import org.shirdrn.storm.analytics.bolts.EventStatResultPersistBolt;
 import org.shirdrn.storm.analytics.bolts.EventStatisticsBolt;
 import org.shirdrn.storm.analytics.constants.StatFields;
@@ -26,13 +26,13 @@ import backtype.storm.tuple.Fields;
 /**
  * Real-time event analytics, the topology definition stream graph is depict as follows:
  * <pre>
- * +------------+     +-----------------------+     +---------------------+     +----------------------------+
- * | KafkaSpout | --> | EventDistributionBolt | --> | EventStatisticsBolt | --> | EventStatResultPersistBolt |
- * +------------+     +-----------------------+     +---------------------+     +----------------------------+
+ * +------------+     +-----------------+     +---------------------+     +----------------------------+
+ * | KafkaSpout | --> | EventFilterBolt | --> | EventStatisticsBolt | --> | EventStatResultPersistBolt |
+ * +------------+     +-----------------+     +---------------------+     +----------------------------+
  * </pre>
  * <ol>
  * 		<li>{@link KafkaSpout}                 </li> : Read event data from Kafka MQ(topic: topic_json_event) 
- * 		<li>{@link EventDistributionBolt}      </li> : Filter and distribute events.
+ * 		<li>{@link EventFilterBolt}            </li> : Filter and distribute events.
  * 		<li>{@link EventStatisticsBolt}        </li> : Event statistics.
  * 		<li>{@link EventStatResultPersistBolt} </li> : Persist result to Redis.
  * </ol>
@@ -57,9 +57,9 @@ public class RealtimeAnalyticsTopology {
 		TopologyBuilder builder = new TopologyBuilder();
 		// naming Storm components
 		String kafkaEventReader = "kafka-event-reader";
-		String eventDistributor = "event-distributor";
+		String eventFilter = "event-filter";
 		String eventStatistics = "event-statistics";
-		String eventStatResultPersist = "event-stat-result-persist";
+		String eventStatPersistence = "event-stat-persistence";
 		
 		// configure Kafka spout
 		BaseRichSpout kafkaSpout = null;
@@ -72,25 +72,25 @@ public class RealtimeAnalyticsTopology {
 		
 		// configure distributor bolt
 		builder
-			.setBolt(eventDistributor, new EventDistributionBolt(), 1)
+			.setBolt(eventFilter, new EventFilterBolt(), 1)
 			.shuffleGrouping(kafkaEventReader)
 			.setNumTasks(1);
 		
 		// configure statistics bolt
 		builder
 			.setBolt(eventStatistics, new EventStatisticsBolt(), 2)
-			.shuffleGrouping(eventDistributor)
+			.shuffleGrouping(eventFilter)
 			.setNumTasks(2);
 		
 		// configure persistence bolt
 		builder
-			.setBolt(eventStatResultPersist, new EventStatResultPersistBolt(), 2)
+			.setBolt(eventStatPersistence, new EventStatResultPersistBolt(), 2)
 			.fieldsGrouping(eventStatistics, new Fields(StatFields.STAT_INDICATOR))
 			.setNumTasks(2);
 		
 		LOG.info("Topology built: " + TopologyUtils.toString(
 				RealtimeAnalyticsTopology.class.getSimpleName(), 
-				kafkaEventReader, eventDistributor, eventStatistics, eventStatResultPersist));
+				kafkaEventReader, eventFilter, eventStatistics, eventStatPersistence));
 		return builder;
 	}
 	

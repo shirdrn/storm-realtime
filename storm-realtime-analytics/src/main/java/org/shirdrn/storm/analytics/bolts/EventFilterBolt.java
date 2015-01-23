@@ -25,10 +25,10 @@ import backtype.storm.tuple.Values;
  * 
  * @author yanjun
  */
-public class EventDistributionBolt extends BaseRichBolt {
+public class EventFilterBolt extends BaseRichBolt {
 
 	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(EventDistributionBolt.class);
+	private static final Log LOG = LogFactory.getLog(EventFilterBolt.class);
 	private OutputCollector collector;
 	private Collection<String> interestedEvents;
 	
