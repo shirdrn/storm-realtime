@@ -26,7 +26,7 @@ public class OpenEventHandler extends MappedEventHandler<TreeSet<AbstractResult>
 		mapTo(StatIndicators.USER_DYNAMIC_INFO, IndicatorCalculatorFactory.getUserDynamicInfoCalculator());
 		mapTo(StatIndicators.NU, IndicatorCalculatorFactory.getNUCalculator());
 		mapTo(StatIndicators.AU, IndicatorCalculatorFactory.getAUCalculator());
-		mapTo(StatIndicators.LAUNCH_TIMES, IndicatorCalculatorFactory.getOPenTimesCalculator());
+		mapTo(StatIndicators.OPEN_TIMES, IndicatorCalculatorFactory.getOPenTimesCalculator());
 	}
 
 	@Override
@@ -36,6 +36,12 @@ public class OpenEventHandler extends MappedEventHandler<TreeSet<AbstractResult>
 		for(int indicator : indicators) {
 			switch(indicator) {
 				case StatIndicators.NU:
+					// compute new users
+					super.compute(results, indicator, event);
+					break;
+					
+				case StatIndicators.AU:
+					// compute active users
 					super.compute(results, indicator, event);
 					break;
 					
@@ -44,8 +50,8 @@ public class OpenEventHandler extends MappedEventHandler<TreeSet<AbstractResult>
 					super.compute(results, indicator, event);
 					break;
 					
-				case StatIndicators.LAUNCH_TIMES:
-					// compute active users
+				case StatIndicators.OPEN_TIMES:
+					// compute open times
 					super.compute(results, indicator, event);
 					break;
 			}

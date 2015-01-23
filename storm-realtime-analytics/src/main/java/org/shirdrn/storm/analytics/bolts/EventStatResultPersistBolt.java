@@ -46,7 +46,7 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 			case StatIndicators.NU:
 			case StatIndicators.PLAY_AU:
 			case StatIndicators.PLAY_NU:
-			case StatIndicators.LAUNCH_TIMES:
+			case StatIndicators.OPEN_TIMES:
 			case StatIndicators.PLAY_TIMES:
 			case StatIndicators.PLAY_NU_DURATION:
 			case StatIndicators.PLAY_AU_DURATION:
