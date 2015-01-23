@@ -18,7 +18,7 @@ public abstract class JedisEventHandler<R, E> extends MappedEventHandler<R, E> {
 	
 	protected void compute(TreeSet<AbstractResult> results, int indicator, JSONObject event) {
 		Jedis jedis = jedisBolt.getJedis();
-		IndicatorCalculator<? extends AbstractResult> calculator = select(indicator);
+		IndicatorCalculator<? extends AbstractResult> calculator = selectCalculator(indicator);
 		if(calculator == null) {
 			throw new NoSuchElementException("Not found calculator for indicator: " + indicator);
 		}

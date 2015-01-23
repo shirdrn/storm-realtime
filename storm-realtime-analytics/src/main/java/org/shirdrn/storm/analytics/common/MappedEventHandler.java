@@ -34,7 +34,7 @@ public abstract class MappedEventHandler<R, E> implements EventHandler<R, E> {
 		LOG.info("Mapped[" + this.getClass().getSimpleName() + "\t] " + eventCode + " -> " + String.format("%02d", indicator) + " -> " + calculator);
 	}
 	
-	protected IndicatorCalculator<? extends AbstractResult> select(int indicator) throws NoSuchElementException {
+	protected IndicatorCalculator<? extends AbstractResult> selectCalculator(int indicator) throws NoSuchElementException {
 		return registeredCalculators.get(indicator);
 	}
 
