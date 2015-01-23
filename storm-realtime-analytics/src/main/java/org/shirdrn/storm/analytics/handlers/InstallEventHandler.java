@@ -8,15 +8,15 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.AbstractResult;
+import org.shirdrn.storm.analytics.common.JedisEventHandler;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.common.KeyedResult;
-import org.shirdrn.storm.analytics.common.MappedEventHandler;
 import org.shirdrn.storm.analytics.constants.StatIndicators;
 import org.shirdrn.storm.analytics.utils.IndicatorCalculatorFactory;
 
 import com.google.common.collect.Sets;
 
-public class InstallEventHandler extends MappedEventHandler<TreeSet<AbstractResult>, JSONObject> {
+public class InstallEventHandler extends JedisEventHandler<TreeSet<AbstractResult>, JSONObject> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(InstallEventHandler.class);

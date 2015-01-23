@@ -6,16 +6,14 @@ import java.util.TreeSet;
 import net.sf.json.JSONObject;
 import redis.clients.jedis.Jedis;
 
-
-public abstract class JedisEventHandler<R, E> implements EventHandler<R, E> {
+public abstract class JedisEventHandler<R, E> extends MappedEventHandler<R, E> {
 
 	private static final long serialVersionUID = 1L;
-	protected final String eventCode;
 	protected final JedisRichBolt jedisBolt;
 	
 	public JedisEventHandler(JedisRichBolt jedisBolt, String eventCode) {
+		super(eventCode);
 		this.jedisBolt = jedisBolt;
-		this.eventCode = eventCode;
 	}
 	
 	protected void compute(TreeSet<AbstractResult> results, int indicator, JSONObject event) {
@@ -30,7 +28,5 @@ public abstract class JedisEventHandler<R, E> implements EventHandler<R, E> {
 		}
 		jedisBolt.returnResource(jedis);
 	}
-	
-	protected abstract IndicatorCalculator<? extends AbstractResult> select(int indicator) throws NoSuchElementException;
 	
 }
