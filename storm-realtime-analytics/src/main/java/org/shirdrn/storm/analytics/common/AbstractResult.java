@@ -7,15 +7,15 @@ public abstract class AbstractResult implements Comparable<AbstractResult>, Seri
 
 	private static final long serialVersionUID = 1L;
 	protected int indicator;
-	protected LazyCallback<?> callback;
+	protected CallbackHandler<?> callbackHandler;
 
-	public <T> void setCallback(LazyCallback<T> callback) {
-		this.callback = callback;
+	public <T> void setCallbackHandler(CallbackHandler<T> callbackHandler) {
+		this.callbackHandler = callbackHandler;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> LazyCallback<T> getCallback() {
-		return (LazyCallback<T>) callback;
+	public <T> CallbackHandler<T> getCallbackHandler() {
+		return (CallbackHandler<T>) callbackHandler;
 	}
 	
 	public int getIndicator() {

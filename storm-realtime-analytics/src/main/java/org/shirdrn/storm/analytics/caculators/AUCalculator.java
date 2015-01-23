@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.IndicatorCalculator;
 import org.shirdrn.storm.analytics.common.RedisTimeoutCache;
-import org.shirdrn.storm.analytics.common.LazyCallback;
+import org.shirdrn.storm.analytics.common.CallbackHandler;
 import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
@@ -46,7 +46,7 @@ public class AUCalculator implements IndicatorCalculator<StatResult> {
 			
 			// set callback handler
 			final StatResult result =  statResult;
-			statResult.setCallback(new LazyCallback<Jedis>() {
+			statResult.setCallbackHandler(new CallbackHandler<Jedis>() {
 
 				@Override
 				public void call(final Jedis client) throws Exception {

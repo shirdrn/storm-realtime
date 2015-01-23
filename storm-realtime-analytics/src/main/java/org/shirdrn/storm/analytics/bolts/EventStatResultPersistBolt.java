@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.common.KeyedResult;
-import org.shirdrn.storm.analytics.common.LazyCallback;
+import org.shirdrn.storm.analytics.common.CallbackHandler;
 import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.StatIndicators;
 
@@ -58,16 +58,7 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 				// 		statistical type->S, counter->43997
 				String key = statResult.getStrHour();
 				String field = statResult.toField();
-				LazyCallback<Jedis> callback = statResult.getCallback();
-				if(callback != null) {
-					try {
-						callback.call(super.getJedis());
-						collector.ack(input);
-					} catch (Exception e) {
-						LOG.error("Fail to update value for: key=" + key + ", field=" + field, e);
-						collector.fail(input);
-					}
-				}
+				invoke(input, key, field, statResult.toString(), statResult);
 				break;
 				
 			case StatIndicators.USER_DEVICE_INFO:
@@ -85,18 +76,23 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 				// key  -> ud::9d11f3ee0242a15026e51d1b3efba454
 				// field-> fod  fpd
 				// value-> 2015-01-15
-				callback = result.getCallback();
-				if(callback != null) {
-					try {
-						callback.call(super.getJedis());
-						collector.ack(input);
-					} catch (Exception e) {
-						LOG.error("Fail to update value for: k=" + key + ", v=" + value, e);
-						collector.fail(input);
-					}
-				}
+				invoke(input, key, null, value.toString(), result);
 				break;
 				
+		}
+	}
+	
+	private void invoke(Tuple input, String key, String field, String value, AbstractResult result) {
+		CallbackHandler<Jedis> callbackHandler = result.getCallbackHandler();
+		if(callbackHandler != null) {
+			try {
+				callbackHandler.call(super.getJedis());
+				collector.ack(input);
+			} catch (Exception e) {
+				LOG.error("Fail to update value for: " + 
+					"key=" + key + ", field=" + field + ", value=" + value, e);
+				collector.fail(input);
+			}
 		}
 	}
 

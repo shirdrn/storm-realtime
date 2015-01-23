@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.IndicatorCalculator;
 import org.shirdrn.storm.analytics.common.KeyedResult;
-import org.shirdrn.storm.analytics.common.LazyCallback;
+import org.shirdrn.storm.analytics.common.CallbackHandler;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventCode;
 import org.shirdrn.storm.analytics.constants.EventFields;
@@ -34,7 +34,7 @@ public class UserDynamicInfoCalculator implements IndicatorCalculator<KeyedResul
 		
 		// set callback handler for lazy computation
 		final KeyedResult<JSONObject> result = keyedObj;
-		keyedObj.setCallback(new LazyCallback<Jedis>() {
+		keyedObj.setCallbackHandler(new CallbackHandler<Jedis>() {
 
 			@Override
 			public void call(final Jedis client) throws Exception {
