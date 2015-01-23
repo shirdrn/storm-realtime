@@ -1,0 +1,193 @@
+2015-01-23 14:54:26.450 [main] INFO  org.shirdrn.storm.spring.SpringContextFactory - Initializing context for: name=realtime, configs=[classpath*:/applicationContext.xml]
+2015-01-23 14:54:26.533 [main] INFO  org.springframework.context.support.ClassPathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@57b324dd: startup date [Fri Jan 23 14:54:26 CST 2015]; root of context hierarchy
+2015-01-23 14:54:26.533 [main] INFO  org.springframework.context.support.ClassPathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@57b324dd: startup date [Fri Jan 23 14:54:26 CST 2015]; root of context hierarchy
+2015-01-23 14:54:26.589 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from URL [file:/C:/Users/yanjun/git/storm-realtime/storm-realtime-mydis/target/classes/applicationContext.xml]
+2015-01-23 14:54:26.589 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from URL [file:/C:/Users/yanjun/git/storm-realtime/storm-realtime-mydis/target/classes/applicationContext.xml]
+2015-01-23 14:54:26.879 [main] INFO  org.springframework.beans.factory.config.PropertyPlaceholderConfigurer - Loading properties file from URL [file:/C:/Users/yanjun/git/storm-realtime/storm-realtime-mydis/target/classes/jedis.properties]
+2015-01-23 14:54:26.879 [main] INFO  org.springframework.beans.factory.config.PropertyPlaceholderConfigurer - Loading properties file from URL [file:/C:/Users/yanjun/git/storm-realtime/storm-realtime-mydis/target/classes/jedis.properties]
+2015-01-23 14:54:26.880 [main] INFO  org.springframework.beans.factory.config.PropertyPlaceholderConfigurer - Loading properties file from URL [file:/C:/Users/yanjun/git/storm-realtime/storm-realtime-mydis/target/classes/druid.properties]
+2015-01-23 14:54:26.880 [main] INFO  org.springframework.beans.factory.config.PropertyPlaceholderConfigurer - Loading properties file from URL [file:/C:/Users/yanjun/git/storm-realtime/storm-realtime-mydis/target/classes/druid.properties]
+2015-01-23 14:54:26.893 [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@17d22080: defining beans [org.springframework.beans.factory.config.PropertyPlaceholderConfigurer#0,jedisPool,dataSourceX,dataSourceXProxy,jdbcTemplateX]; root of factory hierarchy
+2015-01-23 14:54:26.893 [main] INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@17d22080: defining beans [org.springframework.beans.factory.config.PropertyPlaceholderConfigurer#0,jedisPool,dataSourceX,dataSourceXProxy,jdbcTemplateX]; root of factory hierarchy
+2015-01-23 14:54:27.499 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2015-01-23 14:54:27.541 [main] INFO  org.shirdrn.storm.spring.SpringContextFactory - Context initialized: name=realtime, context=org.springframework.context.support.ClassPathXmlApplicationContext@57b324dd: startup date [Fri Jan 23 14:54:26 CST 2015]; root of context hierarchy
+2015-01-23 14:54:27.542 [main] INFO  org.shirdrn.storm.analytics.mydis.DefaultSyncServer - Spring context initialized: org.springframework.context.support.ClassPathXmlApplicationContext@57b324dd: startup date [Fri Jan 23 14:54:26 CST 2015]; root of context hierarchy
+2015-01-23 14:54:27.549 [main] INFO  org.shirdrn.storm.analytics.mydis.common.RedisSyncServer - Jedis pool created: redis.clients.jedis.JedisPool@51e3e961
+2015-01-23 14:54:27.550 [main] INFO  org.shirdrn.storm.analytics.mydis.DefaultSyncServer - SyncWorker registed: org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker@36d93d6d
+2015-01-23 14:54:27.551 [main] INFO  org.shirdrn.storm.analytics.mydis.DefaultSyncServer - SyncWorker registed: org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker@7d318730
+2015-01-23 14:54:27.551 [main] INFO  org.shirdrn.storm.analytics.mydis.DefaultSyncServer - SyncWorker registed: org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker@3ea2a086
+2015-01-23 14:54:27.551 [main] INFO  org.shirdrn.storm.analytics.mydis.DefaultSyncServer - All sync workers: [org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker@3ea2a086, org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker@7d318730, org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker@36d93d6d]
+2015-01-23 14:54:28.597 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Sync for hours: [2015012314, 2015012313, 2015012312, 2015012311, 2015012310, 2015012309, 2015012308]
+2015-01-23 14:54:28.597 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012314
+2015-01-23 14:54:28.800 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012313
+2015-01-23 14:54:29.030 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012312
+2015-01-23 14:54:29.201 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012311
+2015-01-23 14:54:29.403 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012310
+2015-01-23 14:54:29.578 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012310::32::AU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:29.580 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:29.581 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Sync for hours: [2015012314, 2015012313, 2015012312, 2015012311, 2015012310, 2015012309, 2015012308]
+2015-01-23 14:54:29.582 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012314
+2015-01-23 14:54:29.683 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012309
+2015-01-23 14:54:29.765 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012313
+2015-01-23 14:54:29.861 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012309::32::AU, field=0::A-360::3.1.2::AAAAAAAAAAAAAAAAAAAA
+2015-01-23 14:54:29.862 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012309::32::AU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:29.862 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-360,version=3.1.2] = 1
+2015-01-23 14:54:29.866 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:29.871 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012308
+2015-01-23 14:54:29.937 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012312
+2015-01-23 14:54:30.041 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012308::32::AU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:30.041 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:30.143 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012311
+2015-01-23 14:54:30.343 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012310
+2015-01-23 14:54:30.531 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012310::31::NU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:30.531 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:30.536 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012309
+2015-01-23 14:54:30.583 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Sync for hours: [2015012314, 2015012313, 2015012312, 2015012311, 2015012310, 2015012309, 2015012308]
+2015-01-23 14:54:30.583 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012314
+2015-01-23 14:54:30.713 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012309::31::NU, field=0::A-360::3.1.2::AAAAAAAAAAAAAAAAAAAA
+2015-01-23 14:54:30.714 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012309::31::NU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:30.714 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-360,version=3.1.2] = 1
+2015-01-23 14:54:30.720 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:30.725 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012308
+2015-01-23 14:54:30.759 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012313
+2015-01-23 14:54:30.893 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012308::31::NU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:30.893 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:30.923 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012312
+2015-01-23 14:54:31.091 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012311
+2015-01-23 14:54:31.246 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012310
+2015-01-23 14:54:31.436 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012309
+2015-01-23 14:54:31.652 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::11::S, field=0::A-360::3.1.2
+2015-01-23 14:54:31.843 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::11::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:32.043 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012308
+2015-01-23 14:54:32.233 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012314
+2015-01-23 14:54:32.409 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012313
+2015-01-23 14:54:32.609 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012312
+2015-01-23 14:54:32.817 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012311
+2015-01-23 14:54:33.053 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012310
+2015-01-23 14:54:33.252 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012309
+2015-01-23 14:54:33.432 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012308
+2015-01-23 14:54:33.630 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012314
+2015-01-23 14:54:33.815 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012313
+2015-01-23 14:54:34.029 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012312
+2015-01-23 14:54:34.240 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012311
+2015-01-23 14:54:34.428 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012310
+2015-01-23 14:54:34.659 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012310::13::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:34.842 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012309
+2015-01-23 14:54:35.025 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::13::S, field=0::A-360::3.1.2
+2015-01-23 14:54:35.258 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::13::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:35.481 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012308
+2015-01-23 14:54:35.703 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012308::13::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:35.931 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012314
+2015-01-23 14:54:36.187 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012313
+2015-01-23 14:54:36.431 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012312
+2015-01-23 14:54:36.645 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012311
+2015-01-23 14:54:36.875 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012310
+2015-01-23 14:54:37.112 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012309
+2015-01-23 14:54:37.349 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::21::S, field=0::A-360::3.1.2
+2015-01-23 14:54:37.585 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::21::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:37.822 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012308
+2015-01-23 14:54:38.015 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=22, hour=2015012314
+2015-01-23 14:54:38.241 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=22, hour=2015012313
+2015-01-23 14:54:38.444 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=22, hour=2015012312
+2015-01-23 14:54:38.678 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=22, hour=2015012311
+2015-01-23 14:54:38.908 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=22, hour=2015012310
+2015-01-23 14:54:39.125 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=22, hour=2015012309
+2015-01-23 14:54:39.332 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::22::S, field=0::A-360::3.1.2
+2015-01-23 14:54:39.580 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::22::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:39.865 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=22, hour=2015012308
+2015-01-23 14:54:40.119 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=23, hour=2015012314
+2015-01-23 14:54:40.355 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=23, hour=2015012313
+2015-01-23 14:54:40.587 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=23, hour=2015012312
+2015-01-23 14:54:40.810 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=23, hour=2015012311
+2015-01-23 14:54:41.071 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=23, hour=2015012310
+2015-01-23 14:54:41.311 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012310::23::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:41.489 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=23, hour=2015012309
+2015-01-23 14:54:41.703 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::23::S, field=0::A-360::3.1.2
+2015-01-23 14:54:41.896 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::23::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:42.063 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=23, hour=2015012308
+2015-01-23 14:54:42.205 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012308::23::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:42.352 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=31, hour=2015012314
+2015-01-23 14:54:42.539 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=31, hour=2015012313
+2015-01-23 14:54:42.733 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=31, hour=2015012312
+2015-01-23 14:54:42.929 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=31, hour=2015012311
+2015-01-23 14:54:43.116 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=31, hour=2015012310
+2015-01-23 14:54:43.327 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012310::31::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:43.568 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=31, hour=2015012309
+2015-01-23 14:54:43.783 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::31::S, field=0::A-360::3.1.2
+2015-01-23 14:54:43.991 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::31::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:44.226 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=31, hour=2015012308
+2015-01-23 14:54:44.480 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012308::31::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:44.750 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=32, hour=2015012314
+2015-01-23 14:54:45.032 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=32, hour=2015012313
+2015-01-23 14:54:45.306 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=32, hour=2015012312
+2015-01-23 14:54:45.536 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=32, hour=2015012311
+2015-01-23 14:54:45.763 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=32, hour=2015012310
+2015-01-23 14:54:46.022 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012310::32::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:46.254 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=32, hour=2015012309
+2015-01-23 14:54:46.513 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::32::S, field=0::A-360::3.1.2
+2015-01-23 14:54:46.762 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::32::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:47.015 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=32, hour=2015012308
+2015-01-23 14:54:47.312 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012308::32::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:48.275 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Sync for hours: [2015012314, 2015012313, 2015012312, 2015012311, 2015012310, 2015012309, 2015012308]
+2015-01-23 14:54:48.275 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012314
+2015-01-23 14:54:48.503 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012313
+2015-01-23 14:54:48.781 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012312
+2015-01-23 14:54:49.064 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012311
+2015-01-23 14:54:49.297 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Sync for hours: [2015012314, 2015012313, 2015012312, 2015012311, 2015012310, 2015012309, 2015012308]
+2015-01-23 14:54:49.297 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012314
+2015-01-23 14:54:49.303 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012310
+2015-01-23 14:54:49.543 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012313
+2015-01-23 14:54:49.562 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012310::32::AU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:49.562 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:49.566 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012309
+2015-01-23 14:54:49.807 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012312
+2015-01-23 14:54:49.862 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012309::32::AU, field=0::A-360::3.1.2::AAAAAAAAAAAAAAAAAAAA
+2015-01-23 14:54:49.862 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012309::32::AU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:49.863 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-360,version=3.1.2] = 1
+2015-01-23 14:54:49.868 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:49.873 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=32, hour=2015012308
+2015-01-23 14:54:50.074 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012311
+2015-01-23 14:54:50.134 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012308::32::AU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:50.134 [SYNC-001] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:50.284 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Sync for hours: [2015012314, 2015012313, 2015012312, 2015012311, 2015012310, 2015012309, 2015012308]
+2015-01-23 14:54:50.285 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012314
+2015-01-23 14:54:50.309 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012310
+2015-01-23 14:54:50.531 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012313
+2015-01-23 14:54:50.531 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012310::31::NU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:50.532 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:50.536 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012309
+2015-01-23 14:54:50.803 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012312
+2015-01-23 14:54:50.817 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012309::31::NU, field=0::A-360::3.1.2::AAAAAAAAAAAAAAAAAAAA
+2015-01-23 14:54:50.817 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012309::31::NU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:50.817 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-360,version=3.1.2] = 1
+2015-01-23 14:54:50.819 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:50.821 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Process: indicator=31, hour=2015012308
+2015-01-23 14:54:51.057 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012311
+2015-01-23 14:54:51.087 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - key=2015012308::31::NU, field=0::A-Baidu::3.1.0::BBBBBBBBBBBBBBBBBBBB
+2015-01-23 14:54:51.088 [SYNC-002] INFO  org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker - Processed result: [osType=0,channel=A-Baidu,version=3.1.0] = 1
+2015-01-23 14:54:51.302 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012310
+2015-01-23 14:54:51.543 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012309
+2015-01-23 14:54:51.808 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::11::S, field=0::A-360::3.1.2
+2015-01-23 14:54:52.073 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::11::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:52.339 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=11, hour=2015012308
+2015-01-23 14:54:52.618 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012314
+2015-01-23 14:54:52.870 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012313
+2015-01-23 14:54:53.142 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012312
+2015-01-23 14:54:53.433 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012311
+2015-01-23 14:54:53.681 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012310
+2015-01-23 14:54:53.967 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012309
+2015-01-23 14:54:54.244 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=12, hour=2015012308
+2015-01-23 14:54:54.588 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012314
+2015-01-23 14:54:54.891 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012313
+2015-01-23 14:54:55.256 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012312
+2015-01-23 14:54:55.541 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012311
+2015-01-23 14:54:55.832 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012310
+2015-01-23 14:54:56.094 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012310::13::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:56.349 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012309
+2015-01-23 14:54:56.563 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::13::S, field=0::A-360::3.1.2
+2015-01-23 14:54:56.814 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012309::13::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:57.072 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=13, hour=2015012308
+2015-01-23 14:54:57.286 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - key=2015012308::13::S, field=0::A-Baidu::3.1.0
+2015-01-23 14:54:57.518 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012314
+2015-01-23 14:54:57.741 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012313
+2015-01-23 14:54:57.980 [SYNC-003] INFO  org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker - Process: indicator=21, hour=2015012312
