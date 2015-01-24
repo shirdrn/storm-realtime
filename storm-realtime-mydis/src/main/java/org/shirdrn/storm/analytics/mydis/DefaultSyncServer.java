@@ -9,7 +9,7 @@ import org.shirdrn.storm.analytics.mydis.common.SyncServer;
 import org.shirdrn.storm.analytics.mydis.common.SyncWorker;
 import org.shirdrn.storm.analytics.mydis.constants.Constants;
 import org.shirdrn.storm.analytics.mydis.constants.StatIndicators;
-import org.shirdrn.storm.analytics.mydis.workers.DefaultSyncWorker;
+import org.shirdrn.storm.analytics.mydis.workers.StatSyncWorker;
 import org.shirdrn.storm.analytics.mydis.workers.UserSyncWorker;
 
 public class DefaultSyncServer extends RedisSyncServer {
@@ -29,7 +29,7 @@ public class DefaultSyncServer extends RedisSyncServer {
 		Configuration conf = new PropertiesConfiguration("config.properties");
 		RedisSyncServer syncServer = new DefaultSyncServer(conf);
 		// add SyncWorker
-		register(syncServer, new DefaultSyncWorker(syncServer));
+		register(syncServer, new StatSyncWorker(syncServer));
 		register(syncServer,
 				new UserSyncWorker(syncServer, StatIndicators.PLAY_NU_DURATION, Constants.NS_PLAY_NU_DURATION_USER));
 		register(syncServer,

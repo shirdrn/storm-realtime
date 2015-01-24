@@ -17,9 +17,9 @@ import org.springframework.jdbc.core.PreparedStatementCallback;
 
 import redis.clients.jedis.Jedis;
 
-public class DefaultSyncWorker extends RedisSyncWorker {
+public class StatSyncWorker extends RedisSyncWorker {
 
-	private static final Log LOG = LogFactory.getLog(DefaultSyncWorker.class);
+	private static final Log LOG = LogFactory.getLog(StatSyncWorker.class);
 	private final int[] indicators = new int[] {
 			StatIndicators.NU, StatIndicators.AU, 
 			StatIndicators.LAUNCH_TIMES,
@@ -34,7 +34,7 @@ public class DefaultSyncWorker extends RedisSyncWorker {
 			"INSERT INTO realtime_db.realtime_stat_result(indicator, hour, os_type, channel, version, count) " + 
 			"VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE count=?" ;
 	
-	public DefaultSyncWorker(RedisSyncServer syncServer) {
+	public StatSyncWorker(RedisSyncServer syncServer) {
 		super(syncServer);
 	}
 	
