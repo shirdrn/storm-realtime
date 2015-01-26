@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.bolts.EventFilterBolt;
 import org.shirdrn.storm.analytics.bolts.EventStatResultPersistBolt;
-import org.shirdrn.storm.analytics.bolts.EventStatisticsBolt;
+import org.shirdrn.storm.analytics.bolts.EventStatBolt;
 import org.shirdrn.storm.analytics.constants.StatFields;
 import org.shirdrn.storm.analytics.utils.StormComponentFactory;
 import org.shirdrn.storm.analytics.utils.TestUtils;
@@ -33,7 +33,7 @@ import backtype.storm.tuple.Fields;
  * <ol>
  * 		<li>{@link KafkaSpout}                 </li> : Read event data from Kafka MQ(topic: topic_json_event) 
  * 		<li>{@link EventFilterBolt}            </li> : Filter and distribute events.
- * 		<li>{@link EventStatisticsBolt}        </li> : Event statistics.
+ * 		<li>{@link EventStatBolt}        </li> : Event statistics.
  * 		<li>{@link EventStatResultPersistBolt} </li> : Persist result to Redis.
  * </ol>
  * 
@@ -78,7 +78,7 @@ public class RealtimeAnalyticsTopology {
 		
 		// configure statistics bolt
 		builder
-			.setBolt(eventStatistics, new EventStatisticsBolt(), 2)
+			.setBolt(eventStatistics, new EventStatBolt(), 2)
 			.shuffleGrouping(eventFilter)
 			.setNumTasks(2);
 		

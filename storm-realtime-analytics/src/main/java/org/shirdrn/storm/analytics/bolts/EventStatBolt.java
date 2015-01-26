@@ -36,10 +36,10 @@ import com.google.common.collect.Maps;
  * 
  * @author yanjun
  */
-public class EventStatisticsBolt extends JedisRichBolt {
+public class EventStatBolt extends JedisRichBolt {
 
 	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(EventStatisticsBolt.class);
+	private static final Log LOG = LogFactory.getLog(EventStatBolt.class);
 	private final Map<String, EventHandler<?, ?>> eventHandlers = Maps.newHashMap();
 	
 	@SuppressWarnings("rawtypes")
