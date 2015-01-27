@@ -2,13 +2,16 @@ package org.shirdrn.storm.analytics.mydis.workers;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.mydis.common.RedisSyncServer;
 import org.shirdrn.storm.analytics.mydis.common.RedisSyncWorker;
+import org.shirdrn.storm.analytics.mydis.common.UpdatePolicy;
 import org.shirdrn.storm.analytics.mydis.constants.Constants;
 import org.shirdrn.storm.analytics.mydis.constants.StatIndicators;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
@@ -16,6 +19,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 
 import redis.clients.jedis.Jedis;
+
+import com.google.common.collect.Lists;
 
 public class StatSyncWorker extends RedisSyncWorker {
 
@@ -33,6 +38,8 @@ public class StatSyncWorker extends RedisSyncWorker {
 	private static final String SQL = 
 			"INSERT INTO realtime_db.realtime_stat_result(indicator, hour, os_type, channel, version, count) " + 
 			"VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE count=?" ;
+	
+	private final UpdatePolicy<StatRecord> updatePolicy = new StatUpdatePolicy();
 	
 	public StatSyncWorker(RedisSyncServer syncServer) {
 		super(syncServer);
@@ -65,33 +72,60 @@ public class StatSyncWorker extends RedisSyncWorker {
 				Constants.NS_STAT_HKEY; 
 		Set<String> fields = jedis.hkeys(key);
 		if(fields != null) {
+			final List<StatRecord> records = Lists.newArrayList();
 			for(String field : fields) {
 				LOG.info("key=" + key + ", field=" + field);
 				String[] fieldValues = field.split(Constants.REDIS_KEY_NS_SEPARATOR);
 				String strCount = jedis.hget(key, field);
 				if(fieldValues.length == 3) {
-					final int osType = Integer.parseInt(fieldValues[0]); 
-					final String channel = fieldValues[1];
-					final String version = fieldValues[2];
-					final long count = Long.parseLong(strCount);
-					jdbcTemplate.execute(SQL, new PreparedStatementCallback<Integer>() {
-						
-						@Override
-						public Integer doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
-							ps.setInt(1, indicator);
-							ps.setString(2, DateTimeUtils.format(hour, Constants.DT_HOUR_FORMAT, Constants.DT_MINUTE_FORMAT));
-							ps.setInt(3, osType);
-							ps.setString(4, channel);
-							ps.setString(5, version);
-							ps.setLong(6, count);
-							ps.setLong(7, count);
-							return ps.executeUpdate();
-						}
-						
-					});
+					StatRecord record = new StatRecord();
+					record.indicator = indicator;
+					record.hour = hour;
+					record.osType = Integer.parseInt(fieldValues[0]); 
+					record.channel = fieldValues[1];
+					record.version = fieldValues[2];
+					record.count = Long.parseLong(strCount);
+					records.add(record);
 				}
 			}
+			// update in batch
+			updatePolicy.computeBatch(SQL, records);
 		}
+	}
+	
+	class StatUpdatePolicy implements UpdatePolicy<StatRecord> {
+
+		@Override
+		public void computeBatch(String sql, final Collection<StatRecord> values) throws Exception {
+			jdbcTemplate.execute(sql, new PreparedStatementCallback<int[]>() {
+
+				@Override
+				public int[] doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
+					for(StatRecord r : values) {
+						ps.setInt(1, r.indicator);
+						ps.setString(2, DateTimeUtils.format(r.hour, Constants.DT_HOUR_FORMAT, Constants.DT_MINUTE_FORMAT));
+						ps.setInt(3, r.osType);
+						ps.setString(4, r.channel);
+						ps.setString(5, r.version);
+						ps.setLong(6, r.count);
+						ps.setLong(7, r.count);
+						ps.addBatch();
+					}
+					return ps.executeBatch();
+				}
+				
+			});		
+		}
+
+	}
+	
+	class StatRecord {
+		int indicator;
+		String hour;
+		int osType;
+		String channel;
+		String version;
+		long count;
 	}
 
 }

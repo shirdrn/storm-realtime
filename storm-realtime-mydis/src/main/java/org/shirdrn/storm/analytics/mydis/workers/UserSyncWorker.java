@@ -2,7 +2,7 @@ package org.shirdrn.storm.analytics.mydis.workers;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.mydis.common.RedisSyncServer;
 import org.shirdrn.storm.analytics.mydis.common.RedisSyncWorker;
+import org.shirdrn.storm.analytics.mydis.common.UpdatePolicy;
 import org.shirdrn.storm.analytics.mydis.constants.Constants;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 import org.springframework.dao.DataAccessException;
@@ -32,6 +33,8 @@ public class UserSyncWorker extends RedisSyncWorker {
 	private static final String SQL = 
 			"INSERT INTO realtime_db.realtime_user_result(indicator, hour, os_type, channel, version, count) " + 
 			"VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE count=?" ;
+	
+	private final UpdatePolicy<Entry<StatObj, AtomicLong>> updatePolicy = new UserUpdatePolicy();
 	
 	public UserSyncWorker(RedisSyncServer syncServer, int indicator, String userType) {
 		super(syncServer);
@@ -57,12 +60,8 @@ public class UserSyncWorker extends RedisSyncWorker {
 			} catch (Exception e) {
 				LOG.error("", e);
 			}
-			
-			Iterator<Entry<StatObj, AtomicLong>> iter = statMap.entrySet().iterator();
-			while(iter.hasNext()) {
-				Entry<StatObj, AtomicLong> entry = iter.next();
-				LOG.info("Processed result: [" + entry.getKey() + "] = " + entry.getValue().get());				// persist aggregated statistical result
-				insertOrUpdate(hour, entry.getKey(), entry.getValue().get());
+			if(!statMap.isEmpty()) {
+				updatePolicy.computeBatch(SQL, statMap.entrySet());
 			}
 		}
 	}
@@ -83,9 +82,7 @@ public class UserSyncWorker extends RedisSyncWorker {
 					final int osType = Integer.parseInt(fieldValues[0]); 
 					final String channel = fieldValues[1];
 					final String version = fieldValues[2];
-					// discard udid
-//					final String udid = fieldValues[3];
-					StatObj so = new StatObj(osType, channel, version);
+					StatObj so = new StatObj(hour, osType, channel, version);
 					AtomicLong c = statMap.get(so);
 					if(c == null) {
 						c = new AtomicLong(0);
@@ -97,31 +94,43 @@ public class UserSyncWorker extends RedisSyncWorker {
 		}
 	}
 	
-	private void insertOrUpdate(final String hour, final StatObj statObj, final long count) {
-		jdbcTemplate.execute(SQL, new PreparedStatementCallback<Integer>() {
-			
-			@Override
-			public Integer doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
-				ps.setInt(1, indicator);
-				ps.setString(2, DateTimeUtils.format(hour, Constants.DT_HOUR_FORMAT, Constants.DT_MINUTE_FORMAT));
-				ps.setInt(3, statObj.osType);
-				ps.setString(4, statObj.channel);
-				ps.setString(5, statObj.version);
-				ps.setLong(6, count);
-				ps.setLong(7, count);
-				return ps.executeUpdate();
-			}
-			
-		});
+	class UserUpdatePolicy implements UpdatePolicy<Entry<StatObj, AtomicLong>> {
+
+		@Override
+		public void computeBatch(String sql, final Collection<Entry<StatObj, AtomicLong>> values) throws Exception {
+			jdbcTemplate.execute(sql, new PreparedStatementCallback<int[]>() {
+
+				@Override
+				public int[] doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
+					for(Entry<StatObj, AtomicLong> entry :values) {
+						StatObj statObj = entry.getKey();
+						long count = entry.getValue().get();
+						ps.setInt(1, indicator);
+						ps.setString(2, DateTimeUtils.format(statObj.hour, Constants.DT_HOUR_FORMAT, Constants.DT_MINUTE_FORMAT));
+						ps.setInt(3, statObj.osType);
+						ps.setString(4, statObj.channel);
+						ps.setString(5, statObj.version);
+						ps.setLong(6, count);
+						ps.setLong(7, count);
+						ps.addBatch();
+					}
+					return ps.executeBatch();
+				}
+				
+			});			
+		}
+		
 	}
 	
 	class StatObj {
+		final String hour;
 		final int osType;
 		final String channel;
 		final String version;
 		
-		public StatObj(int osType, String channel, String version) {
+		public StatObj(String hour, int osType, String channel, String version) {
 			super();
+			this.hour = hour;
 			this.osType = osType;
 			this.channel = channel;
 			this.version = version;
@@ -141,6 +150,7 @@ public class UserSyncWorker extends RedisSyncWorker {
 		@Override
 		public String toString() {
 			return new StringBuffer()
+				.append("hour=").append(hour).append(",")
 				.append("osType=").append(osType).append(",")
 				.append("channel=").append(channel).append(",")
 				.append("version=").append(version).toString();
