@@ -24,8 +24,8 @@ public class OpenEventHandler extends JedisEventHandler<TreeSet<AbstractResult>,
 		super(jedisBolt, eventCode);
 		// indicator -> calculator
 		mapTo(StatIndicators.USER_DYNAMIC_INFO, IndicatorCalculatorFactory.getUserDynamicInfoCalculator());
-		mapTo(StatIndicators.NU, IndicatorCalculatorFactory.getNUCalculator());
-		mapTo(StatIndicators.AU, IndicatorCalculatorFactory.getAUCalculator());
+		mapTo(StatIndicators.OPEN_NU, IndicatorCalculatorFactory.getNUCalculator());
+		mapTo(StatIndicators.OPEN_AU, IndicatorCalculatorFactory.getAUCalculator());
 		mapTo(StatIndicators.OPEN_TIMES, IndicatorCalculatorFactory.getOPenTimesCalculator());
 	}
 
@@ -35,12 +35,12 @@ public class OpenEventHandler extends JedisEventHandler<TreeSet<AbstractResult>,
 		TreeSet<AbstractResult> results = Sets.newTreeSet();
 		for(int indicator : indicators) {
 			switch(indicator) {
-				case StatIndicators.NU:
+				case StatIndicators.OPEN_NU:
 					// compute new users
 					super.compute(results, indicator, event);
 					break;
 					
-				case StatIndicators.AU:
+				case StatIndicators.OPEN_AU:
 					// compute active users
 					super.compute(results, indicator, event);
 					break;

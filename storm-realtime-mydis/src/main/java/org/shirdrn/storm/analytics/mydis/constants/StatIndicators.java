@@ -10,9 +10,9 @@ public interface StatIndicators {
 	
 	////// Statistical indicators
 	
-	int NU = 11; // New Users
-	int AU = 12; // Active Users
-	int LAUNCH_TIMES = 13;
+	int OPEN_NU = 11; // Open New Users
+	int OPEN_AU = 12; // Open Active Users
+	int OPEN_TIMES = 13;
 	
 	int PLAY_NU = 21; // Play New Users
 	int PLAY_AU = 22; // Play Active Users

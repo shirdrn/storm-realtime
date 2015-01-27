@@ -6,7 +6,7 @@ import org.shirdrn.storm.analytics.common.StatResult;
 
 import redis.clients.jedis.Jedis;
 
-public class PlayAUCalculator extends AUCalculator {
+public class PlayAUCalculator extends OpenAUCalculator {
 
 	private static final long serialVersionUID = 1L;
 

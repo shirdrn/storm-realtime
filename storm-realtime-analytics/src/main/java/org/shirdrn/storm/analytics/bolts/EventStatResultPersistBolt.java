@@ -42,8 +42,8 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 	@SuppressWarnings("unchecked")
 	private void processOne(Tuple input, int indicator, AbstractResult obj) {
 		switch(indicator) {
-			case StatIndicators.AU:
-			case StatIndicators.NU:
+			case StatIndicators.OPEN_AU:
+			case StatIndicators.OPEN_NU:
 			case StatIndicators.PLAY_AU:
 			case StatIndicators.PLAY_NU:
 			case StatIndicators.OPEN_TIMES:

@@ -17,10 +17,10 @@ import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class AUCalculator implements IndicatorCalculator<StatResult> {
+public class OpenAUCalculator implements IndicatorCalculator<StatResult> {
 	
 	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(AUCalculator.class);
+	private static final Log LOG = LogFactory.getLog(OpenAUCalculator.class);
 	private final RedisTimeoutCache timeoutCache = new RedisTimeoutCache();
 
 	@SuppressWarnings("serial")

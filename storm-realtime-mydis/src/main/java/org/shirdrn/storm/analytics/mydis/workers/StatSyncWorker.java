@@ -26,8 +26,9 @@ public class StatSyncWorker extends RedisSyncWorker {
 
 	private static final Log LOG = LogFactory.getLog(StatSyncWorker.class);
 	private final int[] indicators = new int[] {
-			StatIndicators.NU, StatIndicators.AU, 
-			StatIndicators.LAUNCH_TIMES,
+			StatIndicators.OPEN_NU, 
+			StatIndicators.OPEN_AU, 
+			StatIndicators.OPEN_TIMES,
 			StatIndicators.PLAY_NU, 
 			StatIndicators.PLAY_AU, 
 			StatIndicators.PLAY_TIMES,

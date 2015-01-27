@@ -6,7 +6,7 @@ import org.shirdrn.storm.analytics.common.StatResult;
 
 import redis.clients.jedis.Jedis;
 
-public class PlayNUCalculator extends NUCalculator {
+public class PlayNUCalculator extends OpenNUCalculator {
 	
 	private static final long serialVersionUID = 1L;
 

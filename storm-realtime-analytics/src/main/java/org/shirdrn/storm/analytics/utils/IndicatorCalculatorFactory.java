@@ -2,9 +2,9 @@ package org.shirdrn.storm.analytics.utils;
 
 import net.sf.json.JSONObject;
 
-import org.shirdrn.storm.analytics.caculators.AUCalculator;
+import org.shirdrn.storm.analytics.caculators.OpenAUCalculator;
 import org.shirdrn.storm.analytics.caculators.OpenTimesCalculator;
-import org.shirdrn.storm.analytics.caculators.NUCalculator;
+import org.shirdrn.storm.analytics.caculators.OpenNUCalculator;
 import org.shirdrn.storm.analytics.caculators.PlayAUCalculator;
 import org.shirdrn.storm.analytics.caculators.PlayAUDurationCalculator;
 import org.shirdrn.storm.analytics.caculators.PlayNUCalculator;
@@ -20,8 +20,8 @@ public class IndicatorCalculatorFactory {
 
 	//// Statistical indicator calculators
 	
-	private static final IndicatorCalculator<StatResult> AU_CALCULATOR = new AUCalculator();
-	private static final IndicatorCalculator<StatResult> NU_CALCULATOR = new NUCalculator();
+	private static final IndicatorCalculator<StatResult> AU_CALCULATOR = new OpenAUCalculator();
+	private static final IndicatorCalculator<StatResult> NU_CALCULATOR = new OpenNUCalculator();
 	private static final IndicatorCalculator<StatResult> PLAY_AU_CALCULATOR = new PlayAUCalculator();
 	private static final IndicatorCalculator<StatResult> PLAY_NU_CALCULATOR = new PlayNUCalculator();
 	private static final IndicatorCalculator<StatResult> PLAY_TIMES_CALCULATOR = new PlayTimesCalculator();
