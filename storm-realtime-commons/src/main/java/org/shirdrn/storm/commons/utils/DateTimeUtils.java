@@ -61,10 +61,34 @@ public class DateTimeUtils {
 		}
 		return hours;
 	}
+	
+	public static int getDiffToNearestHour() {
+		return getDiffToNearestHour(System.currentTimeMillis());
+	}
+	
+	public static int getDiffToNearestHour(long timestamp) {
+		Date date = new Date(timestamp);
+		return getDiffToNearestHour(date);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static int getDiffToNearestHour(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.HOUR_OF_DAY, 1);
+		Date toDate = c.getTime();
+		toDate.setMinutes(0);
+		toDate.setSeconds(0);
+		return (int) (toDate.getTime() - date.getTime());
+	}
 
 	public static void main(String[] args) {
 		System.out.println(format(System.currentTimeMillis(), "yyyyMMddHHmmssSSS"));
 		System.out.println(getDaysBetween("2015-01-09", "2015-01-10", "yyyy-MM-dd"));
 		System.out.println(getLatestHours(3, "yyyyMMddHH"));
+		
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.HOUR_OF_DAY, 0);
+		System.out.println(format(c.getTime(), "yyyy-MM-dd HH:mm:ss"));
+		System.out.println(getDiffToNearestHour());
 	}
 }

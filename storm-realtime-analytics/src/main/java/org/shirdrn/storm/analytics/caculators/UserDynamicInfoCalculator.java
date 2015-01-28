@@ -4,18 +4,17 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.IndicatorCalculator;
-import org.shirdrn.storm.analytics.common.KeyedResult;
+import org.shirdrn.storm.analytics.common.AbstractIndicatorCalculator;
 import org.shirdrn.storm.analytics.common.CallbackHandler;
+import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventCode;
 import org.shirdrn.storm.analytics.constants.EventFields;
-import org.shirdrn.storm.analytics.utils.RedisCmdUtils;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class UserDynamicInfoCalculator implements IndicatorCalculator<KeyedResult<JSONObject>> {
+public class UserDynamicInfoCalculator extends AbstractIndicatorCalculator<KeyedResult<JSONObject>> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(UserDynamicInfoCalculator.class);
@@ -63,7 +62,7 @@ public class UserDynamicInfoCalculator implements IndicatorCalculator<KeyedResul
 					result.setData(info);
 					String value = info.getString(field);
 					client.hset(key, field, value);
-					RedisCmdUtils.printCmd(LOG, "HSET " + key + " " + field + " " + value);
+					logRedisCmd(LOG, "HSET " + key + " " + field + " " + value);
 				}
 			}
 			

@@ -4,6 +4,9 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Level;
+import org.shirdrn.storm.analytics.constants.ConfigKeys;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.spring.utils.SpringFactory;
 import org.springframework.context.ApplicationContext;
 
@@ -24,6 +27,7 @@ public abstract class JedisRichBolt extends BaseRichBolt {
 	private transient ApplicationContext springCtx;
 	private transient JedisPool jedisPool;
 	protected OutputCollector collector;
+	protected Level redisCmdLogLevel = Level.DEBUG;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -37,6 +41,12 @@ public abstract class JedisRichBolt extends BaseRichBolt {
 		LOG.info("Jedis pool created: " + jedisPool);
 		
 		this.collector = collector;
+		
+		// set print redis cmd log level
+		Object level = stormConf.get(ConfigKeys.REALTIME_REDIS_CMD_LOG_LEVEL);
+		if(level != null) {
+			redisCmdLogLevel = RealtimeUtils.parseLevel((String) level);
+		}
 	}
 	
 	public Jedis getJedis() {
@@ -62,6 +72,10 @@ public abstract class JedisRichBolt extends BaseRichBolt {
 	public void cleanup() {
 		super.cleanup();
 		jedisPool.destroy();
+	}
+
+	public Level getRedisCmdLogLevel() {
+		return redisCmdLogLevel;
 	}
 
 }

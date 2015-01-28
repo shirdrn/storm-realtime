@@ -4,18 +4,17 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.IndicatorCalculator;
-import org.shirdrn.storm.analytics.common.KeyedResult;
+import org.shirdrn.storm.analytics.common.AbstractIndicatorCalculator;
 import org.shirdrn.storm.analytics.common.CallbackHandler;
+import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.StatIndicators;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
-import org.shirdrn.storm.analytics.utils.RedisCmdUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class UserDeviceInfoCalculator implements IndicatorCalculator<KeyedResult<JSONObject>> {
+public class UserDeviceInfoCalculator extends AbstractIndicatorCalculator<KeyedResult<JSONObject>> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(UserDeviceInfoCalculator.class);
@@ -52,7 +51,7 @@ public class UserDeviceInfoCalculator implements IndicatorCalculator<KeyedResult
 				String key = result.getKey();
 				String value = result.getData().toString();
 				client.set(key, value);
-				RedisCmdUtils.printCmd(LOG, "SET " + key + " " + value);
+				logRedisCmd(LOG, "SET " + key + " " + value);
 			}
 			
 		});

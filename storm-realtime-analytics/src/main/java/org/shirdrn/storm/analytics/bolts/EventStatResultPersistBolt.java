@@ -76,7 +76,7 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 				// key  -> ud::9d11f3ee0242a15026e51d1b3efba454
 				// field-> fod  fpd
 				// value-> 2015-01-15
-				invoke(input, key, null, value.toString(), result);
+				invoke(input, key, null, value == null ? "" : value.toString(), result);
 				break;
 				
 		}

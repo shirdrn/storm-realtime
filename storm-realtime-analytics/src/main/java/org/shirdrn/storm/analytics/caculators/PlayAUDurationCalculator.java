@@ -4,20 +4,19 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.IndicatorCalculator;
+import org.shirdrn.storm.analytics.common.AbstractIndicatorCalculator;
 import org.shirdrn.storm.analytics.common.CallbackHandler;
 import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import org.shirdrn.storm.analytics.utils.EventUtils;
-import org.shirdrn.storm.analytics.utils.RedisCmdUtils;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
-public class PlayAUDurationCalculator implements IndicatorCalculator<StatResult> {
+public class PlayAUDurationCalculator extends AbstractIndicatorCalculator<StatResult> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(PlayAUDurationCalculator.class);
@@ -65,11 +64,11 @@ public class PlayAUDurationCalculator implements IndicatorCalculator<StatResult>
 							tx.hset(userKey, userField, userValue);
 							tx.hincrBy(key, field, duration);
 							tx.exec();
-							RedisCmdUtils.printCmd(LOG, "HSET " + userKey + " " + userField + " " + userValue);
-							RedisCmdUtils.printCmd(LOG, "HINCRBY " + key + " " + field + " " + duration);
+							logRedisCmd(LOG, "HSET " + userKey + " " + userField + " " + userValue);
+							logRedisCmd(LOG, "HINCRBY " + key + " " + field + " " + duration);
 						} else {
 							client.hincrBy(key, field, duration);
-							RedisCmdUtils.printCmd(LOG, "HINCRBY " + key + " " + field + " " + duration);
+							logRedisCmd(LOG, "HINCRBY " + key + " " + field + " " + duration);
 						}
 					}
 					

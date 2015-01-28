@@ -4,20 +4,20 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.IndicatorCalculator;
-import org.shirdrn.storm.analytics.common.RedisTimeoutCache;
+import org.shirdrn.storm.analytics.common.AbstractIndicatorCalculator;
 import org.shirdrn.storm.analytics.common.CallbackHandler;
+import org.shirdrn.storm.analytics.common.RedisTimeoutCache;
 import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import org.shirdrn.storm.analytics.utils.EventUtils;
-import org.shirdrn.storm.analytics.utils.RedisCmdUtils;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class OpenAUCalculator implements IndicatorCalculator<StatResult> {
+public class OpenAUCalculator extends AbstractIndicatorCalculator<StatResult> {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(OpenAUCalculator.class);
@@ -59,10 +59,11 @@ public class OpenAUCalculator implements IndicatorCalculator<StatResult> {
 						String key = result.createKey(Constants.NS_STAT_HKEY);
 						long count = Constants.DEFAULT_INCREMENT_VALUE;
 						client.hincrBy(key, field, count);
-						RedisCmdUtils.printCmd(LOG, "HINCRBY " + key + " " + field + " " + count);
+						logRedisCmd(LOG, "HINCRBY " + key + " " + field + " " + count);
 						
-						// cache user information for this indicator: NU <-> 11
-						timeoutCache.put(client, cacheKey, Constants.CACHE_ITEM_KEYD_VALUE, Constants.CACHE_ITEM_EXPIRE_TIME);
+						// cache user information for this indicator: OPEN_NU <-> 11
+						int expire = RealtimeUtils.getExpireTime();
+						timeoutCache.put(client, cacheKey, Constants.CACHE_ITEM_KEYD_VALUE, expire);
 					}
 				}
 				

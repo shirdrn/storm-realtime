@@ -4,19 +4,18 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.IndicatorCalculator;
+import org.shirdrn.storm.analytics.common.AbstractIndicatorCalculator;
 import org.shirdrn.storm.analytics.common.CallbackHandler;
 import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import org.shirdrn.storm.analytics.utils.EventUtils;
-import org.shirdrn.storm.analytics.utils.RedisCmdUtils;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class OpenTimesCalculator implements IndicatorCalculator<StatResult> {
+public class OpenTimesCalculator extends AbstractIndicatorCalculator<StatResult> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(OpenTimesCalculator.class);
@@ -52,7 +51,7 @@ public class OpenTimesCalculator implements IndicatorCalculator<StatResult> {
 					String field = result.toField();
 					long count = Constants.DEFAULT_INCREMENT_VALUE;
 					client.hincrBy(key, field, count);
-					RedisCmdUtils.printCmd(LOG, "HINCRBY " + key + " " + field + " " + count);
+					logRedisCmd(LOG, "HINCRBY " + key + " " + field + " " + count);
 				}
 				
 			});
