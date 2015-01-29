@@ -9,7 +9,6 @@ import org.shirdrn.storm.analytics.common.CallbackHandler;
 import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
-import org.shirdrn.storm.analytics.constants.StatIndicators;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 
 import redis.clients.jedis.Jedis;
@@ -38,7 +37,7 @@ public class UserDeviceInfoCalculator extends AbstractIndicatorCalculator<KeyedR
 		String userKey = Constants.USER_INFO_KEY_PREFIX + udid;
 		
 		KeyedResult<JSONObject> keyedObj = new KeyedResult<JSONObject>();
-		keyedObj.setIndicator(StatIndicators.USER_DEVICE_INFO);
+		keyedObj.setIndicator(indicator);
 		keyedObj.setKey(userKey);
 		keyedObj.setData(user);
 		

@@ -11,6 +11,7 @@ import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import org.shirdrn.storm.analytics.utils.EventUtils;
+import org.shirdrn.storm.commons.constants.CommonConstants;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
@@ -47,7 +48,7 @@ public class OpenTimesCalculator extends AbstractIndicatorCalculator<StatResult>
 
 				@Override
 				public void call(final Jedis client) throws Exception {
-					String key = result.createKey(Constants.NS_STAT_HKEY);
+					String key = result.createKey(CommonConstants.NS_STAT_HKEY);
 					String field = result.toField();
 					long count = Constants.DEFAULT_INCREMENT_VALUE;
 					client.hincrBy(key, field, count);

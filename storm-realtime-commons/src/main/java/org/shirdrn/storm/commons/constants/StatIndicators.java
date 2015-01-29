@@ -1,4 +1,4 @@
-package org.shirdrn.storm.analytics.constants;
+package org.shirdrn.storm.commons.constants;
 
 public interface StatIndicators {
 

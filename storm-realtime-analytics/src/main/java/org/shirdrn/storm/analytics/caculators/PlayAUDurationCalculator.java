@@ -11,6 +11,7 @@ import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import org.shirdrn.storm.analytics.utils.EventUtils;
+import org.shirdrn.storm.commons.constants.CommonConstants;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
@@ -50,13 +51,13 @@ public class PlayAUDurationCalculator extends AbstractIndicatorCalculator<StatRe
 
 					@Override
 					public void call(final Jedis client) throws Exception {
-						String key = result.createKey(Constants.NS_STAT_HKEY);
-						String userKey = result.createKey(Constants.NS_PLAY_AU_DURATION_USER);
+						String key = result.createKey(CommonConstants.NS_STAT_HKEY);
+						String userKey = result.createKey(CommonConstants.NS_PLAY_AU_DURATION_USER);
 						String field = result.toField();
 						// save new users for play AU
 						// like: <key, field, value>
 						// <2311010202::32::AU, 0::A-360::3.1.2::AAAAAAAAAADDDDDDDDD, Y>
-						String userField = field + Constants.REDIS_KEY_NS_SEPARATOR  + udid;
+						String userField = field + CommonConstants.REDIS_KEY_NS_SEPARATOR  + udid;
 						String userValue = client.hget(key, userField);
 						if(userValue == null) {
 							userValue = Constants.CACHE_ITEM_KEYD_VALUE;

@@ -13,7 +13,8 @@ import org.shirdrn.storm.analytics.mydis.common.RedisSyncServer;
 import org.shirdrn.storm.analytics.mydis.common.RedisSyncWorker;
 import org.shirdrn.storm.analytics.mydis.common.UpdatePolicy;
 import org.shirdrn.storm.analytics.mydis.constants.Constants;
-import org.shirdrn.storm.analytics.mydis.constants.StatIndicators;
+import org.shirdrn.storm.commons.constants.CommonConstants;
+import org.shirdrn.storm.commons.constants.StatIndicators;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -68,15 +69,15 @@ public class StatSyncWorker extends RedisSyncWorker {
 		// like: 
 		// key   -> 2311010202::22::S
 		// value -> 0::A-360::3.1.2
-		String key = hour + Constants.REDIS_KEY_NS_SEPARATOR + 
-				indicator + Constants.REDIS_KEY_NS_SEPARATOR +
-				Constants.NS_STAT_HKEY; 
+		String key = hour + CommonConstants.REDIS_KEY_NS_SEPARATOR + 
+				indicator + CommonConstants.REDIS_KEY_NS_SEPARATOR +
+				CommonConstants.NS_STAT_HKEY; 
 		Set<String> fields = jedis.hkeys(key);
 		if(fields != null) {
 			final List<StatRecord> records = Lists.newArrayList();
 			for(String field : fields) {
 				LOG.info("key=" + key + ", field=" + field);
-				String[] fieldValues = field.split(Constants.REDIS_KEY_NS_SEPARATOR);
+				String[] fieldValues = field.split(CommonConstants.REDIS_KEY_NS_SEPARATOR);
 				String strCount = jedis.hget(key, field);
 				if(fieldValues.length == 3) {
 					StatRecord record = new StatRecord();

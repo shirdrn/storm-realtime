@@ -5,7 +5,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
-import org.shirdrn.storm.analytics.constants.ConfigKeys;
+import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.spring.utils.SpringFactory;
 import org.springframework.context.ApplicationContext;
@@ -43,7 +43,7 @@ public abstract class JedisRichBolt extends BaseRichBolt {
 		this.collector = collector;
 		
 		// set print redis cmd log level
-		Object level = stormConf.get(ConfigKeys.REALTIME_REDIS_CMD_LOG_LEVEL);
+		Object level = stormConf.get(Constants.REALTIME_REDIS_CMD_LOG_LEVEL);
 		if(level != null) {
 			redisCmdLogLevel = RealtimeUtils.parseLevel((String) level);
 		}

@@ -10,8 +10,8 @@ import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.JedisEventHandler;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
-import org.shirdrn.storm.analytics.constants.StatIndicators;
 import org.shirdrn.storm.analytics.utils.IndicatorCalculatorFactory;
+import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import com.google.common.collect.Sets;
 

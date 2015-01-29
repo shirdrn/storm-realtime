@@ -13,6 +13,7 @@ import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import org.shirdrn.storm.analytics.utils.EventUtils;
 import org.shirdrn.storm.analytics.utils.RealtimeUtils;
+import org.shirdrn.storm.commons.constants.CommonConstants;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
@@ -51,12 +52,12 @@ public class OpenAUCalculator extends AbstractIndicatorCalculator<StatResult> {
 				@Override
 				public void call(final Jedis client) throws Exception {
 					String field = result.toField();
-					String cacheKey = result.getIndicator() + Constants.REDIS_KEY_NS_SEPARATOR +
-							field + Constants.REDIS_KEY_NS_SEPARATOR + udid;
+					String cacheKey = result.getIndicator() + CommonConstants.REDIS_KEY_NS_SEPARATOR +
+							field + CommonConstants.REDIS_KEY_NS_SEPARATOR + udid;
 					String status = timeoutCache.get(client, cacheKey);
 					if(status == null) {
 						// real time update counter in Redis
-						String key = result.createKey(Constants.NS_STAT_HKEY);
+						String key = result.createKey(CommonConstants.NS_STAT_HKEY);
 						long count = Constants.DEFAULT_INCREMENT_VALUE;
 						client.hincrBy(key, field, count);
 						logRedisCmd(LOG, "HINCRBY " + key + " " + field + " " + count);

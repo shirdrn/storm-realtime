@@ -15,6 +15,7 @@ import org.shirdrn.storm.analytics.mydis.common.RedisSyncServer;
 import org.shirdrn.storm.analytics.mydis.common.RedisSyncWorker;
 import org.shirdrn.storm.analytics.mydis.common.UpdatePolicy;
 import org.shirdrn.storm.analytics.mydis.constants.Constants;
+import org.shirdrn.storm.commons.constants.CommonConstants;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -68,8 +69,8 @@ public class UserSyncWorker extends RedisSyncWorker {
 
 	private void compute(Jedis jedis, Map<StatObj, AtomicLong> statMap,
 			final String hour) throws Exception {
-		String key = hour + Constants.REDIS_KEY_NS_SEPARATOR + 
-				indicator + Constants.REDIS_KEY_NS_SEPARATOR + userType; 
+		String key = hour + CommonConstants.REDIS_KEY_NS_SEPARATOR + 
+				indicator + CommonConstants.REDIS_KEY_NS_SEPARATOR + userType; 
 		// TODO
 		// performance consideration:
 		// fetch results in batch, rather than fetch all once
@@ -77,7 +78,7 @@ public class UserSyncWorker extends RedisSyncWorker {
 		if(fields != null) {
 			for(String field : fields) {
 				LOG.info("key=" + key + ", field=" + field);
-				String[] fieldValues = field.split(Constants.REDIS_KEY_NS_SEPARATOR);
+				String[] fieldValues = field.split(CommonConstants.REDIS_KEY_NS_SEPARATOR);
 				if(fieldValues.length == 4) {
 					final int osType = Integer.parseInt(fieldValues[0]); 
 					final String channel = fieldValues[1];
