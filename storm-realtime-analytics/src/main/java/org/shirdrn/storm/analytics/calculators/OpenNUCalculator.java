@@ -1,4 +1,4 @@
-package org.shirdrn.storm.analytics.caculators;
+package org.shirdrn.storm.analytics.calculators;
 
 import net.sf.json.JSONObject;
 

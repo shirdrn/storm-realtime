@@ -2,16 +2,16 @@ package org.shirdrn.storm.analytics.utils;
 
 import net.sf.json.JSONObject;
 
-import org.shirdrn.storm.analytics.caculators.OpenAUCalculator;
-import org.shirdrn.storm.analytics.caculators.OpenTimesCalculator;
-import org.shirdrn.storm.analytics.caculators.OpenNUCalculator;
-import org.shirdrn.storm.analytics.caculators.PlayAUCalculator;
-import org.shirdrn.storm.analytics.caculators.PlayAUDurationCalculator;
-import org.shirdrn.storm.analytics.caculators.PlayNUCalculator;
-import org.shirdrn.storm.analytics.caculators.PlayNUDurationCalculator;
-import org.shirdrn.storm.analytics.caculators.PlayTimesCalculator;
-import org.shirdrn.storm.analytics.caculators.UserDeviceInfoCalculator;
-import org.shirdrn.storm.analytics.caculators.UserDynamicInfoCalculator;
+import org.shirdrn.storm.analytics.calculators.OpenAUCalculator;
+import org.shirdrn.storm.analytics.calculators.OpenNUCalculator;
+import org.shirdrn.storm.analytics.calculators.OpenTimesCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayAUCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayAUDurationCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayNUCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayNUDurationCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayTimesCalculator;
+import org.shirdrn.storm.analytics.calculators.UserDeviceInfoCalculator;
+import org.shirdrn.storm.analytics.calculators.UserDynamicInfoCalculator;
 import org.shirdrn.storm.analytics.common.IndicatorCalculator;
 import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.common.StatResult;
