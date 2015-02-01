@@ -24,7 +24,7 @@ public class PlayAUDurationCalculator extends AbstractIndicatorCalculator<StatRe
 	
 	@SuppressWarnings("serial")
 	@Override
-	public StatResult caculate(Jedis jedis, JSONObject event, int indicator) {
+	public StatResult calculate(Jedis jedis, JSONObject event, int indicator) {
 		StatResult statResult = null;
 		final String udid = event.getString(EventFields.UDID);
 		String time = event.getString(EventFields.EVENT_TIME);

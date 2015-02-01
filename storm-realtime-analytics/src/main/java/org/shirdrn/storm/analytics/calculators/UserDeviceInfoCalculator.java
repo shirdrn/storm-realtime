@@ -20,7 +20,7 @@ public class UserDeviceInfoCalculator extends AbstractIndicatorCalculator<KeyedR
 	
 	@SuppressWarnings("serial")
 	@Override
-	public KeyedResult<JSONObject> caculate(final Jedis jedis, JSONObject event, int indicator) {
+	public KeyedResult<JSONObject> calculate(final Jedis jedis, JSONObject event, int indicator) {
 		// install event
 		String udid = event.getString(EventFields.UDID);
 		

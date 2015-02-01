@@ -26,7 +26,7 @@ public class OpenAUCalculator extends AbstractIndicatorCalculator<StatResult> {
 
 	@SuppressWarnings("serial")
 	@Override
-	public StatResult caculate(final Jedis jedis, JSONObject event, int indicator) {
+	public StatResult calculate(final Jedis jedis, JSONObject event, int indicator) {
 		StatResult statResult = null;
 		final String udid = event.getString(EventFields.UDID);
 		String time = event.getString(EventFields.EVENT_TIME);

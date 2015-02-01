@@ -10,6 +10,6 @@ import redis.clients.jedis.Jedis;
 
 public interface IndicatorCalculator<R> extends Serializable {
 
-	R caculate(final Jedis jedis, JSONObject e, int indicator);
+	R calculate(final Jedis jedis, JSONObject e, int indicator);
 	void setPrintRedisCmdLogLevel(Level logLevel);
 }
