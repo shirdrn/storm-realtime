@@ -8,6 +8,17 @@ public abstract class AbstractIndicatorCalculator<R> implements IndicatorCalcula
 
 	private static final long serialVersionUID = 1L;
 	private Level logLevel;
+	protected final int indicator;
+	
+	public AbstractIndicatorCalculator(int indicator) {
+		super();
+		this.indicator = indicator;
+	}
+	
+	@Override
+	public int getIndicator() {
+		return indicator;
+	}
 
 	@Override
 	public void setPrintRedisCmdLogLevel(Level logLevel) {

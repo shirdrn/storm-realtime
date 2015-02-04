@@ -8,11 +8,15 @@ import redis.clients.jedis.Jedis;
 
 public class PlayAUCalculator extends OpenAUCalculator {
 
+	public PlayAUCalculator(int indicator) {
+		super(indicator);
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public StatResult calculate(final Jedis jedis, JSONObject event, int indicator) {
-		StatResult statResult = super.calculate(jedis, event, indicator);
+	public StatResult calculate(final Jedis jedis, JSONObject event) {
+		StatResult statResult = super.calculate(jedis, event);
 		if(statResult != null) {
 			statResult.setIndicator(indicator);
 		}

@@ -17,13 +17,17 @@ import org.shirdrn.storm.commons.utils.DateTimeUtils;
 import redis.clients.jedis.Jedis;
 
 public class PlayTimesCalculator extends AbstractIndicatorCalculator<StatResult> {
-
+	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(PlayTimesCalculator.class);
+
+	public PlayTimesCalculator(int indicator) {
+		super(indicator);
+	}
 	
 	@SuppressWarnings("serial")
 	@Override
-	public StatResult calculate(final Jedis jedis, JSONObject event, int indicator) {
+	public StatResult calculate(final Jedis jedis, JSONObject event) {
 		StatResult statResult = null;
 		final String udid = event.getString(EventFields.UDID);
 		String time = event.getString(EventFields.EVENT_TIME);

@@ -16,13 +16,17 @@ import org.shirdrn.storm.commons.utils.DateTimeUtils;
 import redis.clients.jedis.Jedis;
 
 public class UserDynamicInfoCalculator extends AbstractIndicatorCalculator<KeyedResult<JSONObject>> {
-
+	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(UserDynamicInfoCalculator.class);
+
+	public UserDynamicInfoCalculator(int indicator) {
+		super(indicator);
+	}
 	
 	@SuppressWarnings("serial")
 	@Override
-	public KeyedResult<JSONObject> calculate(final Jedis jedis, JSONObject event, int indicator) {
+	public KeyedResult<JSONObject> calculate(final Jedis jedis, JSONObject event) {
 		final String eventCode = event.getString(EventFields.EVENT_CODE);
 		String udid = event.getString(EventFields.UDID);
 		final String key = Constants.USER_BEHAVIOR_KEY + CommonConstants.REDIS_KEY_NS_SEPARATOR + udid;

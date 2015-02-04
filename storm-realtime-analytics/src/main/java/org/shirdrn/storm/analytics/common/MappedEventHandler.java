@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.shirdrn.storm.analytics.utils.IndicatorCalculatorFactory;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -28,10 +29,11 @@ public abstract class MappedEventHandler<R, E> implements EventHandler<R, E> {
 		return registeredIndicators;
 	}
 	
-	protected void mapTo(int indicator, IndicatorCalculator<? extends AbstractResult> calculator) {
+	protected void registerIndicator(int indicator) {
+		IndicatorCalculator<? extends AbstractResult> calculator = IndicatorCalculatorFactory.getCalculator(indicator);
 		registeredIndicators.add(indicator);
 		registeredCalculators.put(indicator, calculator);
-		LOG.info("Mapped[" + this.getClass().getSimpleName() + "\t] " + eventCode + " -> " + String.format("%02d", indicator) + " -> " + calculator);
+		LOG.info("Registered[" + this.getClass().getSimpleName() + "\t] " + eventCode + " -> " + String.format("%02d", indicator) + " -> " + calculator);
 	}
 	
 	protected IndicatorCalculator<? extends AbstractResult> selectCalculator(int indicator) throws NoSuchElementException {

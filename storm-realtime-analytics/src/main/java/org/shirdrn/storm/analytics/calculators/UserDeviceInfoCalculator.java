@@ -14,13 +14,17 @@ import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import redis.clients.jedis.Jedis;
 
 public class UserDeviceInfoCalculator extends AbstractIndicatorCalculator<KeyedResult<JSONObject>> {
-
+	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(UserDeviceInfoCalculator.class);
 	
+	public UserDeviceInfoCalculator(int indicator) {
+		super(indicator);
+	}
+	
 	@SuppressWarnings("serial")
 	@Override
-	public KeyedResult<JSONObject> calculate(final Jedis jedis, JSONObject event, int indicator) {
+	public KeyedResult<JSONObject> calculate(final Jedis jedis, JSONObject event) {
 		// install event
 		String udid = event.getString(EventFields.UDID);
 		

@@ -1,7 +1,10 @@
 package org.shirdrn.storm.analytics.utils;
 
-import net.sf.json.JSONObject;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.calculators.OpenAUCalculator;
 import org.shirdrn.storm.analytics.calculators.OpenNUCalculator;
 import org.shirdrn.storm.analytics.calculators.OpenTimesCalculator;
@@ -12,67 +15,56 @@ import org.shirdrn.storm.analytics.calculators.PlayNUDurationCalculator;
 import org.shirdrn.storm.analytics.calculators.PlayTimesCalculator;
 import org.shirdrn.storm.analytics.calculators.UserDeviceInfoCalculator;
 import org.shirdrn.storm.analytics.calculators.UserDynamicInfoCalculator;
+import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.IndicatorCalculator;
-import org.shirdrn.storm.analytics.common.KeyedResult;
-import org.shirdrn.storm.analytics.common.StatResult;
+import org.shirdrn.storm.commons.constants.StatIndicators;
+import org.shirdrn.storm.commons.utils.ReflectionUtils;
+
+import com.google.common.collect.Maps;
 
 public class IndicatorCalculatorFactory {
-
-	//// Statistical indicator calculators
 	
-	private static final IndicatorCalculator<StatResult> AU_CALCULATOR = new OpenAUCalculator();
-	private static final IndicatorCalculator<StatResult> NU_CALCULATOR = new OpenNUCalculator();
-	private static final IndicatorCalculator<StatResult> PLAY_AU_CALCULATOR = new PlayAUCalculator();
-	private static final IndicatorCalculator<StatResult> PLAY_NU_CALCULATOR = new PlayNUCalculator();
-	private static final IndicatorCalculator<StatResult> PLAY_TIMES_CALCULATOR = new PlayTimesCalculator();
-	private static final IndicatorCalculator<StatResult> OPEN_TIMES_CALCULATOR = new OpenTimesCalculator();
-	private static final IndicatorCalculator<StatResult> PLAY_NU_DURATION_CALCULATOR = new PlayNUDurationCalculator();
-	private static final IndicatorCalculator<StatResult> PLAY_AU_DURATION_CALCULATOR = new PlayAUDurationCalculator();
+	private static final Log LOG = LogFactory.getLog(IndicatorCalculatorFactory.class);
+	private static final Map<Integer, IndicatorCalculator<? extends AbstractResult>> CALCULATORS = Maps.newHashMap();
 	
-	public static IndicatorCalculator<StatResult> getAUCalculator() {
-		return AU_CALCULATOR;
+	static {
+		// register calculators
+		registerCalculator(StatIndicators.OPEN_AU, 				OpenAUCalculator.class);
+		registerCalculator(StatIndicators.OPEN_NU, 				OpenNUCalculator.class);
+		registerCalculator(StatIndicators.OPEN_TIMES, 			OpenTimesCalculator.class);
+		registerCalculator(StatIndicators.PLAY_AU, 				PlayAUCalculator.class);
+		registerCalculator(StatIndicators.PLAY_AU_DURATION, 	PlayAUDurationCalculator.class);
+		registerCalculator(StatIndicators.PLAY_NU, 				PlayNUCalculator.class);
+		registerCalculator(StatIndicators.PLAY_NU_DURATION, 	PlayNUDurationCalculator.class);
+		registerCalculator(StatIndicators.PLAY_TIMES, 			PlayTimesCalculator.class);
+		registerCalculator(StatIndicators.USER_DEVICE_INFO, 	UserDeviceInfoCalculator.class);
+		registerCalculator(StatIndicators.USER_DYNAMIC_INFO, 	UserDynamicInfoCalculator.class);
 	}
 	
-	public static IndicatorCalculator<StatResult> getNUCalculator() {
-		return NU_CALCULATOR;
+	private IndicatorCalculatorFactory() {
+		super();
 	}
 	
-	public static IndicatorCalculator<StatResult> getPlayAUCalculator() {
-		return PLAY_AU_CALCULATOR;
-	}
-	
-	public static IndicatorCalculator<StatResult> getPlayNUCalculator() {
-		return PLAY_NU_CALCULATOR;
-	}
-	
-	public static IndicatorCalculator<StatResult> getPlayTimesCalculator() {
-		return PLAY_TIMES_CALCULATOR;
-	}
-	
-	public static IndicatorCalculator<StatResult> getOPenTimesCalculator() {
-		return OPEN_TIMES_CALCULATOR;
-	}
-	
-	public static IndicatorCalculator<StatResult> getPlayNUDurationCalculator() {
-		return PLAY_NU_DURATION_CALCULATOR;
+	@SuppressWarnings("unchecked")
+	public static synchronized void registerCalculator(int indicator, Class<?> calculatorClazz) {
+		IndicatorCalculator<? extends AbstractResult> calculator = CALCULATORS.get(indicator);
+		if(calculator == null) {
+			IndicatorCalculator<? extends AbstractResult> instance = 
+					(IndicatorCalculator<? extends AbstractResult>) ReflectionUtils.getInstance(calculatorClazz, new Object[] { indicator });
+			if(instance == null) {
+				throw new RuntimeException("Fail to reflect class: " + calculatorClazz.getName());
+			}
+			CALCULATORS.put(indicator, instance);
+			LOG.info("Factory registered: " + String.format("%02d", indicator) + " <-> " + calculatorClazz.getName());
+		}
 	}
 
-	public static IndicatorCalculator<StatResult> getPlayAUDurationCalculator() {
-		return PLAY_AU_DURATION_CALCULATOR;
-	}
-	
-	
-	//// Other calculators
-	
-	private static final IndicatorCalculator<KeyedResult<JSONObject>> USER_DEVICE_INFO_CALCULATOR = new UserDeviceInfoCalculator();
-	private static final IndicatorCalculator<KeyedResult<JSONObject>> USER_DYNAMIC_INFO_CALCULATOR = new UserDynamicInfoCalculator();
-	
-	public static final IndicatorCalculator<KeyedResult<JSONObject>> getUserDeviceInfoCalculator() {
-		return USER_DEVICE_INFO_CALCULATOR;
-	}
-	
-	public static IndicatorCalculator<KeyedResult<JSONObject>> getUserDynamicInfoCalculator() {
-		return USER_DYNAMIC_INFO_CALCULATOR;
+	public static IndicatorCalculator<? extends AbstractResult> getCalculator(int indicator) throws NoSuchElementException {
+		IndicatorCalculator<? extends AbstractResult> calculator = CALCULATORS.get(indicator);
+		if(calculator == null) {
+			throw new NoSuchElementException("Not found calculator for: indicator = " + indicator);
+		}
+		return calculator;
 	}
 	
 }

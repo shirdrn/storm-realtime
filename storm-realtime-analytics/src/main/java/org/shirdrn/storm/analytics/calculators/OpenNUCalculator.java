@@ -23,10 +23,14 @@ public class OpenNUCalculator extends AbstractIndicatorCalculator<StatResult> {
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(OpenNUCalculator.class);
 	private final RedisTimeoutCache timeoutCache = new RedisTimeoutCache();
+	
+	public OpenNUCalculator(int indicator) {
+		super(indicator);
+	}
 
 	@SuppressWarnings("serial")
 	@Override
-	public StatResult calculate(final Jedis jedis, JSONObject event, int indicator) {
+	public StatResult calculate(final Jedis jedis, JSONObject event) {
 		StatResult statResult = null;
 		final String udid = event.getString(EventFields.UDID);
 		String time = event.getString(EventFields.EVENT_TIME);

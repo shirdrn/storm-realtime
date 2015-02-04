@@ -23,7 +23,7 @@ public abstract class JedisEventHandler<R, E> extends MappedEventHandler<R, E> {
 			throw new NoSuchElementException("Not found calculator for indicator: " + indicator);
 		}
 		calculator.setPrintRedisCmdLogLevel(jedisBolt.getRedisCmdLogLevel());
-		AbstractResult result = calculator.calculate(jedis, event, indicator);
+		AbstractResult result = calculator.calculate(jedis, event);
 		if(result != null) {
 			results.add(result);
 		}

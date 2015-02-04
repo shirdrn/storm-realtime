@@ -10,7 +10,6 @@ import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.AbstractResult;
 import org.shirdrn.storm.analytics.common.JedisEventHandler;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
-import org.shirdrn.storm.analytics.utils.IndicatorCalculatorFactory;
 import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import com.google.common.collect.Sets;
@@ -22,11 +21,11 @@ public class PlayStartEventHandler extends JedisEventHandler<TreeSet<AbstractRes
 	
 	public PlayStartEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(jedisBolt, eventCode);
-		// indicator -> calculator
-		mapTo(StatIndicators.USER_DYNAMIC_INFO, IndicatorCalculatorFactory.getUserDynamicInfoCalculator()); 
-		mapTo(StatIndicators.PLAY_NU, IndicatorCalculatorFactory.getPlayNUCalculator());
-		mapTo(StatIndicators.PLAY_AU, IndicatorCalculatorFactory.getPlayAUCalculator());
-		mapTo(StatIndicators.PLAY_TIMES, IndicatorCalculatorFactory.getPlayTimesCalculator());
+		// register indicators
+		registerIndicator(StatIndicators.USER_DYNAMIC_INFO); 
+		registerIndicator(StatIndicators.PLAY_NU);
+		registerIndicator(StatIndicators.PLAY_AU);
+		registerIndicator(StatIndicators.PLAY_TIMES);
 	}
 
 	@Override
