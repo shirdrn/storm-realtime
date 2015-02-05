@@ -26,7 +26,7 @@ public class EventUtils {
 	
 	public static boolean isNewUserOpen(final Jedis jedis, String udid, final JSONObject user, String eventDatetime) {
 		String key = Constants.USER_DYNAMIC_INFO_KEY_PREFIX + udid;
-		String firstOpenDate = jedis.hget(key, Constants.FIRST_OPEN_DATE);
+		String firstOpenDate = jedis.hget(key, Constants.LATEST_OPEN_DATE);
 		boolean isNewUserOpen = true;
 		if(firstOpenDate != null) {
 			String eventDate = DateTimeUtils.format(eventDatetime, Constants.DT_EVENT_PATTERN, Constants.DT_DATE_PATTERN);
@@ -40,7 +40,7 @@ public class EventUtils {
 	
 	public static boolean isNewUserPlay(final Jedis jedis, String udid, final JSONObject user, String eventDatetime) {
 		String key = Constants.USER_DYNAMIC_INFO_KEY_PREFIX + udid;
-		String firstPlayDate = jedis.hget(key, Constants.FIRST_PLAY_DATE);
+		String firstPlayDate = jedis.hget(key, Constants.LATEST_PLAY_DATE);
 		boolean isNewUserPlay = true;
 		if(firstPlayDate != null) {
 			String eventDate = DateTimeUtils.format(eventDatetime, Constants.DT_EVENT_PATTERN, Constants.DT_DATE_PATTERN);

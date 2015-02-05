@@ -44,31 +44,43 @@ public class UserDynamicInfoCalculator extends AbstractIndicatorCalculator<Keyed
 			public void call(final Jedis client) throws Exception {
 				JSONObject info = null;
 				String field = null;
-				// first open date
 				if(eventCode.equals(EventCode.OPEN)) {
+					// first open date
 					field = Constants.FIRST_OPEN_DATE; 
 					String firstOpenDate = client.hget(key, Constants.FIRST_OPEN_DATE);
 					if(firstOpenDate == null) {
 						info = new JSONObject();
 						info.put(Constants.FIRST_OPEN_DATE, strDate);
 					}
+					
+					// update LOD
+					updateDate(client, key, Constants.LATEST_OPEN_DATE, strDate);
 				}
-				// first play date
+				
 				if(eventCode.equals(EventCode.PLAY_START)) {
+					// first play date
 					field = Constants.FIRST_PLAY_DATE; 
 					String firstOpenDate = client.hget(key, Constants.FIRST_PLAY_DATE);
 					if(firstOpenDate == null) {
 						info = new JSONObject();
 						info.put(Constants.FIRST_PLAY_DATE, strDate);
 					}
+					
+					// update LPD
+					updateDate(client, key, Constants.LATEST_PLAY_DATE, strDate);
 				}
 				
 				if(info != null) {
 					result.setData(info);
 					String value = info.getString(field);
-					client.hset(key, field, value);
-					logRedisCmd(LOG, "HSET " + key + " " + field + " " + value);
+					// update FOD/FPD
+					updateDate(client, key, field, value);
 				}
+			}
+
+			private void updateDate(final Jedis client, final String key, String field, final String value) {
+				client.hset(key, field, value);
+				logRedisCmd(LOG, "HSET " + key + " " + field + " " + value);
 			}
 			
 		});

@@ -11,11 +11,13 @@ public interface Constants {
 	String CACHE_ITEM_KEYD_VALUE = "Y";
 	int CACHE_ITEM_EXPIRE_TIME = 1 * 60 * 60; // 1 hour
 	
-	String USER_INFO_KEY = "us"; // user static information
-	String USER_BEHAVIOR_KEY = "ud"; // user dynamic information
+	String USER_INFO_KEY = "US"; // user static information
+	String USER_BEHAVIOR_KEY = "UD"; // user dynamic information
 	
-	String FIRST_OPEN_DATE = "fod";
-	String FIRST_PLAY_DATE = "fpd";
+	String FIRST_OPEN_DATE = "FOD"; // first open date
+	String FIRST_PLAY_DATE = "FPD"; // first play date
+	String LATEST_OPEN_DATE = "LOD"; // latest open date
+	String LATEST_PLAY_DATE = "LPD"; // latest play date
 	
 	String DT_EVENT_PATTERN = "yyyy-MM-dd HH:mm:ss";
 	String DT_HOUR_PATTERN = "yyyyMMddHH";
