@@ -42,22 +42,31 @@ public class RealtimeUtils {
 	
 	public static void printRedisCmd(Log log, Level level, String cmd) {
 		int levelCode = LOG_LEVEL_MAP.get(level);
+		String message = CMD_PREFIX + cmd;
+		
 		switch(levelCode) {
 			case Level.DEBUG_INT:
-				log.debug(CMD_PREFIX + cmd);
+				log.debug(message);
 				break;
+				
 			case Level.INFO_INT:
-				log.info(CMD_PREFIX + cmd);
+				log.info(message);
 				break;
+				
 			case Level.WARN_INT:
-				log.warn(CMD_PREFIX + cmd);
+				log.warn(message);
 				break;
+				
 			case Level.ERROR_INT:
-				log.error(CMD_PREFIX + cmd);
+				log.error(message);
 				break;
+				
 			case Level.FATAL_INT:
-				log.fatal(CMD_PREFIX + cmd);
+				log.fatal(message);
 				break;
+				
+			default:
+				log.debug(message);
 		}
 	}
 	

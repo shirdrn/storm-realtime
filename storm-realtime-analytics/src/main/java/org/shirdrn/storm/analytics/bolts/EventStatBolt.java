@@ -1,6 +1,5 @@
 package org.shirdrn.storm.analytics.bolts;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -52,6 +51,12 @@ public class EventStatBolt extends JedisRichBolt {
 		eventHandlers.put(EventCode.PLAY_END, new PlayEndEventHandler(this, EventCode.PLAY_END));
 		eventHandlers.put(EventCode.OPEN, new OpenEventHandler(this, EventCode.OPEN));
 		eventHandlers.put(EventCode.INSTALL, new InstallEventHandler(this, EventCode.INSTALL));
+		
+		// register indicators for each EventHandler
+		for(EventHandler<?, ?> handler : eventHandlers.values()) {
+			handler.registerIndicators();
+			LOG.info("Indicator registered for: " + handler);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -66,15 +71,14 @@ public class EventStatBolt extends JedisRichBolt {
 		// for JedisEventHandler<TreeSet<AbstractResult>, JSONObject>
 		if(handler != null) {
 			JedisEventHandler<TreeSet<AbstractResult>, JSONObject> h = (JedisEventHandler<TreeSet<AbstractResult>, JSONObject>) handler;
-			Collection<Integer> indicators = h.getMappedIndicators();
 			try {
-				TreeSet<AbstractResult> results = h.handle(eventData, indicators);
+				TreeSet<AbstractResult> results = h.handle(eventData);
 				for(AbstractResult result : results) {
 					collector.emit(input, new Values(result.getIndicator(), result));
 					LOG.debug("Emitted: results=" + results);
 				}
 			} catch (Exception e) {
-				LOG.warn("Fail to handle: handler=" + h + ", indicators=" + indicators + ", event=" + eventData, e);
+				LOG.warn("Fail to handle: handler=" + h + ", indicators=" + h.getMappedIndicators() + ", event=" + eventData, e);
 			}
 		}
 	}

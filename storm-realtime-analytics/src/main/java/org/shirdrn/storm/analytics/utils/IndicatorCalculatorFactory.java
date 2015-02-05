@@ -28,7 +28,11 @@ public class IndicatorCalculatorFactory {
 	private static final Map<Integer, IndicatorCalculator<? extends AbstractResult>> CALCULATORS = Maps.newHashMap();
 	
 	static {
-		// register calculators
+		// register basic calculators
+		registerCalculator(StatIndicators.USER_DEVICE_INFO, 	UserDeviceInfoCalculator.class);
+		registerCalculator(StatIndicators.USER_DYNAMIC_INFO, 	UserDynamicInfoCalculator.class);
+		
+		// register statistical calculators
 		registerCalculator(StatIndicators.OPEN_AU, 				OpenAUCalculator.class);
 		registerCalculator(StatIndicators.OPEN_NU, 				OpenNUCalculator.class);
 		registerCalculator(StatIndicators.OPEN_TIMES, 			OpenTimesCalculator.class);
@@ -37,8 +41,6 @@ public class IndicatorCalculatorFactory {
 		registerCalculator(StatIndicators.PLAY_NU, 				PlayNUCalculator.class);
 		registerCalculator(StatIndicators.PLAY_NU_DURATION, 	PlayNUDurationCalculator.class);
 		registerCalculator(StatIndicators.PLAY_TIMES, 			PlayTimesCalculator.class);
-		registerCalculator(StatIndicators.USER_DEVICE_INFO, 	UserDeviceInfoCalculator.class);
-		registerCalculator(StatIndicators.USER_DYNAMIC_INFO, 	UserDynamicInfoCalculator.class);
 	}
 	
 	private IndicatorCalculatorFactory() {

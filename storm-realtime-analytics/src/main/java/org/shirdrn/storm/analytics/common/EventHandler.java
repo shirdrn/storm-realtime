@@ -8,10 +8,19 @@ public interface EventHandler<R, E> extends Serializable {
 	/**
 	 * Execute statistics computation, and result stat result.
 	 * @param event
-	 * @param indicators
 	 * @return
 	 */
-	R handle(E event, Collection<Integer> indicators) throws Exception;
+	R handle(E event) throws Exception;
 	
+	/**
+	 * Get indicator set related to this  {@link EventHandler}.
+	 * @return
+	 */
 	Collection<Integer> getMappedIndicators();
+	
+	/**
+	 * Register indicators for this {@link EventHandler}.
+	 * @param indicator
+	 */
+	void registerIndicators();
 }

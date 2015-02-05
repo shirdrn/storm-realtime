@@ -29,7 +29,7 @@ public abstract class MappedEventHandler<R, E> implements EventHandler<R, E> {
 		return registeredIndicators;
 	}
 	
-	protected void registerIndicator(int indicator) {
+	protected void registerIndicatorInternal(int indicator) {
 		IndicatorCalculator<? extends AbstractResult> calculator = IndicatorCalculatorFactory.getCalculator(indicator);
 		registeredIndicators.add(indicator);
 		registeredCalculators.put(indicator, calculator);

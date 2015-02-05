@@ -1,62 +1,24 @@
 package org.shirdrn.storm.analytics.handlers;
 
-import java.util.Collection;
-import java.util.TreeSet;
-
-import net.sf.json.JSONObject;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.AbstractResult;
-import org.shirdrn.storm.analytics.common.JedisEventHandler;
+import org.shirdrn.storm.analytics.common.AbstractJedisEventHandler;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.commons.constants.StatIndicators;
 
-import com.google.common.collect.Sets;
-
-public class OpenEventHandler extends JedisEventHandler<TreeSet<AbstractResult>, JSONObject> {
+public class OpenEventHandler extends AbstractJedisEventHandler {
 
 	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(OpenEventHandler.class);
 	
 	public OpenEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(jedisBolt, eventCode);
-		// register indicators
-		registerIndicator(StatIndicators.USER_DYNAMIC_INFO);
-		registerIndicator(StatIndicators.OPEN_NU);
-		registerIndicator(StatIndicators.OPEN_AU);
-		registerIndicator(StatIndicators.OPEN_TIMES);
 	}
 
 	@Override
-	public TreeSet<AbstractResult> handle(JSONObject event, Collection<Integer> indicators) throws Exception {
-		LOG.info(this.getClass().getSimpleName() + ": indicators=" + indicators);
-		TreeSet<AbstractResult> results = Sets.newTreeSet();
-		for(int indicator : indicators) {
-			switch(indicator) {
-				case StatIndicators.OPEN_NU:
-					// compute new users
-					super.compute(results, indicator, event);
-					break;
-					
-				case StatIndicators.OPEN_AU:
-					// compute active users
-					super.compute(results, indicator, event);
-					break;
-					
-				case StatIndicators.USER_DYNAMIC_INFO:
-					// compute user first open date
-					super.compute(results, indicator, event);
-					break;
-					
-				case StatIndicators.OPEN_TIMES:
-					// compute open times
-					super.compute(results, indicator, event);
-					break;
-			}
-		}
-		LOG.info(this.getClass().getSimpleName() + ": results=" + results);
-		return results;
+	public void registerIndicators() {
+		// register indicators
+		registerIndicatorInternal(StatIndicators.USER_DYNAMIC_INFO);
+		registerIndicatorInternal(StatIndicators.OPEN_NU);
+		registerIndicatorInternal(StatIndicators.OPEN_AU);
+		registerIndicatorInternal(StatIndicators.OPEN_TIMES);
 	}
 
 }
