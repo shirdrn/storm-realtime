@@ -1,4 +1,4 @@
-package org.shirdrn.storm.analytics.common;
+package org.shirdrn.storm.api;
 
 import java.util.Collection;
 import java.util.Map;
@@ -7,8 +7,6 @@ import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.api.EventHandler;
-import org.shirdrn.storm.api.IndicatorCalculator;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;

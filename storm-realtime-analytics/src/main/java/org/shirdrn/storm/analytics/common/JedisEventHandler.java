@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import net.sf.json.JSONObject;
 
+import org.shirdrn.storm.api.AbstractEventHandler;
 import org.shirdrn.storm.api.Result;
 import org.shirdrn.storm.api.IndicatorCalculator;
 import org.shirdrn.storm.api.utils.IndicatorCalculatorFactory;
