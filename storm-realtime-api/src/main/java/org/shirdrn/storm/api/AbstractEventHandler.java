@@ -35,7 +35,7 @@ public abstract class AbstractEventHandler<R, C, E> implements EventHandler<Tree
 		LOG.info(getClass().getSimpleName() + ": indicators=" + registeredIndicators);
 		TreeSet<R> results = new TreeSet<R>();
 		for(int indicator : registeredIndicators) {
-			R result = compute(indicator, event);
+			R result = processEvent(indicator, event);
 			if(result != null) {
 				results.add(result);
 			}
@@ -57,5 +57,5 @@ public abstract class AbstractEventHandler<R, C, E> implements EventHandler<Tree
 	
 	protected abstract IndicatorCalculator<R, C, E> getIndicatorCalculator(int indicator);
 
-	protected abstract R compute(int indicator, E event);
+	protected abstract R processEvent(int indicator, E event);
 }

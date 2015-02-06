@@ -31,7 +31,7 @@ public abstract class JedisEventHandler extends AbstractEventHandler<Result, Jed
 	}
 	
 	@Override
-	protected Result compute(int indicator, JSONObject event) {
+	protected Result processEvent(int indicator, JSONObject event) {
 		Jedis jedis = jedisBolt.getJedis();
 		IndicatorCalculator<Result, Jedis, JSONObject> calculator = selectCalculator(indicator);
 		if(calculator == null) {
