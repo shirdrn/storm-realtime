@@ -7,8 +7,6 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.AbstractResult;
-import org.shirdrn.storm.analytics.common.EventHandler;
 import org.shirdrn.storm.analytics.common.JedisEventHandler;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.constants.EventCode;
@@ -18,6 +16,8 @@ import org.shirdrn.storm.analytics.handlers.InstallEventHandler;
 import org.shirdrn.storm.analytics.handlers.OpenEventHandler;
 import org.shirdrn.storm.analytics.handlers.PlayEndEventHandler;
 import org.shirdrn.storm.analytics.handlers.PlayStartEventHandler;
+import org.shirdrn.storm.api.Result;
+import org.shirdrn.storm.api.EventHandler;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
@@ -59,7 +59,6 @@ public class EventStatBolt extends JedisRichBolt {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(Tuple input) {
 		String event = input.getString(0);
@@ -70,10 +69,10 @@ public class EventStatBolt extends JedisRichBolt {
 		LOG.debug("Get handler: handler=" + handler);
 		// for JedisEventHandler<TreeSet<AbstractResult>, JSONObject>
 		if(handler != null) {
-			JedisEventHandler<TreeSet<AbstractResult>, JSONObject> h = (JedisEventHandler<TreeSet<AbstractResult>, JSONObject>) handler;
+			JedisEventHandler h = (JedisEventHandler) handler;
 			try {
-				TreeSet<AbstractResult> results = h.handle(eventData);
-				for(AbstractResult result : results) {
+				TreeSet<Result> results = h.handle(eventData);
+				for(Result result : results) {
 					collector.emit(input, new Values(result.getIndicator(), result));
 					LOG.debug("Emitted: results=" + results);
 				}

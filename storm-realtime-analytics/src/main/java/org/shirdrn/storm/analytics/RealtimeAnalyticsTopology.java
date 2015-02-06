@@ -7,13 +7,24 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.bolts.EventFilterBolt;
-import org.shirdrn.storm.analytics.bolts.EventStatResultPersistBolt;
 import org.shirdrn.storm.analytics.bolts.EventStatBolt;
+import org.shirdrn.storm.analytics.bolts.EventStatResultPersistBolt;
+import org.shirdrn.storm.analytics.calculators.OpenAUCalculator;
+import org.shirdrn.storm.analytics.calculators.OpenNUCalculator;
+import org.shirdrn.storm.analytics.calculators.OpenTimesCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayAUCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayAUDurationCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayNUCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayNUDurationCalculator;
+import org.shirdrn.storm.analytics.calculators.PlayTimesCalculator;
+import org.shirdrn.storm.analytics.calculators.UserDeviceInfoCalculator;
+import org.shirdrn.storm.analytics.calculators.UserDynamicInfoCalculator;
 import org.shirdrn.storm.analytics.constants.StatFields;
 import org.shirdrn.storm.analytics.utils.StormComponentFactory;
 import org.shirdrn.storm.analytics.utils.TestUtils;
-import org.shirdrn.storm.analytics.utils.TopologyUtils;
+import org.shirdrn.storm.api.utils.IndicatorCalculatorFactory;
 import org.shirdrn.storm.commons.constants.Keys;
+import org.shirdrn.storm.commons.utils.TopologyUtils;
 
 import storm.kafka.KafkaSpout;
 import backtype.storm.Config;
@@ -94,6 +105,10 @@ public class RealtimeAnalyticsTopology {
 		return builder;
 	}
 	
+	private static void registerCalculator(Class<?> calculatorClazz) {
+		IndicatorCalculatorFactory.registerCalculator(calculatorClazz);
+	}
+	
 	public static void main(String[] args) throws Exception {
 		Configuration externalConf = new PropertiesConfiguration("config.properties");
 		String topic = externalConf.getString(Keys.KAFKA_BROKER_TOPICS);
@@ -104,6 +119,21 @@ public class RealtimeAnalyticsTopology {
 		} else {
 			builder = buildTopology(externalConf, topic);
 		}
+		
+		// register calculators
+		// register basic calculators
+		registerCalculator(UserDeviceInfoCalculator.class);
+		registerCalculator(UserDynamicInfoCalculator.class);
+		
+		// register statistical calculators
+		registerCalculator(OpenAUCalculator.class);
+		registerCalculator(OpenNUCalculator.class);
+		registerCalculator(OpenTimesCalculator.class);
+		registerCalculator(PlayAUCalculator.class);
+		registerCalculator(PlayAUDurationCalculator.class);
+		registerCalculator(PlayNUCalculator.class);
+		registerCalculator(PlayNUDurationCalculator.class);
+		registerCalculator(PlayTimesCalculator.class);
 		
 		// submit topology
 		String nimbus = externalConf.getString(Keys.STORM_NIMBUS_HOST);

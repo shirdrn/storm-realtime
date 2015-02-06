@@ -1,9 +1,9 @@
-package org.shirdrn.storm.analytics.common;
+package org.shirdrn.storm.api;
 
 import java.io.Serializable;
 
 
-public abstract class AbstractResult implements Comparable<AbstractResult>, Serializable {
+public abstract class Result implements Comparable<Result>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	protected int indicator;
@@ -27,7 +27,7 @@ public abstract class AbstractResult implements Comparable<AbstractResult>, Seri
 	}
 	
 	@Override
-	public int compareTo(AbstractResult o) {
+	public int compareTo(Result o) {
 		if(this.indicator < o.indicator) {
 			return -1;
 		}

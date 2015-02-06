@@ -17,6 +17,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.shirdrn.storm</groupId>
+			<artifactId>storm-realtime-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.shirdrn.storm</groupId>
 			<artifactId>storm-realtime-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

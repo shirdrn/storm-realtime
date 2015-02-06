@@ -5,23 +5,24 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.storm.analytics.common.AbstractIndicatorCalculator;
-import org.shirdrn.storm.analytics.common.CallbackHandler;
 import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventCode;
 import org.shirdrn.storm.analytics.constants.EventFields;
+import org.shirdrn.storm.api.CallbackHandler;
 import org.shirdrn.storm.commons.constants.CommonConstants;
+import org.shirdrn.storm.commons.constants.StatIndicators;
 import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class UserDynamicInfoCalculator extends AbstractIndicatorCalculator<KeyedResult<JSONObject>> {
+public class UserDynamicInfoCalculator extends AbstractIndicatorCalculator<KeyedResult<JSONObject>, Jedis, JSONObject> {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(UserDynamicInfoCalculator.class);
 
-	public UserDynamicInfoCalculator(int indicator) {
-		super(indicator);
+	public UserDynamicInfoCalculator() {
+		super(StatIndicators.USER_DYNAMIC_INFO);
 	}
 	
 	@SuppressWarnings("serial")

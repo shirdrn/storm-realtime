@@ -3,8 +3,9 @@ package org.shirdrn.storm.analytics.common;
 import org.apache.commons.logging.Log;
 import org.apache.log4j.Level;
 import org.shirdrn.storm.analytics.utils.RealtimeUtils;
+import org.shirdrn.storm.api.IndicatorCalculator;
 
-public abstract class AbstractIndicatorCalculator<R> implements IndicatorCalculator<R> {
+public abstract class AbstractIndicatorCalculator<R, C, E> implements IndicatorCalculator<R, C, E>, Loggingable {
 
 	private static final long serialVersionUID = 1L;
 	private Level logLevel;

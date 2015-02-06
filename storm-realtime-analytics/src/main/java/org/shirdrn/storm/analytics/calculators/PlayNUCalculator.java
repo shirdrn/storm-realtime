@@ -3,6 +3,7 @@ package org.shirdrn.storm.analytics.calculators;
 import net.sf.json.JSONObject;
 
 import org.shirdrn.storm.analytics.common.StatResult;
+import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import redis.clients.jedis.Jedis;
 
@@ -10,8 +11,8 @@ public class PlayNUCalculator extends OpenNUCalculator {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public PlayNUCalculator(int indicator) {
-		super(indicator);
+	public PlayNUCalculator() {
+		super(StatIndicators.PLAY_NU);
 	}
 
 	@Override

@@ -3,13 +3,14 @@ package org.shirdrn.storm.analytics.calculators;
 import net.sf.json.JSONObject;
 
 import org.shirdrn.storm.analytics.common.StatResult;
+import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import redis.clients.jedis.Jedis;
 
 public class PlayAUCalculator extends OpenAUCalculator {
 
-	public PlayAUCalculator(int indicator) {
-		super(indicator);
+	public PlayAUCalculator() {
+		super(StatIndicators.PLAY_AU);
 	}
 
 	private static final long serialVersionUID = 1L;

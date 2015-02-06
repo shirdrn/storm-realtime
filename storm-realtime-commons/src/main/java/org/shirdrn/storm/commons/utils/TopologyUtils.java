@@ -1,4 +1,4 @@
-package org.shirdrn.storm.analytics.utils;
+package org.shirdrn.storm.commons.utils;
 
 import java.util.List;
 

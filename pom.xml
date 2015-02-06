@@ -10,6 +10,7 @@
 		<module>storm-realtime-commons</module>
 		<module>storm-realtime-spring</module>
 		<module>storm-realtime-mydis</module>
+		<module>storm-realtime-api</module>
 	</modules>
 
 	<properties>

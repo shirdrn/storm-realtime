@@ -1,4 +1,4 @@
-package org.shirdrn.storm.analytics.common;
+package org.shirdrn.storm.api;
 
 import java.io.Serializable;
 import java.util.Collection;

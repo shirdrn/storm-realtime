@@ -6,11 +6,11 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.AbstractResult;
-import org.shirdrn.storm.analytics.common.CallbackHandler;
 import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.common.StatResult;
+import org.shirdrn.storm.api.Result;
+import org.shirdrn.storm.api.CallbackHandler;
 import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import redis.clients.jedis.Jedis;
@@ -34,13 +34,13 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 	@Override
 	public void execute(Tuple input) {
 		int indicator = input.getInteger(0);
-		AbstractResult obj = (AbstractResult) input.getValue(1);
+		Result obj = (Result) input.getValue(1);
 		LOG.debug("INPUT: indicator=" + indicator + ", obj=" + obj);
 		processOne(input, indicator, obj);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void processOne(Tuple input, int indicator, AbstractResult obj) {
+	private void processOne(Tuple input, int indicator, Result obj) {
 		switch(indicator) {
 			case StatIndicators.OPEN_AU:
 			case StatIndicators.OPEN_NU:
@@ -82,7 +82,7 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 		}
 	}
 	
-	private void invoke(Tuple input, String key, String field, String value, AbstractResult result) {
+	private void invoke(Tuple input, String key, String field, String value, Result result) {
 		CallbackHandler<Jedis> callbackHandler = result.getCallbackHandler();
 		if(callbackHandler != null) {
 			try {
