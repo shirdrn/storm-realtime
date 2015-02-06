@@ -23,13 +23,13 @@ public abstract class RedisSyncWorker extends AbstractSyncWorker<RedisSyncServer
 	
 	@Override
 	public void run() {
-		Jedis connection = syncServer.getJedis();
+		Jedis connection = syncServer.getConnection();
 		try {
 			process(connection);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			syncServer.returnResource(connection);
+			syncServer.returnConnection(connection);
 		}
 		
 	}

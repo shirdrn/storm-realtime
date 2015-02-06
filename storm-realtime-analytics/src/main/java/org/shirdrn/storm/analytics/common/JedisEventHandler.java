@@ -32,7 +32,7 @@ public abstract class JedisEventHandler extends AbstractEventHandler<Result, Jed
 	
 	@Override
 	protected Result processEvent(int indicator, JSONObject event) {
-		Jedis jedis = jedisBolt.getJedis();
+		Jedis jedis = jedisBolt.getConnection();
 		IndicatorCalculator<Result, Jedis, JSONObject> calculator = selectCalculator(indicator);
 		if(calculator == null) {
 			throw new NoSuchElementException("Not found calculator for indicator: " + indicator);
@@ -41,7 +41,7 @@ public abstract class JedisEventHandler extends AbstractEventHandler<Result, Jed
 			((Loggingable) calculator).setPrintRedisCmdLogLevel(jedisBolt.getRedisCmdLogLevel());
 		}
 		Result result = calculator.calculate(jedis, event);
-		jedisBolt.returnResource(jedis);
+		jedisBolt.releaseConnection(jedis);
 		return result;
 	}
 	

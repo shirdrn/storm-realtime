@@ -86,7 +86,7 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 		CallbackHandler<Jedis> callbackHandler = result.getCallbackHandler();
 		if(callbackHandler != null) {
 			try {
-				callbackHandler.call(super.getJedis());
+				callbackHandler.callback(super.getConnection());
 				collector.ack(input);
 			} catch (Exception e) {
 				LOG.error("Fail to update value for: " + 

@@ -27,7 +27,7 @@ public class UserDynamicInfoCalculator extends AbstractIndicatorCalculator<Keyed
 	
 	@SuppressWarnings("serial")
 	@Override
-	public KeyedResult<JSONObject> calculate(final Jedis jedis, JSONObject event) {
+	public KeyedResult<JSONObject> calculate(final Jedis connection, JSONObject event) {
 		final String eventCode = event.getString(EventFields.EVENT_CODE);
 		String udid = event.getString(EventFields.UDID);
 		final String key = Constants.USER_BEHAVIOR_KEY + CommonConstants.REDIS_KEY_NS_SEPARATOR + udid;
@@ -42,7 +42,7 @@ public class UserDynamicInfoCalculator extends AbstractIndicatorCalculator<Keyed
 		keyedObj.setCallbackHandler(new CallbackHandler<Jedis>() {
 
 			@Override
-			public void call(final Jedis client) throws Exception {
+			public void callback(final Jedis client) throws Exception {
 				JSONObject info = null;
 				String field = null;
 				if(eventCode.equals(EventCode.OPEN)) {

@@ -21,7 +21,7 @@ public abstract class AbstractSyncWorker<T extends SyncServer, C> implements Syn
 		super();
 		this.syncServer = syncServer;
 		this.conf = syncServer.getConf();
-		context = syncServer.getContext();
+		context = syncServer.getApplicationContext();
 		jdbcTemplate = context.getBean(JdbcTemplate.class);
 		latestHours = conf.getInt(Constants.SYNC_LATEST_HOURS, 3);
 	}

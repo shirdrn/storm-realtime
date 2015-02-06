@@ -12,31 +12,31 @@ import redis.clients.jedis.JedisPool;
 public class RedisSyncServer extends SyncServer {
 
 	private static final Log LOG = LogFactory.getLog(RedisSyncServer.class);
-	private final JedisPool jedisPool;
+	private final JedisPool connectionPool;
 	
 	public RedisSyncServer(Configuration conf) {
 		super(conf);
 		// Redis pool
-		jedisPool = context.getBean(JedisPool.class);
-		LOG.info("Jedis pool created: " + jedisPool);
+		connectionPool = applicationContext.getBean(JedisPool.class);
+		LOG.info("Jedis pool created: " + connectionPool);
 	}
 	
-	public Jedis getJedis() {
-		Jedis jedis = null;
+	public Jedis getConnection() {
+		Jedis connection = null;
 		try {
-			jedis = jedisPool.getResource();
+			connection = connectionPool.getResource();
 		} catch (Exception e) {
-			jedisPool.returnBrokenResource(jedis);
+			connectionPool.returnBrokenResource(connection);
 			throw Throwables.propagate(e);
 		}
-		return jedis;
+		return connection;
 	}
 	
-	public void returnResource(Jedis jedis) {
+	public void returnConnection(Jedis connection) {
 		try {
-			jedisPool.returnResource(jedis);
+			connectionPool.returnResource(connection);
 		} catch (Exception e) {
-			jedisPool.returnBrokenResource(jedis);
+			connectionPool.returnBrokenResource(connection);
 		}
 	}
 

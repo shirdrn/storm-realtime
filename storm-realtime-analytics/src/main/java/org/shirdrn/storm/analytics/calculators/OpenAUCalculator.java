@@ -35,13 +35,13 @@ public class OpenAUCalculator extends AbstractIndicatorCalculator<StatResult, Je
 
 	@SuppressWarnings("serial")
 	@Override
-	public StatResult calculate(final Jedis jedis, JSONObject event) {
+	public StatResult calculate(final Jedis connection, JSONObject event) {
 		StatResult statResult = null;
 		final String udid = event.getString(EventFields.UDID);
 		String time = event.getString(EventFields.EVENT_TIME);
 		final String strHour = DateTimeUtils.format(time, Constants.DT_EVENT_PATTERN, Constants.DT_HOUR_PATTERN);
 		// get user device information
-		JSONObject user =  EventUtils.getUserInfo(jedis, udid);
+		JSONObject user =  EventUtils.getUserInfo(connection, udid);
 		if(user != null) {
 			String channel = user.getString(UserInfoKeys.CHANNEL);
 			String version = user.getString(UserInfoKeys.VERSION);
@@ -59,7 +59,7 @@ public class OpenAUCalculator extends AbstractIndicatorCalculator<StatResult, Je
 			statResult.setCallbackHandler(new CallbackHandler<Jedis>() {
 
 				@Override
-				public void call(final Jedis client) throws Exception {
+				public void callback(final Jedis client) throws Exception {
 					String field = result.toField();
 					String cacheKey = result.getIndicator() + CommonConstants.REDIS_KEY_NS_SEPARATOR +
 							field + CommonConstants.REDIS_KEY_NS_SEPARATOR + udid;

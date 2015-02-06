@@ -48,7 +48,7 @@ public class StatSyncWorker extends RedisSyncWorker {
 	}
 	
 	@Override
-	public void process(Jedis jedis) throws Exception {
+	public void process(Jedis connection) throws Exception {
 		LinkedList<String> hours = DateTimeUtils.getLatestHours(latestHours, Constants.DT_HOUR_FORMAT);
 		super.addCurrentHour(hours);
 		LOG.info("Sync for hours: " + hours);
@@ -57,7 +57,7 @@ public class StatSyncWorker extends RedisSyncWorker {
 			for(final String hour : hours) {
 				LOG.info("Process: indicator=" + indicator + ", hour=" + hour);
 				try {
-					compute(jedis, indicator, hour);
+					compute(connection, indicator, hour);
 				} catch (Exception e) {
 					LOG.warn("", e);
 				}
@@ -65,20 +65,20 @@ public class StatSyncWorker extends RedisSyncWorker {
 		}
 	}
 
-	private void compute(Jedis jedis, final int indicator, final String hour) throws Exception {
+	private void compute(Jedis connection, final int indicator, final String hour) throws Exception {
 		// like: 
 		// key   -> 2311010202::22::S
 		// value -> 0::A-360::3.1.2
 		String key = hour + CommonConstants.REDIS_KEY_NS_SEPARATOR + 
 				indicator + CommonConstants.REDIS_KEY_NS_SEPARATOR +
 				CommonConstants.NS_STAT_HKEY; 
-		Set<String> fields = jedis.hkeys(key);
+		Set<String> fields = connection.hkeys(key);
 		if(fields != null) {
 			final List<StatRecord> records = Lists.newArrayList();
 			for(String field : fields) {
 				LOG.info("key=" + key + ", field=" + field);
 				String[] fieldValues = field.split(CommonConstants.REDIS_KEY_NS_SEPARATOR);
-				String strCount = jedis.hget(key, field);
+				String strCount = connection.hget(key, field);
 				if(fieldValues.length == 3) {
 					StatRecord record = new StatRecord();
 					record.indicator = indicator;

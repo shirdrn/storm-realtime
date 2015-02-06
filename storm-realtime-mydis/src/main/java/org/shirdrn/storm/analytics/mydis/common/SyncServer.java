@@ -20,9 +20,9 @@ public abstract class SyncServer implements Server {
 	private static final Log LOG = LogFactory.getLog(DefaultSyncServer.class);
 	private final Object object = new Object();
 	private final Configuration conf;
-	static final String ctxId = "realtime";
+	static final String contextID = "realtime";
 	static final String SPTING_CONFIGS = "classpath*:/applicationContext.xml";
-	protected final ApplicationContext context;
+	protected final ApplicationContext applicationContext;
 	private final String poolName = "SYNC";
 	private final ScheduledExecutorService scheduledExecutorService;
 	private final int period;
@@ -31,8 +31,8 @@ public abstract class SyncServer implements Server {
 	public SyncServer(Configuration conf) {
 		this.conf = conf;
 		// Spring context
-		context = SpringFactory.getContextFactory(ctxId, SPTING_CONFIGS).getContext(ctxId);
-		LOG.info("Spring context initialized: " + context);
+		applicationContext = SpringFactory.getContextFactory(contextID, SPTING_CONFIGS).getContext(contextID);
+		LOG.info("Spring context initialized: " + applicationContext);
 		
 		// configure sync server
 		int nThreads = conf.getInt(Constants.SYNC_SCHEDULER_THREAD_COUNT, 1);
@@ -75,7 +75,7 @@ public abstract class SyncServer implements Server {
 		return conf;
 	}
 
-	public ApplicationContext getContext() {
-		return context;
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
 	}
 }

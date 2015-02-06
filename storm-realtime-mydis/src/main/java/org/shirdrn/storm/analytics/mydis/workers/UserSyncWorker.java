@@ -44,7 +44,7 @@ public class UserSyncWorker extends RedisSyncWorker {
 	}
 
 	@Override
-	public void process(Jedis jedis) throws Exception {
+	public void process(Jedis connection) throws Exception {
 		LinkedList<String> hours = DateTimeUtils.getLatestHours(latestHours, Constants.DT_HOUR_FORMAT);
 		super.addCurrentHour(hours);
 		LOG.info("Sync for hours: " + hours);
@@ -57,7 +57,7 @@ public class UserSyncWorker extends RedisSyncWorker {
 			// field -> 0::A-360::3.1.2::AAAAAAAAAADDDDDDDDD
 			// value -> Y
 			try {
-				compute(jedis, statMap, hour);
+				compute(connection, statMap, hour);
 			} catch (Exception e) {
 				LOG.error("", e);
 			}
@@ -67,14 +67,14 @@ public class UserSyncWorker extends RedisSyncWorker {
 		}
 	}
 
-	private void compute(Jedis jedis, Map<StatObj, AtomicLong> statMap,
+	private void compute(Jedis connection, Map<StatObj, AtomicLong> statMap,
 			final String hour) throws Exception {
 		String key = hour + CommonConstants.REDIS_KEY_NS_SEPARATOR + 
 				indicator + CommonConstants.REDIS_KEY_NS_SEPARATOR + userType; 
 		// TODO
 		// performance consideration:
 		// fetch results in batch, rather than fetch all once
-		Set<String> fields = jedis.hkeys(key);
+		Set<String> fields = connection.hkeys(key);
 		if(fields != null) {
 			for(String field : fields) {
 				LOG.info("key=" + key + ", field=" + field);

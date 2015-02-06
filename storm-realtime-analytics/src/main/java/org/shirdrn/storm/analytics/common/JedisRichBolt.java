@@ -22,10 +22,10 @@ public abstract class JedisRichBolt extends BaseRichBolt {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(JedisRichBolt.class);
-	static final String ctxId = "realtime";
+	static final String contextID = "realtime";
 	static final String SPTING_CONFIGS = "classpath*:/applicationContext.xml";
-	private transient ApplicationContext springCtx;
-	private transient JedisPool jedisPool;
+	private transient ApplicationContext applicationContext;
+	private transient JedisPool connectionPool;
 	protected OutputCollector collector;
 	protected Level redisCmdLogLevel = Level.DEBUG;
 	
@@ -34,44 +34,44 @@ public abstract class JedisRichBolt extends BaseRichBolt {
 	public void prepare(Map stormConf, TopologyContext context,
 			OutputCollector collector) {
 		// Spring context
-		springCtx = SpringFactory.getContextFactory(ctxId, SPTING_CONFIGS).getContext(ctxId);
-		LOG.info("Spring context initialized: " + springCtx);
+		applicationContext = SpringFactory.getContextFactory(contextID, SPTING_CONFIGS).getContext(contextID);
+		LOG.info("Spring context initialized: " + applicationContext);
 		
-		jedisPool = springCtx.getBean(JedisPool.class);
-		LOG.info("Jedis pool created: " + jedisPool);
+		connectionPool = applicationContext.getBean(JedisPool.class);
+		LOG.info("Jedis pool created: " + connectionPool);
 		
 		this.collector = collector;
 		
-		// set print redis cmd log level
+		// set print Redis cmd log level
 		Object level = stormConf.get(Constants.REALTIME_REDIS_CMD_LOG_LEVEL);
 		if(level != null) {
 			redisCmdLogLevel = RealtimeUtils.parseLevel((String) level);
 		}
 	}
 	
-	public Jedis getJedis() {
-		Jedis jedis = null;
+	public Jedis getConnection() {
+		Jedis connection = null;
 		try {
-			jedis = jedisPool.getResource();
+			connection = connectionPool.getResource();
 		} catch (Exception e) {
-			jedisPool.returnBrokenResource(jedis);
+			connectionPool.returnBrokenResource(connection);
 			throw Throwables.propagate(e);
 		}
-		return jedis;
+		return connection;
 	}
 	
-	public void returnResource(Jedis jedis) {
+	public void releaseConnection(Jedis connection) {
 		try {
-			jedisPool.returnResource(jedis);
+			connectionPool.returnResource(connection);
 		} catch (Exception e) {
-			jedisPool.returnBrokenResource(jedis);
+			connectionPool.returnBrokenResource(connection);
 		}
 	}
 	
 	@Override
 	public void cleanup() {
 		super.cleanup();
-		jedisPool.destroy();
+		connectionPool.destroy();
 	}
 
 	public Level getRedisCmdLogLevel() {

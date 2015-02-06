@@ -10,6 +10,11 @@ import org.shirdrn.storm.commons.utils.ReflectionUtils;
 
 import com.google.common.collect.Maps;
 
+/**
+ * Factory for producing {@link IndicatorCalculator} instances.
+ * 
+ * @author Yanjun
+ */
 public class IndicatorCalculatorFactory {
 	
 	private static final Log LOG = LogFactory.getLog(IndicatorCalculatorFactory.class);

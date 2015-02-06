@@ -16,8 +16,8 @@ public class PlayAUCalculator extends OpenAUCalculator {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public StatResult calculate(final Jedis jedis, JSONObject event) {
-		StatResult statResult = super.calculate(jedis, event);
+	public StatResult calculate(final Jedis connection, JSONObject event) {
+		StatResult statResult = super.calculate(connection, event);
 		if(statResult != null) {
 			statResult.setIndicator(indicator);
 		}

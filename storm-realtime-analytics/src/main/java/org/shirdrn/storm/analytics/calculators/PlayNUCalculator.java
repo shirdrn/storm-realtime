@@ -16,8 +16,8 @@ public class PlayNUCalculator extends OpenNUCalculator {
 	}
 
 	@Override
-	public StatResult calculate(final Jedis jedis, JSONObject event) {
-		StatResult statResult = super.calculate(jedis, event);
+	public StatResult calculate(final Jedis connection, JSONObject event) {
+		StatResult statResult = super.calculate(connection, event);
 		if(statResult != null) {
 			statResult.setIndicator(indicator);
 		}

@@ -1,8 +1,8 @@
 package org.shirdrn.storm.analytics.common;
 
-import org.shirdrn.storm.api.Result;
+import org.shirdrn.storm.api.AbstractResult;
 
-public class KeyedResult<T> extends Result {
+public class KeyedResult<T> extends AbstractResult {
 
 	private static final long serialVersionUID = 1L;
 	private String key;

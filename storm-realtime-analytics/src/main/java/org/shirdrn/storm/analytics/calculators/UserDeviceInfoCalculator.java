@@ -25,7 +25,7 @@ public class UserDeviceInfoCalculator extends AbstractIndicatorCalculator<KeyedR
 	
 	@SuppressWarnings("serial")
 	@Override
-	public KeyedResult<JSONObject> calculate(final Jedis jedis, JSONObject event) {
+	public KeyedResult<JSONObject> calculate(final Jedis connection, JSONObject event) {
 		// install event
 		String udid = event.getString(EventFields.UDID);
 		
@@ -51,7 +51,7 @@ public class UserDeviceInfoCalculator extends AbstractIndicatorCalculator<KeyedR
 		keyedObj.setCallbackHandler(new CallbackHandler<Jedis>() {
 
 			@Override
-			public void call(final Jedis client) throws Exception {
+			public void callback(final Jedis client) throws Exception {
 				String key = result.getKey();
 				String value = result.getData().toString();
 				client.set(key, value);
