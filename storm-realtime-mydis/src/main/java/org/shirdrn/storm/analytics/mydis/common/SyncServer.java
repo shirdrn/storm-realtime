@@ -1,5 +1,6 @@
 package org.shirdrn.storm.analytics.mydis.common;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -13,6 +14,7 @@ import org.shirdrn.storm.commons.utils.ThreadPoolUtils;
 import org.shirdrn.storm.spring.utils.SpringFactory;
 import org.springframework.context.ApplicationContext;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 public abstract class SyncServer implements Server {
@@ -27,6 +29,7 @@ public abstract class SyncServer implements Server {
 	private final ScheduledExecutorService scheduledExecutorService;
 	private final int period;
 	private final Set<SyncWorker<?, ?>> syncWorkers = Sets.newHashSet();
+	private final Map<Class<SyncWorker<?, ?>>, SyncWorker<?, ?>> syncWorkerClasses = Maps.newHashMap();
 	
 	public SyncServer(Configuration conf) {
 		this.conf = conf;
@@ -40,8 +43,14 @@ public abstract class SyncServer implements Server {
 		period = conf.getInt(Constants.SYNC_SCHEDULER_PERIOD, 10000);
 	}
 	
-	public void registerSyncWorkers(SyncWorker<?, ?> syncWorker) {
-		syncWorkers.add(syncWorker);
+	@SuppressWarnings("unchecked")
+	public synchronized void registerSyncWorkers(SyncWorker<?, ?> syncWorker) {
+		Class<SyncWorker<?, ?>> clazz = (Class<SyncWorker<?, ?>>) syncWorker.getClass();
+		if(!syncWorkerClasses.containsKey(clazz)) {
+			syncWorkerClasses.put(clazz, syncWorker);
+			syncWorkers.add(syncWorker);
+			LOG.info("Sync worker registered: " + clazz + " -> " + syncWorker);
+		}
 	}
 	
 	@Override
