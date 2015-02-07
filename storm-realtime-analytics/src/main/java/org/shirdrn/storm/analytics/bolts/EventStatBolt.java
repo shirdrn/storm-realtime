@@ -33,7 +33,7 @@ import com.google.common.collect.Maps;
  * such as querying user device information, after doing that compute
  * statistics record and emit it to next bolt to persist statistics result.
  * 
- * @author yanjun
+ * @author Yanjun
  */
 public class EventStatBolt extends JedisRichBolt {
 
@@ -67,7 +67,7 @@ public class EventStatBolt extends JedisRichBolt {
 		String eventCode = eventData.getString(EventFields.EVENT_CODE);
 		EventHandler<?, ?> handler = eventHandlers.get(eventCode);
 		LOG.debug("Get handler: handler=" + handler);
-		// for JedisEventHandler<TreeSet<AbstractResult>, JSONObject>
+		
 		if(handler != null) {
 			JedisEventHandler h = (JedisEventHandler) handler;
 			try {

@@ -48,7 +48,7 @@ import backtype.storm.tuple.Fields;
  * 		<li>{@link EventStatResultPersistBolt} </li> : Persist result to Redis.
  * </ol>
  * 
- * @author yanjun
+ * @author Yanjun
  */
 public class RealtimeAnalyticsTopology {
 

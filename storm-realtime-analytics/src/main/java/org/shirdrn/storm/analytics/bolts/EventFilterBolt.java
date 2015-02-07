@@ -23,7 +23,7 @@ import backtype.storm.tuple.Values;
 /**
  * Distribute interested coming events.
  * 
- * @author yanjun
+ * @author Yanjun
  */
 public class EventFilterBolt extends BaseRichBolt {
 
