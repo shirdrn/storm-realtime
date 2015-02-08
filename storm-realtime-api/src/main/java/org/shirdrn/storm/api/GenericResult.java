@@ -1,6 +1,6 @@
 package org.shirdrn.storm.api;
 
-public abstract class AbstractResult implements Result {
+public abstract class GenericResult implements Result {
 
 	private static final long serialVersionUID = 1L;
 	protected int indicator;

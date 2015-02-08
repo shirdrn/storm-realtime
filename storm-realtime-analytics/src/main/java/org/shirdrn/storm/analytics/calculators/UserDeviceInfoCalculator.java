@@ -4,7 +4,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.AbstractIndicatorCalculator;
+import org.shirdrn.storm.analytics.common.GenericIndicatorCalculator;
 import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
@@ -14,7 +14,7 @@ import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import redis.clients.jedis.Jedis;
 
-public class UserDeviceInfoCalculator extends AbstractIndicatorCalculator<KeyedResult<JSONObject>, Jedis, JSONObject> {
+public class UserDeviceInfoCalculator extends GenericIndicatorCalculator<KeyedResult<JSONObject>, Jedis, JSONObject> {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(UserDeviceInfoCalculator.class);

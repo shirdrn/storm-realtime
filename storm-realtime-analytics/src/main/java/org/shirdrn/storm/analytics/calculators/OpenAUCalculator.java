@@ -4,7 +4,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.AbstractIndicatorCalculator;
+import org.shirdrn.storm.analytics.common.GenericIndicatorCalculator;
 import org.shirdrn.storm.analytics.common.RedisTimeoutCache;
 import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.Constants;
@@ -19,7 +19,7 @@ import org.shirdrn.storm.commons.utils.DateTimeUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class OpenAUCalculator extends AbstractIndicatorCalculator<StatResult, Jedis, JSONObject> {
+public class OpenAUCalculator extends GenericIndicatorCalculator<StatResult, Jedis, JSONObject> {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(OpenAUCalculator.class);

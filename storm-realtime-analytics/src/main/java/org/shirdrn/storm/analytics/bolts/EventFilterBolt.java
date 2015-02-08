@@ -1,14 +1,13 @@
 package org.shirdrn.storm.analytics.bolts;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 
 import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.constants.EventCode;
+import org.shirdrn.storm.analytics.common.EventInteresteable;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.StatFields;
 
@@ -20,29 +19,31 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
+import com.google.common.collect.Sets;
+
 /**
  * Distribute interested coming events.
  * 
  * @author Yanjun
  */
-public class EventFilterBolt extends BaseRichBolt {
+public class EventFilterBolt extends BaseRichBolt implements EventInteresteable {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventFilterBolt.class);
 	private OutputCollector collector;
 	private Collection<String> interestedEvents;
 	
-	@SuppressWarnings({ "rawtypes", "serial" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public void prepare(Map stormConf, TopologyContext context,
 			OutputCollector collector) {
 		this.collector = collector;
-		interestedEvents = new HashSet<String>() {{
-			add(EventCode.INSTALL);
-			add(EventCode.OPEN);
-			add(EventCode.PLAY_START);
-			add(EventCode.PLAY_END);
-		}};
+		interestedEvents = Sets.newHashSet();
+	}
+	
+	@Override
+	public void InterestEventCode(String eventCode) {
+		interestedEvents.add(eventCode);		
 	}
 
 	@Override

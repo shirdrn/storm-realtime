@@ -11,16 +11,27 @@ import org.apache.commons.logging.LogFactory;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-public abstract class AbstractEventHandler<R, C, E> implements EventHandler<TreeSet<R>, E> {
+/**
+ * Generic event handler. It manages the relations between event and
+ * {@link IndicatorCalculator}, that is say, mapping the event code to a set
+ * of indicators belonging to the event.
+ * 
+ * @author Yanjun
+ *
+ * @param <R> Computation result
+ * @param <C> Storage engine connection
+ * @param <E> Event data object
+ */
+public abstract class GenericEventHandler<R, C, E> implements EventHandler<TreeSet<R>, E> {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final Log LOG = LogFactory.getLog(AbstractEventHandler.class);
-	protected final String eventCode;
+	private static final Log LOG = LogFactory.getLog(GenericEventHandler.class);
+	private final String eventCode;
 	private final Collection<Integer> registeredIndicators = Sets.newTreeSet();
 	private final Map<Integer, IndicatorCalculator<R, C, E>> registeredCalculators = Maps.newHashMap();
 	
-	public AbstractEventHandler(String eventCode) {
+	public GenericEventHandler(String eventCode) {
 		super();
 		this.eventCode = eventCode;
 	}
@@ -55,7 +66,24 @@ public abstract class AbstractEventHandler<R, C, E> implements EventHandler<Tree
 		return registeredCalculators.get(indicator);
 	}
 	
+	/**
+	 * Get a {@link IndicatorCalculator} object form the given indicator. Usually the {@link IndicatorCalculator}
+	 * instance should be a singleton object.
+	 * @param indicator
+	 * @return
+	 */
 	protected abstract IndicatorCalculator<R, C, E> getIndicatorCalculator(int indicator);
 
+	/**
+	 *  Process a event for a known indicator.
+	 * @param indicator
+	 * @param event
+	 * @return
+	 */
 	protected abstract R processEvent(int indicator, E event);
+	
+	@Override
+	public String getEventCode() {
+		return eventCode;
+	}
 }

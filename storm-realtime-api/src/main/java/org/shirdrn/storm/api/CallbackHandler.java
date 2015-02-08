@@ -12,7 +12,7 @@ import java.io.Serializable;
 public interface CallbackHandler<C> extends Serializable {
 
 	/**
-	 * Invoke the callback logic.
+	 * Invoke the callback computation logic.
 	 * @param connection
 	 * @throws Exception
 	 */

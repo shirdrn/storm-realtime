@@ -19,6 +19,8 @@ import org.shirdrn.storm.analytics.calculators.PlayNUDurationCalculator;
 import org.shirdrn.storm.analytics.calculators.PlayTimesCalculator;
 import org.shirdrn.storm.analytics.calculators.UserDeviceInfoCalculator;
 import org.shirdrn.storm.analytics.calculators.UserDynamicInfoCalculator;
+import org.shirdrn.storm.analytics.common.EventInteresteable;
+import org.shirdrn.storm.analytics.constants.EventCode;
 import org.shirdrn.storm.analytics.constants.StatFields;
 import org.shirdrn.storm.analytics.utils.StormComponentFactory;
 import org.shirdrn.storm.analytics.utils.TestUtils;
@@ -31,6 +33,7 @@ import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.StormSubmitter;
 import backtype.storm.topology.TopologyBuilder;
+import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.topology.base.BaseRichSpout;
 import backtype.storm.tuple.Fields;
 
@@ -82,8 +85,15 @@ public class RealtimeAnalyticsTopology {
 		builder.setSpout(kafkaEventReader, kafkaSpout, 1);
 		
 		// configure distributor bolt
+		BaseRichBolt filterBolt = new EventFilterBolt();
+		// register interested events for filtering out some events
+		EventInteresteable interested = (EventInteresteable) filterBolt;
+		interested.InterestEventCode(EventCode.INSTALL);
+		interested.InterestEventCode(EventCode.OPEN);
+		interested.InterestEventCode(EventCode.PLAY_START);
+		interested.InterestEventCode(EventCode.PLAY_END);
 		builder
-			.setBolt(eventFilter, new EventFilterBolt(), 1)
+			.setBolt(eventFilter, filterBolt, 1)
 			.shuffleGrouping(kafkaEventReader)
 			.setNumTasks(1);
 		

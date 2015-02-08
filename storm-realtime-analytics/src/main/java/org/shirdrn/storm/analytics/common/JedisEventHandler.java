@@ -4,23 +4,21 @@ import java.util.NoSuchElementException;
 
 import net.sf.json.JSONObject;
 
-import org.shirdrn.storm.api.AbstractEventHandler;
+import org.shirdrn.storm.api.GenericEventHandler;
 import org.shirdrn.storm.api.Result;
 import org.shirdrn.storm.api.IndicatorCalculator;
 import org.shirdrn.storm.api.utils.IndicatorCalculatorFactory;
 
 import redis.clients.jedis.Jedis;
 
-public abstract class JedisEventHandler extends AbstractEventHandler<Result, Jedis, JSONObject> {
+public abstract class JedisEventHandler extends GenericEventHandler<Result, Jedis, JSONObject> {
 
 	private static final long serialVersionUID = 1L;
-	protected final String eventCode;
 	protected final JedisRichBolt jedisBolt;
 	
 	public JedisEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(eventCode);
 		this.jedisBolt = jedisBolt;
-		this.eventCode = eventCode;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -37,6 +35,7 @@ public abstract class JedisEventHandler extends AbstractEventHandler<Result, Jed
 		if(calculator == null) {
 			throw new NoSuchElementException("Not found calculator for indicator: " + indicator);
 		}
+		// set writing Redis command log level
 		if(calculator instanceof Loggingable) {
 			((Loggingable) calculator).setPrintRedisCmdLogLevel(jedisBolt.getRedisCmdLogLevel());
 		}

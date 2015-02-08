@@ -25,6 +25,11 @@ public class IndicatorCalculatorFactory {
 		super();
 	}
 	
+	/**
+	 * Register a {@link IndicatorCalculator} instance, which should be populated to
+	 * a register table and for subsequence use. 
+	 * @param calculatorClazz
+	 */
 	public static synchronized void registerCalculator(Class<?> calculatorClazz) {
 		IndicatorCalculator<?, ?, ?> instance = CALCULATOR_CLASSES.get(calculatorClazz);
 		if(instance == null) {
@@ -39,6 +44,13 @@ public class IndicatorCalculatorFactory {
 		}
 	}
 
+	/**
+	 * Create a new {@link IndicatorCalculator} instance, here actually retrieve a 
+	 * existed {@link IndicatorCalculator} instance from a register table and return to the caller. 
+	 * @param indicator
+	 * @return
+	 * @throws NoSuchElementException
+	 */
 	public static IndicatorCalculator<?, ?, ?> newIndicatorCalculator(int indicator) throws NoSuchElementException {
 		IndicatorCalculator<?, ?, ?> calculator = CALCULATORS.get(indicator);
 		if(calculator == null) {

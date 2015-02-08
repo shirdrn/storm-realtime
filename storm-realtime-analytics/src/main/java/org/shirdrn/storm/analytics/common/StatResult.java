@@ -1,10 +1,10 @@
 package org.shirdrn.storm.analytics.common;
 
-import org.shirdrn.storm.api.AbstractResult;
+import org.shirdrn.storm.api.GenericResult;
 import org.shirdrn.storm.api.KeyCreateable;
 import org.shirdrn.storm.commons.constants.CommonConstants;
 
-public class StatResult extends AbstractResult implements KeyCreateable {
+public class StatResult extends GenericResult implements KeyCreateable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String NS_SEPARATOR = CommonConstants.REDIS_KEY_NS_SEPARATOR;
