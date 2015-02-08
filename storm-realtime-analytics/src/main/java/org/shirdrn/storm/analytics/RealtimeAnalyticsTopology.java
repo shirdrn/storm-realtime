@@ -88,10 +88,7 @@ public class RealtimeAnalyticsTopology {
 		BaseRichBolt filterBolt = new EventFilterBolt();
 		// register interested events for filtering out some events
 		EventInteresteable interested = (EventInteresteable) filterBolt;
-		interested.InterestEventCode(EventCode.INSTALL);
-		interested.InterestEventCode(EventCode.OPEN);
-		interested.InterestEventCode(EventCode.PLAY_START);
-		interested.InterestEventCode(EventCode.PLAY_END);
+		registerInterestedEvents(interested);
 		builder
 			.setBolt(eventFilter, filterBolt, 1)
 			.shuffleGrouping(kafkaEventReader)
@@ -130,20 +127,7 @@ public class RealtimeAnalyticsTopology {
 			builder = buildTopology(externalConf, topic);
 		}
 		
-		// register calculators
-		// register basic calculators
-		registerCalculator(UserDeviceInfoCalculator.class);
-		registerCalculator(UserDynamicInfoCalculator.class);
-		
-		// register statistical calculators
-		registerCalculator(OpenAUCalculator.class);
-		registerCalculator(OpenNUCalculator.class);
-		registerCalculator(OpenTimesCalculator.class);
-		registerCalculator(PlayAUCalculator.class);
-		registerCalculator(PlayAUDurationCalculator.class);
-		registerCalculator(PlayNUCalculator.class);
-		registerCalculator(PlayNUDurationCalculator.class);
-		registerCalculator(PlayTimesCalculator.class);
+		registerCalculators();
 		
 		// submit topology
 		String nimbus = externalConf.getString(Keys.STORM_NIMBUS_HOST);
@@ -172,7 +156,37 @@ public class RealtimeAnalyticsTopology {
 			Thread.sleep(sleep);
 			cluster.shutdown();
 		}
+	}
 	
+	/**
+	 * Register interested events
+	 * @param interested
+	 */
+	private static void registerInterestedEvents(EventInteresteable interested) {
+		interested.InterestEventCode(EventCode.INSTALL);
+		interested.InterestEventCode(EventCode.OPEN);
+		interested.InterestEventCode(EventCode.PLAY_START);
+		interested.InterestEventCode(EventCode.PLAY_END);
+	}
+	
+	/**
+	 * Register calculators
+	 */
+	private static void registerCalculators() {
+		// register calculators
+		// register basic calculators
+		registerCalculator(UserDeviceInfoCalculator.class);
+		registerCalculator(UserDynamicInfoCalculator.class);
+		
+		// register statistical calculators
+		registerCalculator(OpenAUCalculator.class);
+		registerCalculator(OpenNUCalculator.class);
+		registerCalculator(OpenTimesCalculator.class);
+		registerCalculator(PlayAUCalculator.class);
+		registerCalculator(PlayAUDurationCalculator.class);
+		registerCalculator(PlayNUCalculator.class);
+		registerCalculator(PlayNUDurationCalculator.class);
+		registerCalculator(PlayTimesCalculator.class);
 	}
 	
 }
