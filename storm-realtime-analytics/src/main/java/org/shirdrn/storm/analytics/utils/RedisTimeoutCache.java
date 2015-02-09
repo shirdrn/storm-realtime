@@ -1,8 +1,7 @@
-package org.shirdrn.storm.analytics.common;
+package org.shirdrn.storm.analytics.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.TimeoutCache;
 
 import redis.clients.jedis.Jedis;
