@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * Event handler which handles event for compute a set of
+ * Event handler which handles event for computing a set of
  * indicators.
  * 
  * @author Yanjun
