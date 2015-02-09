@@ -6,29 +6,35 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.common.StatResult;
-import org.shirdrn.storm.api.Result;
+import org.shirdrn.storm.analytics.utils.JedisConnectionManager;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.CallbackHandler;
+import org.shirdrn.storm.api.ConnectionManager;
+import org.shirdrn.storm.api.Result;
 import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import redis.clients.jedis.Jedis;
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
+import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Tuple;
 
-public class EventStatResultPersistBolt extends JedisRichBolt {
+public class EventStatResultPersistBolt extends BaseRichBolt {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventStatResultPersistBolt.class);
+	private OutputCollector collector;
+	private transient ConnectionManager<Jedis> connectionManager;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void prepare(Map stormConf, TopologyContext context,
 			OutputCollector collector) {
-		super.prepare(stormConf, context, collector);
+		this.collector = collector;
+		connectionManager = new JedisConnectionManager(RealtimeUtils.getConfiguration());
 	}
 	
 	@Override
@@ -86,7 +92,7 @@ public class EventStatResultPersistBolt extends JedisRichBolt {
 		CallbackHandler<Jedis> callbackHandler = result.getCallbackHandler();
 		if(callbackHandler != null) {
 			try {
-				callbackHandler.callback(super.getConnection());
+				callbackHandler.callback(connectionManager.getConnection());
 				collector.ack(input);
 			} catch (Exception e) {
 				LOG.error("Fail to update value for: " + 

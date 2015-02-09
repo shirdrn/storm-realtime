@@ -9,10 +9,11 @@ import java.util.Collection;
  * 
  * @author Yanjun
  *
- * @param <R> Computation result
+ * @param <R> Computed {@link Result}
+ * @param <C> Connection object
  * @param <E> Event data object
  */
-public interface EventHandler<R, E> extends Serializable {
+public interface EventHandler<R, C, E> extends Serializable {
 
 	/**
 	 * Execute statistics computation, and result stat result.
@@ -38,4 +39,7 @@ public interface EventHandler<R, E> extends Serializable {
 	 * @return
 	 */
 	String getEventCode();
+
+	void setConnectionManager(ConnectionManager<C> connectionManager);
+	
 }

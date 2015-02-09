@@ -9,7 +9,7 @@ import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
-import org.shirdrn.storm.analytics.utils.EventUtils;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.CallbackHandler;
 import org.shirdrn.storm.commons.constants.CommonConstants;
 import org.shirdrn.storm.commons.constants.StatIndicators;
@@ -34,7 +34,7 @@ public class PlayTimesCalculator extends GenericIndicatorCalculator<StatResult, 
 		String time = event.getString(EventFields.EVENT_TIME);
 		String strHour = DateTimeUtils.format(time, Constants.DT_EVENT_PATTERN, Constants.DT_HOUR_PATTERN);
 		// get user device information
-		JSONObject user =  EventUtils.getUserInfo(connection, udid);
+		JSONObject user =  RealtimeUtils.getUserInfo(connection, udid);
 		if(user != null) {
 			String channel = user.getString(UserInfoKeys.CHANNEL);
 			String version = user.getString(UserInfoKeys.VERSION);

@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.log4j.Level;
 import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.IndicatorCalculator;
+import org.shirdrn.storm.api.Result;
 
 /**
  * A generic indicator calculator who is holding some basic information
@@ -11,9 +12,9 @@ import org.shirdrn.storm.api.IndicatorCalculator;
  * 
  * @author Yanjun
  *
- * @param <R>
- * @param <C>
- * @param <E>
+ * @param <R> Computed {@link Result}.
+ * @param <C> Connection object.
+ * @param <E> Event object data.
  */
 public abstract class GenericIndicatorCalculator<R, C, E> implements IndicatorCalculator<R, C, E>, Loggingable {
 

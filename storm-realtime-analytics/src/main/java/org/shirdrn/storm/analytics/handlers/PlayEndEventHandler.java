@@ -1,15 +1,14 @@
 package org.shirdrn.storm.analytics.handlers;
 
 import org.shirdrn.storm.analytics.common.JedisEventHandler;
-import org.shirdrn.storm.analytics.common.JedisRichBolt;
 import org.shirdrn.storm.commons.constants.StatIndicators;
 
 public class PlayEndEventHandler extends JedisEventHandler {
 
 	private static final long serialVersionUID = 1L;
 	
-	public PlayEndEventHandler(JedisRichBolt jedisBolt, String eventCode) {
-		super(jedisBolt, eventCode);
+	public PlayEndEventHandler(String eventCode) {
+		super(eventCode);
 	}
 
 	@Override

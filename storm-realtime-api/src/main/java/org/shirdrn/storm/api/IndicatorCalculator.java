@@ -7,9 +7,9 @@ import java.io.Serializable;
  * 
  * @author Yanjun
  *
- * @param <R> Computed {@link Result}.
- * @param <C> Connection object.
- * @param <E> Event object data.
+ * @param <R> Computed {@link Result}
+ * @param <C> Connection object
+ * @param <E> Event data object
  */
 public interface IndicatorCalculator<R, C, E> extends Serializable {
 

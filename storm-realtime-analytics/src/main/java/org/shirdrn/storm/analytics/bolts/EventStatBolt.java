@@ -7,26 +7,21 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.JedisEventHandler;
-import org.shirdrn.storm.analytics.common.JedisRichBolt;
-import org.shirdrn.storm.analytics.constants.EventCode;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.StatFields;
-import org.shirdrn.storm.analytics.handlers.InstallEventHandler;
-import org.shirdrn.storm.analytics.handlers.OpenEventHandler;
-import org.shirdrn.storm.analytics.handlers.PlayEndEventHandler;
-import org.shirdrn.storm.analytics.handlers.PlayStartEventHandler;
-import org.shirdrn.storm.api.Result;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.EventHandler;
+import org.shirdrn.storm.api.EventHandlerManager;
+import org.shirdrn.storm.api.Result;
 
+import redis.clients.jedis.Jedis;
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
+import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
-
-import com.google.common.collect.Maps;
 
 /**
  * Real-time statistics. Some data may obtain from other source base,
@@ -35,28 +30,19 @@ import com.google.common.collect.Maps;
  * 
  * @author Yanjun
  */
-public class EventStatBolt extends JedisRichBolt {
+public class EventStatBolt extends BaseRichBolt {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventStatBolt.class);
-	private final Map<String, EventHandler<?, ?>> eventHandlers = Maps.newHashMap();
+	private EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> eventHandlerManager;
+	private OutputCollector collector;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void prepare(Map stormConf, TopologyContext context,
 			OutputCollector collector) {
-		super.prepare(stormConf, context, collector);
-		// register mappings: event-->EventHandler
-		eventHandlers.put(EventCode.PLAY_START, new PlayStartEventHandler(this, EventCode.PLAY_START));
-		eventHandlers.put(EventCode.PLAY_END, new PlayEndEventHandler(this, EventCode.PLAY_END));
-		eventHandlers.put(EventCode.OPEN, new OpenEventHandler(this, EventCode.OPEN));
-		eventHandlers.put(EventCode.INSTALL, new InstallEventHandler(this, EventCode.INSTALL));
-		
-		// register indicators for each EventHandler
-		for(EventHandler<?, ?> handler : eventHandlers.values()) {
-			handler.registerIndicators();
-			LOG.info("Indicator registered for: " + handler);
-		}
+		this.collector = collector;
+		eventHandlerManager = RealtimeUtils.getEventHandlerManager();
 	}
 	
 	@Override
@@ -65,23 +51,22 @@ public class EventStatBolt extends JedisRichBolt {
 		LOG.debug("INPUT: event=" + event);
 		JSONObject eventData = JSONObject.fromObject(event);
 		String eventCode = eventData.getString(EventFields.EVENT_CODE);
-		EventHandler<?, ?> handler = eventHandlers.get(eventCode);
+		EventHandler<TreeSet<Result>, Jedis, JSONObject> handler = eventHandlerManager.getEventHandler(eventCode);
 		LOG.debug("Get handler: handler=" + handler);
 		
 		if(handler != null) {
-			JedisEventHandler h = (JedisEventHandler) handler;
 			try {
-				TreeSet<Result> results = h.handle(eventData);
+				TreeSet<Result> results = handler.handle(eventData);
 				for(Result result : results) {
 					collector.emit(input, new Values(result.getIndicator(), result));
 					LOG.debug("Emitted: results=" + results);
 				}
 			} catch (Exception e) {
-				LOG.warn("Fail to handle: handler=" + h + ", indicators=" + h.getMappedIndicators() + ", event=" + eventData, e);
+				LOG.warn("Fail to handle: handler=" + handler + ", indicators=" + handler.getMappedIndicators() + ", event=" + eventData, e);
 			}
 		}
 	}
-
+	
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields(StatFields.STAT_INDICATOR, StatFields.STAT_RESULT));

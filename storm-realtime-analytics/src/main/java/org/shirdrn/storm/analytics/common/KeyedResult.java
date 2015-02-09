@@ -1,6 +1,6 @@
 package org.shirdrn.storm.analytics.common;
 
-import org.shirdrn.storm.api.GenericResult;
+import org.shirdrn.storm.api.common.GenericResult;
 
 public class KeyedResult<T> extends GenericResult {
 

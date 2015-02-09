@@ -1,16 +1,19 @@
 package org.shirdrn.storm.analytics.bolts;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.TreeSet;
 
 import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.common.EventInteresteable;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.StatFields;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
+import org.shirdrn.storm.api.EventHandlerManager;
+import org.shirdrn.storm.api.Result;
 
+import redis.clients.jedis.Jedis;
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
@@ -19,33 +22,26 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
-import com.google.common.collect.Sets;
-
 /**
  * Distribute interested coming events.
  * 
  * @author Yanjun
  */
-public class EventFilterBolt extends BaseRichBolt implements EventInteresteable {
+public class EventFilterBolt extends BaseRichBolt {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventFilterBolt.class);
 	private OutputCollector collector;
-	private Collection<String> interestedEvents;
+	private EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> eventHandlerManager;
 	
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public void prepare(Map stormConf, TopologyContext context,
 			OutputCollector collector) {
 		this.collector = collector;
-		interestedEvents = Sets.newHashSet();
+		eventHandlerManager = RealtimeUtils.getEventHandlerManager();
 	}
 	
-	@Override
-	public void InterestEventCode(String eventCode) {
-		interestedEvents.add(eventCode);		
-	}
-
 	@Override
 	public void execute(Tuple input) {
 		String event = input.getString(0);
@@ -54,7 +50,7 @@ public class EventFilterBolt extends BaseRichBolt implements EventInteresteable 
 		try {
 			jo = JSONObject.fromObject(event);
 			String eventCode = jo.getString(EventFields.EVENT_CODE);
-			boolean interested = isInterestedEvent(eventCode, jo);
+			boolean interested = eventHandlerManager.isInterestedEvent(eventCode);
 			if(interested) {
 				collector.emit(new Values(event));
 				LOG.debug("Emitted: event=" + event);
@@ -63,10 +59,6 @@ public class EventFilterBolt extends BaseRichBolt implements EventInteresteable 
 			LOG.warn("Illegal JSON format data: " + event);
 		}
 		collector.ack(input);
-	}
-
-	private boolean isInterestedEvent(String eventCode, JSONObject event) {
-		return interestedEvents.contains(eventCode);
 	}
 
 	@Override

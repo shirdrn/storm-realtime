@@ -1,5 +1,7 @@
 CREATE DATABASE `realtime_db` DEFAULT CHARACTER SET utf8;
 
+USE realtime_db;
+
 CREATE TABLE `realtime_stat_result` (
   `indicator` INT(11) NOT NULL,
   `hour` CHAR(16) NOT NULL,

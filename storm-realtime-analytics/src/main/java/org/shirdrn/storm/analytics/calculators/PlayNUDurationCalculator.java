@@ -9,7 +9,7 @@ import org.shirdrn.storm.analytics.common.StatResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventFields;
 import org.shirdrn.storm.analytics.constants.UserInfoKeys;
-import org.shirdrn.storm.analytics.utils.EventUtils;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.CallbackHandler;
 import org.shirdrn.storm.commons.constants.CommonConstants;
 import org.shirdrn.storm.commons.constants.StatIndicators;
@@ -37,10 +37,10 @@ public class PlayNUDurationCalculator extends GenericIndicatorCalculator<StatRes
 		if(duration > 0) {
 			String strHour = DateTimeUtils.format(time, Constants.DT_EVENT_PATTERN, Constants.DT_HOUR_PATTERN);
 			// get user device information
-			JSONObject user =  EventUtils.getUserInfo(connection, udid);
+			JSONObject user =  RealtimeUtils.getUserInfo(connection, udid);
 			if(user != null) {
 				// check whether new user play
-				boolean isNewUserPlay = EventUtils.isNewUserPlay(connection, udid, user, time);
+				boolean isNewUserPlay = RealtimeUtils.isNewUserPlay(connection, udid, user, time);
 				if(isNewUserPlay) {
 					String channel = user.getString(UserInfoKeys.CHANNEL);
 					String version = user.getString(UserInfoKeys.VERSION);

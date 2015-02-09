@@ -34,18 +34,18 @@ public class TestUtils {
 				SpoutOutputCollector collector) {
 			this.collector = collector;
 			events = new String[] {
-//					// install
-//					"{\"event_code\":\"400000\",\"install_id\":\"000000HX\",\"udid\":\"BQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-02-05 05:51:12\",\"app_key\":\"1\",\"os_type\":0,\"version\":\"3.1.2\",\"channel\":\"A-Faster\"}",
+					// install
+					"{\"event_code\":\"400000\",\"install_id\":\"000000HX\",\"udid\":\"ABCQQQQQQQQQQQQQQQQQQCBA\",\"event_time\":\"2015-02-09 05:51:12\",\"app_key\":\"1\",\"os_type\":0,\"version\":\"3.1.2\",\"channel\":\"A-Faster\"}",
 					// open
-					"{\"event_code\":\"100010\",\"install_id\":\"000000HX\",\"udid\":\"BQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-02-05 07:11:48\"}",
-					"{\"event_code\":\"100010\",\"install_id\":\"000000HX\",\"udid\":\"BQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-02-05 08:45:09\"}",
+					"{\"event_code\":\"100010\",\"install_id\":\"000000HX\",\"udid\":\"ABCQQQQQQQQQQQQQQQQQQCBA\",\"event_time\":\"2015-02-09 07:11:48\"}",
+					"{\"event_code\":\"100010\",\"install_id\":\"000000HX\",\"udid\":\"ABCQQQQQQQQQQQQQQQQQQCBA\",\"event_time\":\"2015-02-09 08:45:09\"}",
 					// play start
-					"{\"event_code\":\"101013\",\"install_id\":\"000000HX\",\"udid\":\"BQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-02-05 08:00:15\"}",
-					"{\"event_code\":\"101013\",\"install_id\":\"000000HX\",\"udid\":\"BQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-02-05 09:09:57\"}",
+					"{\"event_code\":\"101013\",\"install_id\":\"000000HX\",\"udid\":\"ABCQQQQQQQQQQQQQQQQQQCBA\",\"event_time\":\"2015-02-09 08:00:15\"}",
+					"{\"event_code\":\"101013\",\"install_id\":\"000000HX\",\"udid\":\"ABCQQQQQQQQQQQQQQQQQQCBA\",\"event_time\":\"2015-02-09 09:09:57\"}",
 					// play end
-					"{\"event_code\":\"101010\",\"install_id\":\"000000HX\",\"udid\":\"BQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-02-05 08:12:39\",\"duration\":\"189\"}",
-					"{\"event_code\":\"101010\",\"install_id\":\"000000HX\",\"udid\":\"BQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-02-05 08:42:46\",\"duration\":\"381\"}",
-					"{\"event_code\":\"101010\",\"install_id\":\"000000HX\",\"udid\":\"BQQQQQQQQQQQQQQQQQQQQQQQ\",\"event_time\":\"2015-02-05 09:25:13\",\"duration\":\"1022\"}"
+					"{\"event_code\":\"101010\",\"install_id\":\"000000HX\",\"udid\":\"ABCQQQQQQQQQQQQQQQQQQCBA\",\"event_time\":\"2015-02-09 08:12:39\",\"duration\":\"189\"}",
+					"{\"event_code\":\"101010\",\"install_id\":\"000000HX\",\"udid\":\"ABCQQQQQQQQQQQQQQQQQQCBA\",\"event_time\":\"2015-02-09 08:42:46\",\"duration\":\"381\"}",
+					"{\"event_code\":\"101010\",\"install_id\":\"000000HX\",\"udid\":\"ABCQQQQQQQQQQQQQQQQQQCBA\",\"event_time\":\"2015-02-09 09:25:13\",\"duration\":\"1022\"}"
 			};
 			
 		}
