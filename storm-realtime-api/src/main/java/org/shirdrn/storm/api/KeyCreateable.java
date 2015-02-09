@@ -1,7 +1,7 @@
 package org.shirdrn.storm.api;
 
 /**
- * Combined multiple fileds' value, a new key is got.
+ * Combined multiple fields' value, a new key is got.
  * 
  * @author Yanjun
  */

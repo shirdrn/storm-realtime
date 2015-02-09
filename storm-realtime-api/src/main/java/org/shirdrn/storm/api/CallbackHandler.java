@@ -3,7 +3,7 @@ package org.shirdrn.storm.api;
 import java.io.Serializable;
 
 /**
- * Callback handler invoked when persisting data to the specified storage.
+ * Callback handler invoked when persisting data to the specified storage system.
  * 
  * @author Yanjun
  *
