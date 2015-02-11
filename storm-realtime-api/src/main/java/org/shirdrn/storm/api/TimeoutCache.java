@@ -20,9 +20,9 @@ public interface TimeoutCache<C, K, V> extends Serializable {
 	 * @param connection
 	 * @param key
 	 * @param value
-	 * @param seconds
+	 * @param expredSecs
 	 */
-	void put(C connection, K key, V value, int seconds);
+	void put(C connection, K key, V value, int expredSecs);
 	
 	/**
 	 * Given a key, obtain a object from cache.

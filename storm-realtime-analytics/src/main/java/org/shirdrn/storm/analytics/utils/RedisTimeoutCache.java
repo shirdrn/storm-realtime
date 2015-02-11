@@ -12,12 +12,12 @@ public class RedisTimeoutCache implements TimeoutCache<Jedis, String, String> {
 	private static final Log LOG = LogFactory.getLog(RedisTimeoutCache.class);
 	
 	@Override
-	public void put(Jedis client, String key, String value, int seconds) {
-		client.set(key, value);
+	public void put(Jedis connection, String key, String value, int expredSecs) {
+		connection.set(key, value);
 		RealtimeUtils.printRedisCmd(LOG, "SET " + key + " " + value);
 		
-		client.expire(key, seconds);
-		RealtimeUtils.printRedisCmd(LOG, "EXPIRE " + key + " " + seconds);
+		connection.expire(key, expredSecs);
+		RealtimeUtils.printRedisCmd(LOG, "EXPIRE " + key + " " + expredSecs);
 	}
 
 	@Override
