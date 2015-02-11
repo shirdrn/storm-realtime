@@ -1,2 +1,2 @@
 # storm-realtime
-Storm Real-time Computation
+Storm real-time statistical computation for Indicators based on event messages.
