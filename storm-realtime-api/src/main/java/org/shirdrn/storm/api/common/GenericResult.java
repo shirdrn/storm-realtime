@@ -16,8 +16,8 @@ public abstract class GenericResult implements Result {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> CallbackHandler<T> getCallbackHandler() {
-		return (CallbackHandler<T>) callbackHandler;
+	public <CONNECTION> CallbackHandler<CONNECTION> getCallbackHandler() {
+		return (CallbackHandler<CONNECTION>) callbackHandler;
 	}
 	
 	@Override

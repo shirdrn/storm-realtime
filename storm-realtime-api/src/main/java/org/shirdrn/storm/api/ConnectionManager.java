@@ -9,21 +9,21 @@ import org.apache.log4j.Level;
  * 
  * @author Yanjun
  *
- * @param <C> Connection object
+ * @param <CONNECTION> Connection object
  */
-public interface ConnectionManager<C> extends Serializable, LifecycleAware {
+public interface ConnectionManager<CONNECTION> extends Serializable, LifecycleAware {
 
 	/**
 	 * Obtain a available connection object
 	 * @return
 	 */
-	C getConnection();
+	CONNECTION getConnection();
 	
 	/**
 	 * Release connection
 	 * @param connection
 	 */
-	void releaseConnection(C connection);
+	void releaseConnection(CONNECTION connection);
 	
 	/**
 	 * Get storage engine related command log level
