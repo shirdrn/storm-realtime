@@ -8,11 +8,11 @@ import java.io.Serializable;
  * 
  * @author Yanjun
  *
- * @param <C> Connection used to put object into cache.
- * @param <K> Key name for cached object.
- * @param <V> Cached value data.
+ * @param <CONNECTION> Connection used to put object into cache.
+ * @param <KEY> Key name for cached object.
+ * @param <VALUE> Cached value data.
  */
-public interface TimeoutCache<C, K, V> extends Serializable {
+public interface TimeoutCache<CONNECTION, KEY, VALUE> extends Serializable {
 
 	/**
 	 * Add object to the cache, with <code>key</code> and <code>value</code>, 
@@ -22,7 +22,7 @@ public interface TimeoutCache<C, K, V> extends Serializable {
 	 * @param value
 	 * @param expredSecs
 	 */
-	void put(C connection, K key, V value, int expredSecs);
+	void put(CONNECTION connection, KEY key, VALUE value, int expredSecs);
 	
 	/**
 	 * Given a key, obtain a object from cache.
@@ -30,5 +30,5 @@ public interface TimeoutCache<C, K, V> extends Serializable {
 	 * @param key
 	 * @return
 	 */
-	V get(C connection, K key);
+	VALUE get(CONNECTION connection, KEY key);
 }

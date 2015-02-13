@@ -118,7 +118,7 @@ public class RealtimeAnalyticsTopology {
 		}
 		
 		// register calculators
-		LOG.info("Register indicator calculators:");
+		LOG.info("Registering indicator calculators:");
 		RealtimeUtils.registerCalculators();
 		LOG.info("Registered.");
 		

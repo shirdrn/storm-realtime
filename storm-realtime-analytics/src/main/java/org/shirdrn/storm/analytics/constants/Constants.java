@@ -4,6 +4,7 @@ import org.shirdrn.storm.commons.constants.CommonConstants;
 
 public interface Constants {
 
+	String REALTIME_DISTRIBUTOR_PARALLELISM = "realtime.distributor.parallelism";
 	String REALTIME_REDIS_CMD_LOG_LEVEL = "realtime.redis.cmd.log.level";
 	
 	long DEFAULT_INCREMENT_VALUE = 1L;

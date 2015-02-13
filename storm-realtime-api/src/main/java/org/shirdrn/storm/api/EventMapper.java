@@ -7,12 +7,12 @@ import java.io.Serializable;
  * 
  * @author Yanjun
  *
- * @param <R> Computed {@link Result}
- * @param <C> Connection object
- * @param <E> Event data object
+ * @param <RESULT> Computed {@link Result}
+ * @param <CONNECTION> Connection object
+ * @param <EVENT> Event data object
  */
-public interface EventMapper<R, C, E> extends Serializable {
+public interface EventMapper<RESULT, CONNECTION, EVENT> extends Serializable {
 
-	void mapping(String eventCode, EventHandler<R, C, E> eventHandler);
-	EventHandler<R, C, E> getEventHandler(String eventCode);
+	void mapping(String eventCode, EventHandler<RESULT, CONNECTION, EVENT> eventHandler);
+	EventHandler<RESULT, CONNECTION, EVENT> getEventHandler(String eventCode);
 }

@@ -7,15 +7,15 @@ import java.io.Serializable;
  * 
  * @author Yanjun
  *
- * @param <C> Connection object.
+ * @param <CONNECTION> Connection object.
  */
-public interface CallbackHandler<C> extends Serializable {
+public interface CallbackHandler<CONNECTION> extends Serializable {
 
 	/**
 	 * Invoke the callback computation logic.
 	 * @param connection
 	 * @throws Exception
 	 */
-	void callback(C connection) throws Exception;
+	void callback(CONNECTION connection) throws Exception;
 	
 }

@@ -10,7 +10,7 @@ public abstract class GenericResult implements Result {
 	protected CallbackHandler<?> callbackHandler;
 
 	@Override
-	public <T> void setCallbackHandler(CallbackHandler<T> callbackHandler) {
+	public <CONNECTION> void setCallbackHandler(CallbackHandler<CONNECTION> callbackHandler) {
 		this.callbackHandler = callbackHandler;
 	}
 	

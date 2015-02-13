@@ -7,11 +7,11 @@ import java.io.Serializable;
  * 
  * @author Yanjun
  *
- * @param <R> Computed {@link Result}
- * @param <C> Connection object
- * @param <E> Event data object
+ * @param <RESULT> Computed {@link Result}
+ * @param <CONNECTION> Connection object
+ * @param <EVENT> Event data object
  */
-public interface IndicatorCalculator<R, C, E> extends Serializable {
+public interface IndicatorCalculator<RESULT, CONNECTION, EVENT> extends Serializable {
 
 	/**
 	 * Compute for the indicator.
@@ -19,7 +19,7 @@ public interface IndicatorCalculator<R, C, E> extends Serializable {
 	 * @param event
 	 * @return
 	 */
-	R calculate(final C connection, E event);
+	RESULT calculate(final CONNECTION connection, EVENT event);
 	
 	int getIndicator();
 }

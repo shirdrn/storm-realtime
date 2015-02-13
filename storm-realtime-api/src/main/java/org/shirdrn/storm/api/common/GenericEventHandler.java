@@ -21,18 +21,18 @@ import com.google.common.collect.Sets;
  * 
  * @author Yanjun
  *
- * @param <R> Computed {@link Result}
- * @param <C> Storage engine connection
- * @param <E> Event data object
+ * @param <RESULT> Computed {@link Result}
+ * @param <CONNECTION> Storage engine connection
+ * @param <EVENT> Event data object
  */
-public abstract class GenericEventHandler<R, C, E> implements EventHandler<TreeSet<R>, C, E> {
+public abstract class GenericEventHandler<RESULT, CONNECTION, EVENT> implements EventHandler<TreeSet<RESULT>, CONNECTION, EVENT> {
 
 	private static final long serialVersionUID = 1L;
 	
 	private static final Log LOG = LogFactory.getLog(GenericEventHandler.class);
 	private final String eventCode;
 	private final Collection<Integer> registeredIndicators = Sets.newTreeSet();
-	private final Map<Integer, IndicatorCalculator<R, C, E>> registeredCalculators = Maps.newHashMap();
+	private final Map<Integer, IndicatorCalculator<RESULT, CONNECTION, EVENT>> registeredCalculators = Maps.newHashMap();
 	
 	public GenericEventHandler(String eventCode) {
 		super();
@@ -45,11 +45,11 @@ public abstract class GenericEventHandler<R, C, E> implements EventHandler<TreeS
 	}
 	
 	@Override
-	public TreeSet<R> handle(E event) throws Exception {
+	public TreeSet<RESULT> handle(EVENT event) throws Exception {
 		LOG.info(getClass().getSimpleName() + ": indicators=" + registeredIndicators);
-		TreeSet<R> results = new TreeSet<R>();
+		TreeSet<RESULT> results = new TreeSet<RESULT>();
 		for(int indicator : registeredIndicators) {
-			R result = processEvent(indicator, event);
+			RESULT result = processEvent(indicator, event);
 			if(result != null) {
 				results.add(result);
 			}
@@ -59,13 +59,13 @@ public abstract class GenericEventHandler<R, C, E> implements EventHandler<TreeS
 	}
 	
 	protected void registerIndicatorInternal(int indicator) {
-		IndicatorCalculator<R, C, E> calculator = getIndicatorCalculator(indicator);
+		IndicatorCalculator<RESULT, CONNECTION, EVENT> calculator = getIndicatorCalculator(indicator);
 		registeredIndicators.add(indicator);
 		registeredCalculators.put(indicator, calculator);
 		LOG.info("Registered[" + this.getClass().getSimpleName() + "\t] " + eventCode + " -> " + String.format("%02d", indicator) + " -> " + calculator);
 	}
 	
-	protected IndicatorCalculator<R, C, E> selectCalculator(int indicator) throws NoSuchElementException {
+	protected IndicatorCalculator<RESULT, CONNECTION, EVENT> selectCalculator(int indicator) throws NoSuchElementException {
 		return registeredCalculators.get(indicator);
 	}
 	
@@ -75,7 +75,7 @@ public abstract class GenericEventHandler<R, C, E> implements EventHandler<TreeS
 	 * @param indicator
 	 * @return
 	 */
-	protected abstract IndicatorCalculator<R, C, E> getIndicatorCalculator(int indicator);
+	protected abstract IndicatorCalculator<RESULT, CONNECTION, EVENT> getIndicatorCalculator(int indicator);
 
 	/**
 	 *  Process a event for a known indicator.
@@ -83,7 +83,7 @@ public abstract class GenericEventHandler<R, C, E> implements EventHandler<TreeS
 	 * @param event
 	 * @return
 	 */
-	protected abstract R processEvent(int indicator, E event);
+	protected abstract RESULT processEvent(int indicator, EVENT event);
 	
 	@Override
 	public String getEventCode() {

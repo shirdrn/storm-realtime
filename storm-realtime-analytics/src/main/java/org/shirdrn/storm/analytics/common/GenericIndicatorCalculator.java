@@ -12,11 +12,11 @@ import org.shirdrn.storm.api.Result;
  * 
  * @author Yanjun
  *
- * @param <R> Computed {@link Result}.
- * @param <C> Connection object.
- * @param <E> Event object data.
+ * @param <RESULT> Computed {@link Result}.
+ * @param <CONNECTION> Connection object.
+ * @param <EVENT> Event object data.
  */
-public abstract class GenericIndicatorCalculator<R, C, E> implements IndicatorCalculator<R, C, E>, Loggingable {
+public abstract class GenericIndicatorCalculator<RESULT, CONNECTION, EVENT> implements IndicatorCalculator<RESULT, CONNECTION, EVENT>, Loggingable {
 
 	private static final long serialVersionUID = 1L;
 	private Level logLevel;

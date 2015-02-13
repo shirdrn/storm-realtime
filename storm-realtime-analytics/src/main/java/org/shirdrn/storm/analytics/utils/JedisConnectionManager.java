@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
 /**
@@ -36,7 +37,7 @@ public class JedisConnectionManager implements ConnectionManager<Jedis> {
 		
 		connectionPool = applicationContext.getBean(JedisPool.class);
 		LOG.info("Jedis pool created: " + connectionPool);
-		
+				
 		// set print Redis cmd log level
 		Object level = conf.getProperty(Constants.REALTIME_REDIS_CMD_LOG_LEVEL);
 		if(level != null) {
@@ -48,6 +49,7 @@ public class JedisConnectionManager implements ConnectionManager<Jedis> {
 	public Jedis getConnection() {
 		Jedis connection = null;
 		try {
+			checkPool();
 			connection = connectionPool.getResource();
 		} catch (Exception e) {
 			connectionPool.returnBrokenResource(connection);
@@ -59,15 +61,30 @@ public class JedisConnectionManager implements ConnectionManager<Jedis> {
 	@Override
 	public void releaseConnection(Jedis connection) {
 		try {
+			checkPool();
 			connectionPool.returnResource(connection);
 		} catch (Exception e) {
 			connectionPool.returnBrokenResource(connection);
 		}		
 	}
+
+	private void checkPool() {
+		Preconditions.checkArgument(connectionPool != null, "Maybe never invoke start() mechod.");
+	}
 	
 	@Override
 	public Level getCmdLogLevel() {
 		return redisCmdLogLevel;
+	}
+
+	@Override
+	public void start() {
+		
+	}
+
+	@Override
+	public void stop() {
+		connectionPool.destroy();
 	}
 
 }

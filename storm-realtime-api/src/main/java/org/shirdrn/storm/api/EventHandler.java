@@ -9,18 +9,18 @@ import java.util.Collection;
  * 
  * @author Yanjun
  *
- * @param <R> Computed {@link Result}
- * @param <C> Connection object
- * @param <E> Event data object
+ * @param <RESULT> Computed {@link Result}
+ * @param <CONNECTION> Connection object
+ * @param <EVENT> Event data object
  */
-public interface EventHandler<R, C, E> extends Serializable {
+public interface EventHandler<RESULT, CONNECTION, EVENT> extends Serializable {
 
 	/**
 	 * Execute statistics computation, and result stat result.
 	 * @param event
 	 * @return
 	 */
-	R handle(E event) throws Exception;
+	RESULT handle(EVENT event) throws Exception;
 	
 	/**
 	 * Get indicator set related to this  {@link EventHandler}.
@@ -40,6 +40,6 @@ public interface EventHandler<R, C, E> extends Serializable {
 	 */
 	String getEventCode();
 
-	void setConnectionManager(ConnectionManager<C> connectionManager);
+	void setConnectionManager(ConnectionManager<CONNECTION> connectionManager);
 	
 }

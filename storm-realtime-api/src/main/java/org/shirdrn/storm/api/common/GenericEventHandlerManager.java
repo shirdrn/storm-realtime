@@ -18,16 +18,16 @@ import com.google.common.collect.Sets;
  * 
  * @author Yanjun
  *
- * @param <R> Computed {@link Result}
- * @param <C> Connection object
- * @param <E> Event data object
+ * @param <RESULT> Computed {@link Result}
+ * @param <CONNECTION> Connection object
+ * @param <EVENTE> Event data object
  */
-public class GenericEventHandlerManager<R, C, E> implements EventHandlerManager<R, C, E> {
+public class GenericEventHandlerManager<RESULT, CONNECTION, EVENTE> implements EventHandlerManager<RESULT, CONNECTION, EVENTE> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(GenericEventHandlerManager.class);
 	private final Collection<String> interestedEvents = Sets.newHashSet();
-	protected final Map<String, EventHandler<R, C, E>> eventHandlers = Maps.newHashMap();
+	protected final Map<String, EventHandler<RESULT, CONNECTION, EVENTE>> eventHandlers = Maps.newHashMap();
 	
 	@Override
 	public void interestEvent(String eventCode) {
@@ -40,14 +40,14 @@ public class GenericEventHandlerManager<R, C, E> implements EventHandlerManager<
 	}
 
 	@Override
-	public void mapping(String eventCode, EventHandler<R, C, E> eventHandler) {
+	public void mapping(String eventCode, EventHandler<RESULT, CONNECTION, EVENTE> eventHandler) {
 		// register mappings: event-->EventHandler
 		eventHandlers.put(eventCode, eventHandler);
 		LOG.info("Mapped event handler: " + eventCode + " -> " + eventHandler);
 	}
 
 	@Override
-	public EventHandler<R, C, E> getEventHandler(String eventCode) {
+	public EventHandler<RESULT, CONNECTION, EVENTE> getEventHandler(String eventCode) {
 		return eventHandlers.get(eventCode);
 	}
 
@@ -55,10 +55,22 @@ public class GenericEventHandlerManager<R, C, E> implements EventHandlerManager<
 	public void initialize() {
 		// register indicators for each EventHandler
 		Preconditions.checkArgument(!eventHandlers.isEmpty(), "Never set event handlers!!!");
-		for(EventHandler<R, C, E> handler : eventHandlers.values()) {
+		for(EventHandler<RESULT, CONNECTION, EVENTE> handler : eventHandlers.values()) {
 			handler.registerIndicators();
 			LOG.info("Indicator registered for: " + handler);
 		}
+	}
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

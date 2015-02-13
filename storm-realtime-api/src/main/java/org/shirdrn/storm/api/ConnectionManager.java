@@ -11,7 +11,7 @@ import org.apache.log4j.Level;
  *
  * @param <C> Connection object
  */
-public interface ConnectionManager<C> extends Serializable {
+public interface ConnectionManager<C> extends Serializable, LifecycleAware {
 
 	/**
 	 * Obtain a available connection object

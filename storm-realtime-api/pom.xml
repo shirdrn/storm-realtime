@@ -10,6 +10,12 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>org.apache.storm</groupId>
+			<artifactId>storm-core</artifactId>
+			<version>0.9.3</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.shirdrn.storm</groupId>
 			<artifactId>storm-realtime-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

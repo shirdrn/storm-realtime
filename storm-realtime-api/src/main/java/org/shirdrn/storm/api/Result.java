@@ -10,9 +10,9 @@ import java.io.Serializable;
  */
 public interface Result extends Comparable<Result>, Serializable {
 
-	<T> void setCallbackHandler(CallbackHandler<T> callbackHandler);
+	<CONNECTION> void setCallbackHandler(CallbackHandler<CONNECTION> callbackHandler);
 	
-	<T> CallbackHandler<T> getCallbackHandler();
+	<CONNECTION> CallbackHandler<CONNECTION> getCallbackHandler();
 	
 	int getIndicator();
 	

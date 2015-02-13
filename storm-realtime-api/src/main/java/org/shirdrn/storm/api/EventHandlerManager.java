@@ -7,11 +7,11 @@ package org.shirdrn.storm.api;
  * 
  * @author Yanjun
  * 
- * @param <R> Computed {@link Result}
- * @param <C> Connection object
- * @param <E> Event data object
+ * @param <RESULT> Computed {@link Result}
+ * @param <CONNECTION> Connection object
+ * @param <EVENT> Event data object
  */
-public interface EventHandlerManager<R, C, E> extends EventInteresteable, EventMapper<R, C, E> {
+public interface EventHandlerManager<RESULT, CONNECTION, EVENT> extends EventInteresteable, EventMapper<RESULT, CONNECTION, EVENT>, LifecycleAware {
 
 	/**
 	 * Initialize a {@link EventHandlerManager} object.
