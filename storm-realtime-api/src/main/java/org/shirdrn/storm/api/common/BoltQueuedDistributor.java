@@ -4,6 +4,7 @@ import java.util.concurrent.BlockingQueue;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.tuple.Tuple;
+import backtype.storm.tuple.Values;
 
 public class BoltQueuedDistributor<OUT> extends QueuedDistributor<Tuple, OutputCollector, OUT> {
 
@@ -32,8 +33,9 @@ public class BoltQueuedDistributor<OUT> extends QueuedDistributor<Tuple, OutputC
 					input = queue.take();
 					if(input != null) {
 						OUT output = processor.process(input);
-						if(output != null) {
-							collector.emit(input, processor.writeOut(output));
+						Values values = processor.writeOut(output);
+						if(values != null) {
+							collector.emit(input, values);
 						}
 						collector.ack(input);
 					}
