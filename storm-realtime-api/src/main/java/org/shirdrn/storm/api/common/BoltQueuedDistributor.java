@@ -30,9 +30,13 @@ public class BoltQueuedDistributor<OUT> extends QueuedDistributor<Tuple, OutputC
 				Tuple input = null;
 				try {
 					input = queue.take();
-					OUT output = processor.process(input);
-					collector.emit(input, processor.writeOut(output));
-					collector.ack(input);
+					if(input != null) {
+						OUT output = processor.process(input);
+						if(output != null) {
+							collector.emit(input, processor.writeOut(output));
+						}
+						collector.ack(input);
+					}
 				} catch (Exception e) {
 					collector.fail(input);
 				}
