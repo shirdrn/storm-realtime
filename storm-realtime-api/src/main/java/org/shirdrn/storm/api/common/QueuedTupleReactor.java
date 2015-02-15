@@ -6,7 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.api.TupleDistributor;
+import org.shirdrn.storm.api.TupleReactor;
 import org.shirdrn.storm.commons.utils.ThreadPoolUtils;
 
 import backtype.storm.tuple.Tuple;
@@ -14,7 +14,7 @@ import backtype.storm.tuple.Tuple;
 import com.google.common.base.Preconditions;
 
 /**
- * Asynchronous {@link TupleDistributor} based on a {@link BlockingQueue} caching
+ * Asynchronous {@link TupleReactor} based on a {@link BlockingQueue} caching
  * mechanism.
  * 
  * @author Yanjun
@@ -23,19 +23,19 @@ import com.google.common.base.Preconditions;
  * @param <COLLECTOR> collector object
  * @param <OUT> output data object
  */
-public abstract class QueuedDistributor<IN, COLLECTOR, OUT> extends GenericDistributor<IN, COLLECTOR, OUT> {
+public abstract class QueuedTupleReactor<IN, COLLECTOR, OUT> extends GenericTupleReactor<IN, COLLECTOR, OUT> {
 	
 	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(QueuedDistributor.class);
+	private static final Log LOG = LogFactory.getLog(QueuedTupleReactor.class);
 	private ExecutorService executorService;
 	protected final BlockingQueue<IN> queue;
 
-	public QueuedDistributor(COLLECTOR collector) {
+	public QueuedTupleReactor(COLLECTOR collector) {
 		super(collector);
 		this.queue = new LinkedBlockingQueue<IN>();
 	}
 	
-	public QueuedDistributor(COLLECTOR collector, BlockingQueue<IN> queue) {
+	public QueuedTupleReactor(COLLECTOR collector, BlockingQueue<IN> queue) {
 		super(collector);
 		this.queue = queue;
 	}

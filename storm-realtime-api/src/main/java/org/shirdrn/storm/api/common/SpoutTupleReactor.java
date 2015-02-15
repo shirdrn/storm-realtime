@@ -6,15 +6,22 @@ import backtype.storm.spout.SpoutOutputCollector;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
-public class SpoutQueuedDistributor<OUT> extends QueuedDistributor<Tuple, SpoutOutputCollector, OUT> {
+/**
+ * Tuple reactor for spout component, which is asynchronous tuple distributor.
+ * 
+ * @author Yanjun
+ *
+ * @param <OUT> output data object
+ */
+public class SpoutTupleReactor<OUT> extends QueuedTupleReactor<Tuple, SpoutOutputCollector, OUT> {
 
 	private static final long serialVersionUID = 1L;
 
-	public SpoutQueuedDistributor(SpoutOutputCollector collector) {
+	public SpoutTupleReactor(SpoutOutputCollector collector) {
 		super(collector);
 	}
 	
-	public SpoutQueuedDistributor(SpoutOutputCollector collector,  BlockingQueue<Tuple> queue) {
+	public SpoutTupleReactor(SpoutOutputCollector collector,  BlockingQueue<Tuple> queue) {
 		super(collector);
 	}
 

@@ -14,46 +14,45 @@ import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.CallbackHandler;
 import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.api.Result;
-import org.shirdrn.storm.api.TupleDistributor;
-import org.shirdrn.storm.api.common.BoltQueuedDistributor;
+import org.shirdrn.storm.api.TupleReactor;
+import org.shirdrn.storm.api.common.BoltTupleReactor;
+import org.shirdrn.storm.api.common.ReactoredRichBolt;
 import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import redis.clients.jedis.Jedis;
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
-public class EventStatResultPersistBolt extends BaseRichBolt {
+public class EventStatResultPersistBolt extends ReactoredRichBolt<Tuple, Void> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventStatResultPersistBolt.class);
-	private OutputCollector collector;
-	private BoltQueuedDistributor<Void> tupleDistributor;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void prepare(Map stormConf, TopologyContext context,
 			OutputCollector collector) {
-		this.collector = collector;
+		super.prepare(stormConf, context, collector);
 		
 		// configure tuple distributor
-		tupleDistributor = new BoltQueuedDistributor<Void>(collector);
+		tupleReactor = new BoltTupleReactor<Void>(collector);
 		int parallelism = 1;
 		try {
 			parallelism = Integer.parseInt(stormConf.get(Constants.REALTIME_DISTRIBUTOR_PARALLELISM).toString());
 		} catch (Exception e) { }
-		tupleDistributor.setProcessorWithParallelism(new EventProcessor(), parallelism);
-		tupleDistributor.start();
+		
+		tupleReactor.setProcessorWithParallelism(new EventProcessor(), parallelism);
+		tupleReactor.start();
 		LOG.info("Tuple distributor started!");
 	}
 	
 	@Override
 	public void execute(Tuple input) {
 		try {
-			tupleDistributor.distribute(input);
+			tupleReactor.distribute(input);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -65,7 +64,7 @@ public class EventStatResultPersistBolt extends BaseRichBolt {
 
 	}
 	
-	private final class EventProcessor implements TupleDistributor.Processor<Tuple, OutputCollector, Void> {
+	private final class EventProcessor implements TupleReactor.Processor<Tuple, OutputCollector, Void> {
 
 		private static final long serialVersionUID = 1L;
 		private transient ConnectionManager<Jedis> connectionManager;

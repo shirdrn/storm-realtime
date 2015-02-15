@@ -6,7 +6,7 @@ import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
 /**
- * Distribute a arrived input {@link Tuple} object. Use a {@link TupleDistributor}
+ * Distribute a arrived input {@link Tuple} object. Use a {@link TupleReactor}
  * you can process input {@link Tuple}s asynchronously, rather than block the
  * bolt inside spout or bolt components in the entire data pipeline.
  * 
@@ -16,7 +16,7 @@ import backtype.storm.tuple.Values;
  * @param <COLLECTOR> collector object
  * @param <OUT> output data object
  */
-public interface TupleDistributor<IN, COLLECTOR, OUT> extends Serializable, LifecycleAware {
+public interface TupleReactor<IN, COLLECTOR, OUT> extends Serializable, LifecycleAware {
 
 	/**
 	 * Set the processor and parallelism of {@link Processor} instances.
@@ -44,7 +44,7 @@ public interface TupleDistributor<IN, COLLECTOR, OUT> extends Serializable, Life
 	
 	/**
 	 * Processor is used to execute user customized business logic.
-	 * A {@link TupleDistributor} should distribute {@link Tuple}s to
+	 * A {@link TupleReactor} should distribute {@link Tuple}s to
 	 * the configured {@link Processor}.</br>
 	 * 
 	 * Usually a {@link Processor} should be stateless.

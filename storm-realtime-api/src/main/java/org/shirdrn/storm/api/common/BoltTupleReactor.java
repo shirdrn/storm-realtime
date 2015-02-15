@@ -6,15 +6,22 @@ import backtype.storm.task.OutputCollector;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
-public class BoltQueuedDistributor<OUT> extends QueuedDistributor<Tuple, OutputCollector, OUT> {
+/**
+ * Tuple reactor for bolt component, which is asynchronous tuple distributor.
+ * 
+ * @author Yanjun
+ *
+ * @param <OUT> output data object
+ */
+public class BoltTupleReactor<OUT> extends QueuedTupleReactor<Tuple, OutputCollector, OUT> {
 
 	private static final long serialVersionUID = 1L;
 
-	public BoltQueuedDistributor(OutputCollector collector) {
+	public BoltTupleReactor(OutputCollector collector) {
 		super(collector);
 	}
 	
-	public BoltQueuedDistributor(OutputCollector collector,  BlockingQueue<Tuple> queue) {
+	public BoltTupleReactor(OutputCollector collector,  BlockingQueue<Tuple> queue) {
 		super(collector);
 	}
 
