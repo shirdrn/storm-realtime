@@ -102,14 +102,6 @@ public class RealtimeAnalyticsTopology {
 		Config stormConf = new Config();
 		String name = RealtimeAnalyticsTopology.class.getSimpleName();
 		
-		// configure topology
-		TopologyBuilder builder = null;
-		if(args.length == 0) {
-			builder = buildTopology(true, externalConf, topic);
-		} else {
-			builder = buildTopology(externalConf, topic);
-		}
-		
 		// add external configurations
 		Iterator<String> iter = externalConf.getKeys();
 		while(iter.hasNext()) {
@@ -117,10 +109,13 @@ public class RealtimeAnalyticsTopology {
 			stormConf.put(key, externalConf.getProperty(key));
 		}
 		
-		// register calculators
-		LOG.info("Registering indicator calculators:");
-		RealtimeUtils.registerCalculators();
-		LOG.info("Registered.");
+		// configure topology
+		TopologyBuilder builder = null;
+		if(args.length == 0) {
+			builder = buildTopology(true, externalConf, topic);
+		} else {
+			builder = buildTopology(externalConf, topic);
+		}
 		
 		// production use
 		if (args != null && args.length > 0) {

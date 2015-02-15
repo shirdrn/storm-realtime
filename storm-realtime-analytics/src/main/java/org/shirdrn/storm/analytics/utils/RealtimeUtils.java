@@ -61,6 +61,11 @@ public class RealtimeUtils {
 	}
 	
 	public static EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> getEventHandlerManager() {
+		// register calculators
+		LOG.info("Registering indicator calculators:");
+		registerCalculators();
+		LOG.info("Registered.");
+		
 		EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> eventHandlerManager = new JedisEventHandlerManager();
 		registerInterestedEvents(eventHandlerManager);
 		mappingEventHandlers(eventHandlerManager);
