@@ -4,6 +4,7 @@ import java.util.concurrent.BlockingQueue;
 
 import backtype.storm.spout.SpoutOutputCollector;
 import backtype.storm.tuple.Tuple;
+import backtype.storm.tuple.Values;
 
 public class SpoutQueuedDistributor<OUT> extends QueuedDistributor<Tuple, SpoutOutputCollector, OUT> {
 
@@ -30,7 +31,10 @@ public class SpoutQueuedDistributor<OUT> extends QueuedDistributor<Tuple, SpoutO
 				try {
 					Tuple input = queue.take();
 					OUT output = processor.process(input);
-					collector.emit(processor.writeOut(output));
+					Values values = processor.writeOut(output);
+					if(values != null) {
+						collector.emit(values);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

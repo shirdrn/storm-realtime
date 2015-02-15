@@ -6,10 +6,23 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.shirdrn.storm.api.TupleDistributor;
 import org.shirdrn.storm.commons.utils.ThreadPoolUtils;
+
+import backtype.storm.tuple.Tuple;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * Asynchronous {@link TupleDistributor} based on a {@link BlockingQueue} caching
+ * mechanism.
+ * 
+ * @author Yanjun
+ *
+ * @param <IN> input tuple object, usually {@link Tuple} data
+ * @param <COLLECTOR> collector object
+ * @param <OUT> output data object
+ */
 public abstract class QueuedDistributor<IN, COLLECTOR, OUT> extends GenericDistributor<IN, COLLECTOR, OUT> {
 	
 	private static final long serialVersionUID = 1L;

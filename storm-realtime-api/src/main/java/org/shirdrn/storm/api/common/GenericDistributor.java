@@ -2,12 +2,16 @@ package org.shirdrn.storm.api.common;
 
 import org.shirdrn.storm.api.TupleDistributor;
 
+import backtype.storm.tuple.Tuple;
+
 /**
  * Generic distributor abstraction.
  * 
  * @author Yanjun
  *
+ * @param <IN> input tuple object, usually {@link Tuple} data
  * @param <COLLECTOR> collector object
+ * @param <OUT> output data object
  */
 public abstract class GenericDistributor<IN, COLLECTOR, OUT> implements TupleDistributor<IN, COLLECTOR, OUT> {
 

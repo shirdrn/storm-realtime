@@ -2,20 +2,19 @@ package org.shirdrn.storm.api;
 
 import java.io.Serializable;
 
-import backtype.storm.spout.ISpout;
-import backtype.storm.spout.ISpoutOutputCollector;
-import backtype.storm.task.IBolt;
-import backtype.storm.task.IOutputCollector;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
 /**
- * Distribute a arrived {@link Tuple} input object.
+ * Distribute a arrived input {@link Tuple} object. Use a {@link TupleDistributor}
+ * you can process input {@link Tuple}s asynchronously, rather than block the
+ * bolt inside spout or bolt components in the entire data pipeline.
  * 
  * @author Yanjun
  *
- * @param <COLLECTOR> collector object: {@link ISpout} => {@link ISpoutOutputCollector}; 
- * 								 {@link IBolt} => {@link IOutputCollector}
+ * @param <IN> input tuple object, usually {@link Tuple} data
+ * @param <COLLECTOR> collector object
+ * @param <OUT> output data object
  */
 public interface TupleDistributor<IN, COLLECTOR, OUT> extends Serializable, LifecycleAware {
 
@@ -33,6 +32,12 @@ public interface TupleDistributor<IN, COLLECTOR, OUT> extends Serializable, Life
 	 */
 	void setProcessor(Processor<IN, COLLECTOR, OUT> processor);
 	
+	/**
+	 * Distribute <code>input</code>s object to a set of worker threads to process
+	 * the actually business logic in a asynchronous scenario.
+	 * @param input
+	 * @throws InterruptedException
+	 */
 	void distribute(IN input) throws InterruptedException;
 	
 	
