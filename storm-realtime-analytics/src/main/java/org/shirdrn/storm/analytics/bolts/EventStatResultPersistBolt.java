@@ -37,12 +37,13 @@ public class EventStatResultPersistBolt extends ReactoredRichBolt<Tuple, Void> {
 			OutputCollector collector) {
 		super.prepare(stormConf, context, collector);
 		
-		// configure tuple distributor
+		// configure tuple reactor
 		tupleReactor = new BoltTupleReactor<Void>(collector);
 		int parallelism = 1;
 		try {
-			parallelism = Integer.parseInt(stormConf.get(Constants.REALTIME_DISTRIBUTOR_PARALLELISM).toString());
+			parallelism = RealtimeUtils.getConfiguration().getInt(Constants.REALTIME_DISTRIBUTOR_PARALLELISM, parallelism);
 		} catch (Exception e) { }
+		LOG.info("Configure: parallelism=" + parallelism);
 		
 		tupleReactor.setProcessorWithParallelism(new EventProcessor(), parallelism);
 		tupleReactor.start();
@@ -64,6 +65,15 @@ public class EventStatResultPersistBolt extends ReactoredRichBolt<Tuple, Void> {
 
 	}
 	
+	
+	/**
+	 * Process actually time-consuming logic. If you set <code>parallelism</code> by
+	 * invoking {@link TupleReactor#setProcessorWithParallelism(org.shirdrn.storm.api.TupleReactor.Processor, int)},
+	 * after a {@link TupleReactor} instance created. The tuple reactor will create multiple {@link TupleReactor.Processor}
+	 * to process in parallel.
+	 * 
+	 * @author Yanjun
+	 */
 	private final class EventProcessor implements TupleReactor.Processor<Tuple, OutputCollector, Void> {
 
 		private static final long serialVersionUID = 1L;
@@ -102,7 +112,7 @@ public class EventStatResultPersistBolt extends ReactoredRichBolt<Tuple, Void> {
 					// <key, field, value> like: 
 					// <2015011520::11::S, 0::A-Baidu::3.1.0, 43997>
 					// Explanations: 
-					// 		hour->2015011520, NU->11, os type->0, channel->A-Baidu, version->3.1.0, 
+					// 		hour->2015011520, NU->11, os type->0, channel->A-CCIX, version->3.1.0, 
 					// 		statistical type->S, counter->43997
 					String key = statResult.getStrHour();
 					String field = statResult.toField();
@@ -117,7 +127,7 @@ public class EventStatResultPersistBolt extends ReactoredRichBolt<Tuple, Void> {
 					// user device information:
 					// <key, value> like: 
 					// key  -> us::9d11f3ee0242a15026e51d1b3efba454
-					// value-> {"aid": "0", "dt":"0", "ch":"A-Baidu", "v":"1.2.7"}
+					// value-> {"aid": "0", "dt":"0", "ch":"A-CCIX", "v":"1.2.7"}
 					
 					// user dynamic information:
 					// <key, value> like:

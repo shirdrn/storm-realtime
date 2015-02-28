@@ -1,7 +1,5 @@
 package org.shirdrn.storm.analytics;
 
-import java.util.Iterator;
-
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,7 +67,7 @@ public class RealtimeAnalyticsTopology {
 		}
 		builder.setSpout(kafkaEventReader, kafkaSpout, 1);
 		
-		// configure distributor bolt
+		// configure filter bolt
 		builder
 			.setBolt(eventFilter, new EventFilterBolt(), 1)
 			.shuffleGrouping(kafkaEventReader)
@@ -102,13 +100,6 @@ public class RealtimeAnalyticsTopology {
 		Config stormConf = new Config();
 		String name = RealtimeAnalyticsTopology.class.getSimpleName();
 		
-		// add external configurations
-		Iterator<String> iter = externalConf.getKeys();
-		while(iter.hasNext()) {
-			String key = iter.next();
-			stormConf.put(key, externalConf.getProperty(key));
-		}
-		
 		// configure topology
 		TopologyBuilder builder = null;
 		if(args.length == 0) {
@@ -124,7 +115,7 @@ public class RealtimeAnalyticsTopology {
 			stormConf.setNumWorkers(4);
 			StormSubmitter.submitTopologyWithProgressBar(name, stormConf, builder.createTopology());
 		} else {
-			// debug using local cluster
+			// debugging using local cluster
 			stormConf.setDebug(true);
 			LocalCluster cluster = new LocalCluster();
 			cluster.submitTopology(name, stormConf, builder.createTopology());

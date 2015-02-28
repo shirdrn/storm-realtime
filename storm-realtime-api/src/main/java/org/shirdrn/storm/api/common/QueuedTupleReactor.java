@@ -61,6 +61,10 @@ public abstract class QueuedTupleReactor<IN, COLLECTOR, OUT> extends GenericTupl
 		executorService.shutdown();
 	}
 	
+	/**
+	 * Implements and creates a thread to process tuples.
+	 * @return
+	 */
 	protected abstract Thread newProcessorRunner();
 	
 }
