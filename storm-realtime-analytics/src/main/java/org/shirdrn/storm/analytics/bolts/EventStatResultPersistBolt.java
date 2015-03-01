@@ -69,7 +69,7 @@ public class EventStatResultPersistBolt extends DispatchedRichBolt<Tuple, Void> 
 	/**
 	 * Process actually time-consuming logic. If you set <code>parallelism</code> by
 	 * invoking {@link TupleDispatcher#setProcessorWithParallelism(org.shirdrn.storm.api.TupleDispatcher.Processor, int)},
-	 * after a {@link TupleDispatcher} instance created. The tuple reactor will create multiple {@link TupleDispatcher.Processor}
+	 * after a {@link TupleDispatcher} instance created. The tuple dispatcher will create multiple {@link TupleDispatcher.Processor}
 	 * to process in parallel.
 	 * 
 	 * @author Yanjun
