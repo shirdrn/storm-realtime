@@ -48,7 +48,7 @@ public abstract class QueuedTupleDispatcher<IN, COLLECTOR, OUT> extends GenericT
 	@Override
 	public void start() {
 		Preconditions.checkArgument(processor != null, "Never set a processor for the distributor!");
-		executorService = ThreadPoolUtils.newCachedThreadPool("DISTRIBUTOR");
+		executorService = ThreadPoolUtils.newCachedThreadPool("DISPATCHER");
 		for (int i = 0; i < parallelism; i++) {
 			Thread runner = newProcessorRunner();
 			executorService.execute(runner);

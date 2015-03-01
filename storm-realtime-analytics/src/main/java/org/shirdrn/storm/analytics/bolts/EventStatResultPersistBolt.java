@@ -47,7 +47,7 @@ public class EventStatResultPersistBolt extends DispatchedRichBolt<Tuple, Void> 
 		
 		tupleDispatcher.setProcessorWithParallelism(new EventProcessor(), parallelism);
 		tupleDispatcher.start();
-		LOG.info("Tuple distributor started!");
+		LOG.info("Tuple dispatcher started!");
 	}
 	
 	@Override
