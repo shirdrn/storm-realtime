@@ -1,11 +1,11 @@
 package org.shirdrn.storm.api.common;
 
-import org.shirdrn.storm.api.TupleReactor;
+import org.shirdrn.storm.api.TupleDispatcher;
 
 import backtype.storm.tuple.Tuple;
 
 /**
- * Generic tuple reactor abstraction.
+ * Generic tuple dispatcher abstraction.
  * 
  * @author Yanjun
  *
@@ -13,14 +13,14 @@ import backtype.storm.tuple.Tuple;
  * @param <COLLECTOR> collector object
  * @param <OUT> output data object
  */
-public abstract class GenericTupleReactor<IN, COLLECTOR, OUT> implements TupleReactor<IN, COLLECTOR, OUT> {
+public abstract class GenericTupleDispatcher<IN, COLLECTOR, OUT> implements TupleDispatcher<IN, COLLECTOR, OUT> {
 
 	private static final long serialVersionUID = 1L;
 	protected final COLLECTOR collector;
 	protected Processor<IN, COLLECTOR, OUT> processor;
 	protected int parallelism = 1;
 
-	public GenericTupleReactor(COLLECTOR collector) {
+	public GenericTupleDispatcher(COLLECTOR collector) {
 		super();
 		this.collector = collector;
 	}

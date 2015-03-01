@@ -7,21 +7,21 @@ import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
 /**
- * Tuple reactor for spout component, which is asynchronous tuple distributor.
+ * Tuple dispatcher for spout component, which is asynchronous tuple distributor.
  * 
  * @author Yanjun
  *
  * @param <OUT> output data object
  */
-public class SpoutTupleReactor<OUT> extends QueuedTupleReactor<Tuple, SpoutOutputCollector, OUT> {
+public class SpoutTupleDispatcher<OUT> extends QueuedTupleDispatcher<Tuple, SpoutOutputCollector, OUT> {
 
 	private static final long serialVersionUID = 1L;
 
-	public SpoutTupleReactor(SpoutOutputCollector collector) {
+	public SpoutTupleDispatcher(SpoutOutputCollector collector) {
 		super(collector);
 	}
 	
-	public SpoutTupleReactor(SpoutOutputCollector collector,  BlockingQueue<Tuple> queue) {
+	public SpoutTupleDispatcher(SpoutOutputCollector collector,  BlockingQueue<Tuple> queue) {
 		super(collector);
 	}
 

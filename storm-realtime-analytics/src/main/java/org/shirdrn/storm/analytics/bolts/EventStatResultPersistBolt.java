@@ -14,9 +14,9 @@ import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.CallbackHandler;
 import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.api.Result;
-import org.shirdrn.storm.api.TupleReactor;
-import org.shirdrn.storm.api.common.BoltTupleReactor;
-import org.shirdrn.storm.api.common.ReactoredRichBolt;
+import org.shirdrn.storm.api.TupleDispatcher;
+import org.shirdrn.storm.api.common.BoltTupleDispatcher;
+import org.shirdrn.storm.api.common.DispatchedRichBolt;
 import org.shirdrn.storm.commons.constants.StatIndicators;
 
 import redis.clients.jedis.Jedis;
@@ -26,7 +26,7 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
-public class EventStatResultPersistBolt extends ReactoredRichBolt<Tuple, Void> {
+public class EventStatResultPersistBolt extends DispatchedRichBolt<Tuple, Void> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventStatResultPersistBolt.class);
@@ -37,23 +37,23 @@ public class EventStatResultPersistBolt extends ReactoredRichBolt<Tuple, Void> {
 			OutputCollector collector) {
 		super.prepare(stormConf, context, collector);
 		
-		// configure tuple reactor
-		tupleReactor = new BoltTupleReactor<Void>(collector);
+		// configure tuple dispatcher
+		tupleDispatcher = new BoltTupleDispatcher<Void>(collector);
 		int parallelism = 1;
 		try {
-			parallelism = RealtimeUtils.getConfiguration().getInt(Constants.REALTIME_DISTRIBUTOR_PARALLELISM, parallelism);
+			parallelism = RealtimeUtils.getConfiguration().getInt(Constants.REALTIME_DISPATCHED_PROCESSOR_PARALLELISM, parallelism);
 		} catch (Exception e) { }
 		LOG.info("Configure: parallelism=" + parallelism);
 		
-		tupleReactor.setProcessorWithParallelism(new EventProcessor(), parallelism);
-		tupleReactor.start();
+		tupleDispatcher.setProcessorWithParallelism(new EventProcessor(), parallelism);
+		tupleDispatcher.start();
 		LOG.info("Tuple distributor started!");
 	}
 	
 	@Override
 	public void execute(Tuple input) {
 		try {
-			tupleReactor.distribute(input);
+			tupleDispatcher.dispatch(input);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -68,13 +68,13 @@ public class EventStatResultPersistBolt extends ReactoredRichBolt<Tuple, Void> {
 	
 	/**
 	 * Process actually time-consuming logic. If you set <code>parallelism</code> by
-	 * invoking {@link TupleReactor#setProcessorWithParallelism(org.shirdrn.storm.api.TupleReactor.Processor, int)},
-	 * after a {@link TupleReactor} instance created. The tuple reactor will create multiple {@link TupleReactor.Processor}
+	 * invoking {@link TupleDispatcher#setProcessorWithParallelism(org.shirdrn.storm.api.TupleDispatcher.Processor, int)},
+	 * after a {@link TupleDispatcher} instance created. The tuple reactor will create multiple {@link TupleDispatcher.Processor}
 	 * to process in parallel.
 	 * 
 	 * @author Yanjun
 	 */
-	private final class EventProcessor implements TupleReactor.Processor<Tuple, OutputCollector, Void> {
+	private final class EventProcessor implements TupleDispatcher.Processor<Tuple, OutputCollector, Void> {
 
 		private static final long serialVersionUID = 1L;
 		private transient ConnectionManager<Jedis> connectionManager;

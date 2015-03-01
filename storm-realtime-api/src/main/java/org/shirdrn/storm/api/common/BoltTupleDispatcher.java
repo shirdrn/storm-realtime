@@ -7,21 +7,21 @@ import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
 /**
- * Tuple reactor for bolt component, which is asynchronous tuple distributor.
+ * Tuple dispatcher for bolt component, which is asynchronous tuple distributor.
  * 
  * @author Yanjun
  *
  * @param <OUT> output data object
  */
-public class BoltTupleReactor<OUT> extends QueuedTupleReactor<Tuple, OutputCollector, OUT> {
+public class BoltTupleDispatcher<OUT> extends QueuedTupleDispatcher<Tuple, OutputCollector, OUT> {
 
 	private static final long serialVersionUID = 1L;
 
-	public BoltTupleReactor(OutputCollector collector) {
+	public BoltTupleDispatcher(OutputCollector collector) {
 		super(collector);
 	}
 	
-	public BoltTupleReactor(OutputCollector collector,  BlockingQueue<Tuple> queue) {
+	public BoltTupleDispatcher(OutputCollector collector,  BlockingQueue<Tuple> queue) {
 		super(collector);
 	}
 
