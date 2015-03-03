@@ -39,10 +39,11 @@ public class JedisConnectionManager implements ConnectionManager<Jedis> {
 		LOG.info("Jedis pool created: " + connectionPool);
 				
 		// set print Redis cmd log level
-		Object level = conf.getProperty(Constants.REALTIME_REDIS_CMD_LOG_LEVEL);
+		String level = conf.getString(Constants.REALTIME_REDIS_CMD_LOG_LEVEL);
 		if(level != null) {
-			redisCmdLogLevel = RealtimeUtils.parseLevel((String) level);
+			redisCmdLogLevel = RealtimeUtils.parseLevel(level);
 		}
+		LOG.info("Print redis command log level: " + redisCmdLogLevel.toInt());
 	}
 	
 	@Override

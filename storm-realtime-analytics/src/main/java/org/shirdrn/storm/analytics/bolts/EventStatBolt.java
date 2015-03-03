@@ -60,6 +60,7 @@ public class EventStatBolt extends BaseRichBolt {
 				for(Result result : results) {
 					collector.emit(input, new Values(result.getIndicator(), result));
 					LOG.debug("Emitted: results=" + results);
+					collector.ack(input);
 				}
 			} catch (Exception e) {
 				LOG.warn("Fail to handle: handler=" + handler + ", indicators=" + handler.getMappedIndicators() + ", event=" + eventData, e);
