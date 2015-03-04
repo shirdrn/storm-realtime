@@ -1,6 +1,6 @@
 package org.shirdrn.storm.analytics.utils;
 
-import java.util.TreeSet;
+import java.util.Collection;
 
 import net.sf.json.JSONObject;
 
@@ -13,16 +13,16 @@ import org.shirdrn.storm.api.common.GenericEventHandlerManager;
 
 import redis.clients.jedis.Jedis;
 
-public class JedisEventHandlerManager extends GenericEventHandlerManager<TreeSet<Result>, Jedis, JSONObject> {
+public class JedisEventHandlerManager extends GenericEventHandlerManager<Collection<Result>, Jedis, JSONObject> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(JedisEventHandlerManager.class);
 	
 	@Override
-	public void initialize() {
-		super.initialize();
+	public void start() {
+		super.start();
 		ConnectionManager<Jedis> connectionManager = new JedisConnectionManager(RealtimeUtils.getConfiguration());
-		for(EventHandler<TreeSet<Result>, Jedis, JSONObject> handler : eventHandlers.values()) {
+		for(EventHandler<Collection<Result>, Jedis, JSONObject> handler : eventHandlers.values()) {
 			handler.setConnectionManager(connectionManager);
 			LOG.info("Initialize event handler: " + handler);
 		}

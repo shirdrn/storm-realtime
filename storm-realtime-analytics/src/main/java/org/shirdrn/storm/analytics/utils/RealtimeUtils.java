@@ -1,8 +1,8 @@
 package org.shirdrn.storm.analytics.utils;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
-import java.util.TreeSet;
 
 import joptsimple.internal.Strings;
 import net.sf.json.JSONObject;
@@ -60,16 +60,16 @@ public class RealtimeUtils {
 		}
 	}
 	
-	public static EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> getEventHandlerManager() {
+	public static EventHandlerManager<Collection<Result>, Jedis, JSONObject> getEventHandlerManager() {
 		// register calculators
 		LOG.info("Registering indicator calculators:");
 		registerCalculators();
 		LOG.info("Registered.");
 		
-		EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> eventHandlerManager = new JedisEventHandlerManager();
+		EventHandlerManager<Collection<Result>, Jedis, JSONObject> eventHandlerManager = new JedisEventHandlerManager();
 		registerInterestedEvents(eventHandlerManager);
 		mappingEventHandlers(eventHandlerManager);
-		eventHandlerManager.initialize();
+		eventHandlerManager.start();
 		return eventHandlerManager;
 	}
 	
@@ -77,14 +77,14 @@ public class RealtimeUtils {
 	 * Register interested events
 	 * @param interested
 	 */
-	private static void registerInterestedEvents(EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> eventHandlerManager) {
+	private static void registerInterestedEvents(EventHandlerManager<Collection<Result>, Jedis, JSONObject> eventHandlerManager) {
 		eventHandlerManager.interestEvent(EventCode.INSTALL);
 		eventHandlerManager.interestEvent(EventCode.OPEN);
 		eventHandlerManager.interestEvent(EventCode.PLAY_START);
 		eventHandlerManager.interestEvent(EventCode.PLAY_END);
 	}
 	
-	private static void mappingEventHandlers(final EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> eventHandlerManager) {
+	private static void mappingEventHandlers(final EventHandlerManager<Collection<Result>, Jedis, JSONObject> eventHandlerManager) {
 		// register mappings: event-->EventHandler
 		eventHandlerManager.mapping(EventCode.PLAY_START, new PlayStartEventHandler(EventCode.PLAY_START));
 		eventHandlerManager.mapping(EventCode.PLAY_END, new PlayEndEventHandler(EventCode.PLAY_END));

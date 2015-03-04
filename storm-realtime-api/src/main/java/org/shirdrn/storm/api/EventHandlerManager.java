@@ -1,6 +1,5 @@
 package org.shirdrn.storm.api;
 
-
 /**
  * Manage events related meta data, such as event codes, the mapping from event code
  * to event handler instance, etc.
@@ -11,10 +10,7 @@ package org.shirdrn.storm.api;
  * @param <CONNECTION> Connection object
  * @param <EVENT> Event data object
  */
-public interface EventHandlerManager<RESULT, CONNECTION, EVENT> extends EventInteresteable, EventMapper<RESULT, CONNECTION, EVENT>, LifecycleAware {
+public interface EventHandlerManager<RESULT, CONNECTION, EVENT> 
+			extends EventInteresteable, EventMapper<RESULT, CONNECTION, EVENT>, LifecycleAware {
 
-	/**
-	 * Initialize a {@link EventHandlerManager} object.
-	 */
-	void initialize();
 }

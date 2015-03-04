@@ -1,5 +1,6 @@
 package org.shirdrn.storm.analytics.common;
 
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import net.sf.json.JSONObject;
@@ -9,6 +10,8 @@ import org.shirdrn.storm.api.IndicatorCalculator;
 import org.shirdrn.storm.api.Result;
 import org.shirdrn.storm.api.common.GenericEventHandler;
 import org.shirdrn.storm.api.utils.IndicatorCalculatorFactory;
+
+import com.google.common.collect.Sets;
 
 import redis.clients.jedis.Jedis;
 
@@ -53,5 +56,10 @@ public abstract class JedisEventHandler extends GenericEventHandler<Result, Jedi
 	@Override
 	public void setConnectionManager(ConnectionManager<Jedis> connectionManager) {
 		this.connectionManager = connectionManager;	
+	}
+	
+	@Override
+	protected Collection<Result> newEmptyResultCollection() {
+		return Sets.newTreeSet();
 	}
 }

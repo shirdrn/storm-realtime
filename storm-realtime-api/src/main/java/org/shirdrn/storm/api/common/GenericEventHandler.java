@@ -3,7 +3,6 @@ package org.shirdrn.storm.api.common;
 import java.util.Collection;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +24,7 @@ import com.google.common.collect.Sets;
  * @param <CONNECTION> Storage engine connection
  * @param <EVENT> Event data object
  */
-public abstract class GenericEventHandler<RESULT, CONNECTION, EVENT> implements EventHandler<TreeSet<RESULT>, CONNECTION, EVENT> {
+public abstract class GenericEventHandler<RESULT, CONNECTION, EVENT> implements EventHandler<Collection<RESULT>, CONNECTION, EVENT> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -45,9 +44,9 @@ public abstract class GenericEventHandler<RESULT, CONNECTION, EVENT> implements 
 	}
 	
 	@Override
-	public TreeSet<RESULT> handle(EVENT event) throws Exception {
+	public Collection<RESULT> handle(EVENT event) throws Exception {
 		LOG.info(getClass().getSimpleName() + ": indicators=" + registeredIndicators);
-		TreeSet<RESULT> results = new TreeSet<RESULT>();
+		Collection<RESULT> results = newEmptyResultCollection();
 		for(int indicator : registeredIndicators) {
 			RESULT result = processEvent(indicator, event);
 			if(result != null) {
@@ -57,6 +56,12 @@ public abstract class GenericEventHandler<RESULT, CONNECTION, EVENT> implements 
 		LOG.info(getClass().getSimpleName() + ":  results=" + results);
 		return results;
 	}
+	
+	/**
+	 * Create a empty result collection to make computed result be added.
+	 * @return
+	 */
+	protected abstract Collection<RESULT> newEmptyResultCollection();
 	
 	protected void registerIndicatorInternal(int indicator) {
 		IndicatorCalculator<RESULT, CONNECTION, EVENT> calculator = getIndicatorCalculator(indicator);

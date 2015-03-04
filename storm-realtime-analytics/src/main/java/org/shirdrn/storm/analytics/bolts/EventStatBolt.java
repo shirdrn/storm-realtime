@@ -1,7 +1,7 @@
 package org.shirdrn.storm.analytics.bolts;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.TreeSet;
 
 import net.sf.json.JSONObject;
 
@@ -34,7 +34,7 @@ public class EventStatBolt extends BaseRichBolt {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventStatBolt.class);
-	private EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> eventHandlerManager;
+	private EventHandlerManager<Collection<Result>, Jedis, JSONObject> eventHandlerManager;
 	private OutputCollector collector;
 	
 	@SuppressWarnings("rawtypes")
@@ -51,12 +51,12 @@ public class EventStatBolt extends BaseRichBolt {
 		LOG.debug("INPUT: event=" + event);
 		JSONObject eventData = JSONObject.fromObject(event);
 		String eventCode = eventData.getString(EventFields.EVENT_CODE);
-		EventHandler<TreeSet<Result>, Jedis, JSONObject> handler = eventHandlerManager.getEventHandler(eventCode);
+		EventHandler<Collection<Result>, Jedis, JSONObject> handler = eventHandlerManager.getEventHandler(eventCode);
 		LOG.debug("Get handler: handler=" + handler);
 		
 		if(handler != null) {
 			try {
-				TreeSet<Result> results = handler.handle(eventData);
+				Collection<Result> results = handler.handle(eventData);
 				for(Result result : results) {
 					collector.emit(input, new Values(result.getIndicator(), result));
 					LOG.debug("Emitted: results=" + results);

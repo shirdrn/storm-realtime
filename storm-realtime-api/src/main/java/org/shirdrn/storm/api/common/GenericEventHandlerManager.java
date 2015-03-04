@@ -20,14 +20,14 @@ import com.google.common.collect.Sets;
  *
  * @param <RESULT> Computed {@link Result}
  * @param <CONNECTION> Connection object
- * @param <EVENTE> Event data object
+ * @param <EVENT> Event data object
  */
-public class GenericEventHandlerManager<RESULT, CONNECTION, EVENTE> implements EventHandlerManager<RESULT, CONNECTION, EVENTE> {
+public class GenericEventHandlerManager<RESULT, CONNECTION, EVENT> implements EventHandlerManager<RESULT, CONNECTION, EVENT> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(GenericEventHandlerManager.class);
 	private final Collection<String> interestedEvents = Sets.newHashSet();
-	protected final Map<String, EventHandler<RESULT, CONNECTION, EVENTE>> eventHandlers = Maps.newHashMap();
+	protected final Map<String, EventHandler<RESULT, CONNECTION, EVENT>> eventHandlers = Maps.newHashMap();
 	
 	@Override
 	public void interestEvent(String eventCode) {
@@ -40,31 +40,25 @@ public class GenericEventHandlerManager<RESULT, CONNECTION, EVENTE> implements E
 	}
 
 	@Override
-	public void mapping(String eventCode, EventHandler<RESULT, CONNECTION, EVENTE> eventHandler) {
+	public void mapping(String eventCode, EventHandler<RESULT, CONNECTION, EVENT> eventHandler) {
 		// register mappings: event-->EventHandler
 		eventHandlers.put(eventCode, eventHandler);
 		LOG.info("Mapped event handler: " + eventCode + " -> " + eventHandler);
 	}
 
 	@Override
-	public EventHandler<RESULT, CONNECTION, EVENTE> getEventHandler(String eventCode) {
+	public EventHandler<RESULT, CONNECTION, EVENT> getEventHandler(String eventCode) {
 		return eventHandlers.get(eventCode);
 	}
 
 	@Override
-	public void initialize() {
+	public void start() {
 		// register indicators for each EventHandler
 		Preconditions.checkArgument(!eventHandlers.isEmpty(), "Never set event handlers!!!");
-		for(EventHandler<RESULT, CONNECTION, EVENTE> handler : eventHandlers.values()) {
+		for(EventHandler<RESULT, CONNECTION, EVENT> handler : eventHandlers.values()) {
 			handler.registerIndicators();
 			LOG.info("Indicator registered for: " + handler);
-		}
-	}
-
-	@Override
-	public void start() {
-		// TODO Auto-generated method stub
-		
+		}		
 	}
 
 	@Override

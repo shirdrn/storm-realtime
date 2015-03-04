@@ -2,12 +2,15 @@ package org.shirdrn.storm.api.common;
 
 import java.util.concurrent.BlockingQueue;
 
+import org.shirdrn.storm.api.TupleDispatcher;
+import org.shirdrn.storm.api.TupleDispatcher.Processor;
+
 import backtype.storm.spout.SpoutOutputCollector;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
 /**
- * Tuple dispatcher for spout component, which is asynchronous tuple distributor.
+ * Tuple dispatcher for spout component, and it's a asynchronous tuple distributor.
  * 
  * @author Yanjun
  *
@@ -30,20 +33,33 @@ public class SpoutTupleDispatcher<OUT> extends QueuedTupleDispatcher<Tuple, Spou
 		return new ProcessorRunner();
 	}
 
+	/**
+	 * Control the behavior of the specified 
+	 * {@link TupleDispatcher}.{@link Processor}.
+	 * 
+	 * @author yanjun
+	 */
 	private final class ProcessorRunner extends Thread {
 		
 		@Override
 		public void run() {
 			while(true) {
+				Tuple input = null;
 				try {
-					Tuple input = queue.take();
+					input = queue.take();
 					OUT output = processor.process(input);
 					Values values = processor.writeOut(output);
 					if(values != null) {
 						collector.emit(values);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					if(input != null) {
+						try {
+							queue.put(input);
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+					}
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 package org.shirdrn.storm.analytics.bolts;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.TreeSet;
 
 import net.sf.json.JSONObject;
 
@@ -32,7 +32,7 @@ public class EventFilterBolt extends BaseRichBolt {
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventFilterBolt.class);
 	private OutputCollector collector;
-	private EventHandlerManager<TreeSet<Result>, Jedis, JSONObject> eventHandlerManager;
+	private EventHandlerManager<Collection<Result>, Jedis, JSONObject> eventHandlerManager;
 	
 	@SuppressWarnings({ "rawtypes" })
 	@Override

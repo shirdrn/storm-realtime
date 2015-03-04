@@ -13,6 +13,17 @@ import java.io.Serializable;
  */
 public interface EventMapper<RESULT, CONNECTION, EVENT> extends Serializable {
 
+	/**
+	 * Establish relationship between event code and {@link EventHandler}.
+	 * @param eventCode
+	 * @param eventHandler
+	 */
 	void mapping(String eventCode, EventHandler<RESULT, CONNECTION, EVENT> eventHandler);
+	
+	/**
+	 * Get a {@link EventHandler} according to a given event code.
+	 * @param eventCode
+	 * @return
+	 */
 	EventHandler<RESULT, CONNECTION, EVENT> getEventHandler(String eventCode);
 }
