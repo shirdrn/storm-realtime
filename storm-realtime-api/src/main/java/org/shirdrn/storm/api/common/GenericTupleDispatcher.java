@@ -19,6 +19,8 @@ public abstract class GenericTupleDispatcher<IN, COLLECTOR, OUT> implements Tupl
 	protected final COLLECTOR collector;
 	protected Processor<IN, COLLECTOR, OUT> processor;
 	protected int parallelism = 1;
+	private boolean doAckManaged = true;
+	private boolean doAckFailureManaged = true;
 
 	public GenericTupleDispatcher(COLLECTOR collector) {
 		super();
@@ -35,5 +37,27 @@ public abstract class GenericTupleDispatcher<IN, COLLECTOR, OUT> implements Tupl
 	public void setProcessor(Processor<IN, COLLECTOR, OUT> processor) {
 		setProcessorWithParallelism(processor, 1);	
 	}
+
+	@Override
+	public void setDoAckManaged(boolean doAckManaged) {
+		this.doAckManaged = doAckManaged;	
+	}
+
+	@Override
+	public boolean isDoAckManaged() {
+		return doAckManaged;
+	}
+
+	@Override
+	public void setDoAckFailureManaged(boolean doAckFailureManaged) {
+		this.doAckFailureManaged = doAckFailureManaged;	
+	}
+
+	@Override
+	public boolean isDoAckFailureManaged() {
+		return doAckFailureManaged;
+	}
+	
+	
 	
 }

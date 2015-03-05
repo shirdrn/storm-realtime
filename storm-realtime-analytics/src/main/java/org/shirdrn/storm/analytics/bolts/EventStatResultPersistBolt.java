@@ -87,18 +87,16 @@ public class EventStatResultPersistBolt extends DispatchedRichBolt<Tuple, Void> 
 		}
 		
 		@Override
-		public Void process(Tuple input) {
+		public Void process(Tuple input) throws Exception {
 			int indicator = input.getInteger(0);
 			Result obj = (Result) input.getValue(1);
 			LOG.debug("INPUT: indicator=" + indicator + ", obj=" + obj);
 			consume(input, indicator, obj);	
-			collector.ack(input);
-			LOG.debug("######### Consumed: indicator=" + indicator + ", obj=" + obj);
 			return null;
 		}
 		
 		@SuppressWarnings("unchecked")
-		private void consume(Tuple input, int indicator, Result obj) {
+		private void consume(Tuple input, int indicator, Result obj) throws Exception {
 			switch(indicator) {
 				case StatIndicators.OPEN_AU:
 				case StatIndicators.OPEN_NU:
@@ -140,16 +138,15 @@ public class EventStatResultPersistBolt extends DispatchedRichBolt<Tuple, Void> 
 			}
 		}
 		
-		private void invoke(Tuple input, String key, String field, String value, Result result) {
+		private void invoke(Tuple input, String key, String field, String value, Result result) throws Exception {
 			CallbackHandler<Jedis> callbackHandler = result.getCallbackHandler();
 			if(callbackHandler != null) {
 				try {
 					callbackHandler.callback(connectionManager.getConnection());
-					collector.ack(input);
 				} catch (Exception e) {
 					LOG.error("Fail to update value for: " + 
 						"key=" + key + ", field=" + field + ", value=" + value, e);
-					collector.fail(input);
+					throw e;
 				}
 			}
 		}

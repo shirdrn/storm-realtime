@@ -16,7 +16,7 @@ import backtype.storm.tuple.Values;
  * @param <COLLECTOR> collector object
  * @param <OUT> output data object
  */
-public interface TupleDispatcher<IN, COLLECTOR, OUT> extends Serializable, LifecycleAware {
+public interface TupleDispatcher<IN, COLLECTOR, OUT> extends AckManageable, Serializable, LifecycleAware {
 
 	/**
 	 * Set the processor and parallelism of {@link Processor} instances.
@@ -62,7 +62,7 @@ public interface TupleDispatcher<IN, COLLECTOR, OUT> extends Serializable, Lifec
 		 * @param input
 		 * @return
 		 */
-		OUT process(IN input);
+		OUT process(IN input) throws Exception;
 		
 		/**
 		 * Build a output data object for being emitted by this bolt

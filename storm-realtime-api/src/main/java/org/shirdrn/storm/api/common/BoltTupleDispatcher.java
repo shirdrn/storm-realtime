@@ -52,10 +52,14 @@ public class BoltTupleDispatcher<OUT> extends QueuedTupleDispatcher<Tuple, Outpu
 						if(values != null) {
 							collector.emit(input, values);
 						}
-						collector.ack(input);
+						if(isDoAckManaged()) {
+							collector.ack(input);
+						}
 					}
 				} catch (Exception e) {
-					collector.fail(input);
+					if(isDoAckFailureManaged()) {
+						collector.fail(input);
+					}
 				}
 			}
 		}
