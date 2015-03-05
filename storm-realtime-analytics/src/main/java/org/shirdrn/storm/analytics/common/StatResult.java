@@ -10,7 +10,7 @@ public class StatResult extends GenericResult implements KeyCreateable {
 	private static final String NS_SEPARATOR = CommonConstants.REDIS_KEY_NS_SEPARATOR;
 	
 	private String strHour;
-	private int osType;
+	private String osType;
 	private String channel;
 	private String version;
 	
@@ -20,10 +20,10 @@ public class StatResult extends GenericResult implements KeyCreateable {
 	public void setStrHour(String strHour) {
 		this.strHour = strHour;
 	}
-	public int getOsType() {
+	public String getOsType() {
 		return osType;
 	}
-	public void setOsType(int osType) {
+	public void setOsType(String osType) {
 		this.osType = osType;
 	}
 	public String getChannel() {

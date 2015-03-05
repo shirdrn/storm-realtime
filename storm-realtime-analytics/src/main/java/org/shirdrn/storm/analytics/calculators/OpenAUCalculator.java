@@ -41,10 +41,10 @@ public class OpenAUCalculator extends GenericIndicatorCalculator<StatResult, Jed
 		final String strHour = DateTimeUtils.format(time, Constants.DT_EVENT_PATTERN, Constants.DT_HOUR_PATTERN);
 		// get user device information
 		JSONObject user =  RealtimeUtils.getUserInfo(connection, udid);
-		if(user != null) {
+		if(RealtimeUtils.isInvalidUser(user)) {
 			String channel = user.getString(UserInfoKeys.CHANNEL);
 			String version = user.getString(UserInfoKeys.VERSION);
-			int osType = user.getInt(UserInfoKeys.OS_TYPE);
+			String osType = user.getString(UserInfoKeys.OS_TYPE);
 			// create StatResult
 			statResult = new StatResult();
 			statResult.setOsType(osType);

@@ -2,7 +2,7 @@ package org.shirdrn.storm.analytics.constants;
 
 public interface EventFields {
 
-	String APP_KEY = "app_key";
+	String APP_ID = "app_id";
 	String EVENT_CODE = "event_code";
 	String EVENT_TIME = "event_time";
 	String UDID = "udid";

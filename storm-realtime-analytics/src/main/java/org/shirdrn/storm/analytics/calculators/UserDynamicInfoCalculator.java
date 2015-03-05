@@ -9,6 +9,7 @@ import org.shirdrn.storm.analytics.common.KeyedResult;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventCode;
 import org.shirdrn.storm.analytics.constants.EventFields;
+import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import org.shirdrn.storm.api.CallbackHandler;
 import org.shirdrn.storm.commons.constants.CommonConstants;
 import org.shirdrn.storm.commons.constants.StatIndicators;
@@ -47,28 +48,34 @@ public class UserDynamicInfoCalculator extends GenericIndicatorCalculator<KeyedR
 				String field = null;
 				if(eventCode.equals(EventCode.OPEN)) {
 					// first open date
-					field = Constants.FIRST_OPEN_DATE; 
-					String firstOpenDate = client.hget(key, Constants.FIRST_OPEN_DATE);
+					field = UserInfoKeys.FIRST_OPEN_DATE; 
+					String firstOpenDate = client.hget(key, UserInfoKeys.FIRST_OPEN_DATE);
 					if(firstOpenDate == null) {
 						info = new JSONObject();
-						info.put(Constants.FIRST_OPEN_DATE, strDate);
+						info.put(UserInfoKeys.FIRST_OPEN_DATE, strDate);
 					}
 					
 					// update LOD
-					updateDate(client, key, Constants.LATEST_OPEN_DATE, strDate);
+					String latestOpenDate = client.hget(key, UserInfoKeys.LATEST_OPEN_DATE);
+					if(latestOpenDate == null || !latestOpenDate.equals(strDate)) {
+						updateDate(client, key, UserInfoKeys.LATEST_OPEN_DATE, strDate);
+					}
 				}
 				
 				if(eventCode.equals(EventCode.PLAY_START)) {
 					// first play date
-					field = Constants.FIRST_PLAY_DATE; 
-					String firstOpenDate = client.hget(key, Constants.FIRST_PLAY_DATE);
+					field = UserInfoKeys.FIRST_PLAY_DATE; 
+					String firstOpenDate = client.hget(key, UserInfoKeys.FIRST_PLAY_DATE);
 					if(firstOpenDate == null) {
 						info = new JSONObject();
-						info.put(Constants.FIRST_PLAY_DATE, strDate);
+						info.put(UserInfoKeys.FIRST_PLAY_DATE, strDate);
 					}
 					
 					// update LPD
-					updateDate(client, key, Constants.LATEST_PLAY_DATE, strDate);
+					String latestPlayDate = client.hget(key, UserInfoKeys.LATEST_PLAY_DATE);
+					if(latestPlayDate == null || !latestPlayDate.equals(strDate)) {
+						updateDate(client, key, UserInfoKeys.LATEST_PLAY_DATE, strDate);
+					}
 				}
 				
 				if(info != null) {

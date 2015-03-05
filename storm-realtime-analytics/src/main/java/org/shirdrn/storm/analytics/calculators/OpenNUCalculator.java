@@ -41,12 +41,12 @@ public class OpenNUCalculator extends GenericIndicatorCalculator<StatResult, Jed
 		String strHour = DateTimeUtils.format(time, Constants.DT_EVENT_PATTERN, Constants.DT_HOUR_PATTERN);
 		// get user device information
 		JSONObject user =  RealtimeUtils.getUserInfo(connection, udid);
-		if(user != null) {
+		if(RealtimeUtils.isInvalidUser(user)) {
 			boolean isNewUserOpen = RealtimeUtils.isNewUserOpen(connection, udid, user, time);
 			if(isNewUserOpen) {
 				String channel = user.getString(UserInfoKeys.CHANNEL);
 				String version = user.getString(UserInfoKeys.VERSION);
-				int osType = user.getInt(UserInfoKeys.OS_TYPE);
+				String osType = user.getString(UserInfoKeys.OS_TYPE);
 				// create StatResult
 				statResult = new StatResult();
 				statResult.setOsType(osType);

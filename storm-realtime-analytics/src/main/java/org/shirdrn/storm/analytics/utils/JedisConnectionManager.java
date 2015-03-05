@@ -43,7 +43,7 @@ public class JedisConnectionManager implements ConnectionManager<Jedis> {
 		if(level != null) {
 			redisCmdLogLevel = RealtimeUtils.parseLevel(level);
 		}
-		LOG.info("Print redis command log level: " + redisCmdLogLevel.toInt());
+		LOG.info("Print redis command log level: " + redisCmdLogLevel.toString());
 	}
 	
 	@Override

@@ -25,6 +25,7 @@ import org.shirdrn.storm.analytics.calculators.UserDeviceInfoCalculator;
 import org.shirdrn.storm.analytics.calculators.UserDynamicInfoCalculator;
 import org.shirdrn.storm.analytics.constants.Constants;
 import org.shirdrn.storm.analytics.constants.EventCode;
+import org.shirdrn.storm.analytics.constants.UserInfoKeys;
 import org.shirdrn.storm.analytics.handlers.InstallEventHandler;
 import org.shirdrn.storm.analytics.handlers.OpenEventHandler;
 import org.shirdrn.storm.analytics.handlers.PlayEndEventHandler;
@@ -117,18 +118,49 @@ public class RealtimeUtils {
 	}
 	
 	public static JSONObject getUserInfo(final Jedis connection, String udid) {
-		JSONObject user = null;
 		String userKey = Constants.USER_INFO_KEY_PREFIX + udid;
-		String userInfo = connection.get(userKey);
-		if(userInfo != null) {
-			user = JSONObject.fromObject(userInfo);
-		}
+		String appId = connection.hget(userKey, UserInfoKeys.APP_ID);
+		String channel = connection.hget(userKey, UserInfoKeys.CHANNEL);
+		String version = connection.hget(userKey, UserInfoKeys.VERSION);
+		String osType = connection.hget(userKey, UserInfoKeys.OS_TYPE);
+		String fod = connection.hget(userKey, UserInfoKeys.FIRST_OPEN_DATE);
+		String fpd = connection.hget(userKey, UserInfoKeys.FIRST_PLAY_DATE);
+		String lod = connection.hget(userKey, UserInfoKeys.LATEST_OPEN_DATE);
+		String lpd = connection.hget(userKey, UserInfoKeys.LATEST_PLAY_DATE);
+		
+		JSONObject user = new JSONObject();
+		putKV(user, UserInfoKeys.APP_ID, appId);
+		putKV(user, UserInfoKeys.CHANNEL, channel);
+		putKV(user, UserInfoKeys.VERSION, version);
+		putKV(user, UserInfoKeys.OS_TYPE, osType);
+		putKV(user, UserInfoKeys.FIRST_OPEN_DATE, fod);
+		putKV(user, UserInfoKeys.FIRST_PLAY_DATE, fpd);
+		putKV(user, UserInfoKeys.LATEST_OPEN_DATE, lod);
+		putKV(user, UserInfoKeys.LATEST_PLAY_DATE, lpd);
 		return user;
+	}
+	
+	private static void putKV(JSONObject user, String key, String value) {
+		if(value != null) {
+			user.put(key, value);
+		}
+	}
+	
+	public static boolean isInvalidUser(JSONObject user) {
+		boolean isInvalid = false;
+		if(user != null && !user.isEmpty()) {
+			if(user.containsKey(UserInfoKeys.CHANNEL) 
+					&& user.containsKey(UserInfoKeys.VERSION) 
+					&& user.containsKey(UserInfoKeys.OS_TYPE)) {
+				isInvalid = true;
+			}
+		}
+		return isInvalid;
 	}
 	
 	public static boolean isNewUserOpen(final Jedis connection, String udid, final JSONObject user, String eventDatetime) {
 		String key = Constants.USER_DYNAMIC_INFO_KEY_PREFIX + udid;
-		String latestOpenDate = connection.hget(key, Constants.LATEST_OPEN_DATE);
+		String latestOpenDate = connection.hget(key, UserInfoKeys.LATEST_OPEN_DATE);
 		boolean isNewUserOpen = true;
 		if(latestOpenDate != null) {
 			String eventDate = DateTimeUtils.format(eventDatetime, Constants.DT_EVENT_PATTERN, Constants.DT_DATE_PATTERN);
@@ -142,7 +174,7 @@ public class RealtimeUtils {
 	
 	public static boolean isNewUserPlay(final Jedis connection, String udid, final JSONObject user, String eventDatetime) {
 		String key = Constants.USER_DYNAMIC_INFO_KEY_PREFIX + udid;
-		String latestPlayDate = connection.hget(key, Constants.LATEST_PLAY_DATE);
+		String latestPlayDate = connection.hget(key, UserInfoKeys.LATEST_PLAY_DATE);
 		boolean isNewUserPlay = true;
 		if(latestPlayDate != null) {
 			String eventDate = DateTimeUtils.format(eventDatetime, Constants.DT_EVENT_PATTERN, Constants.DT_DATE_PATTERN);
