@@ -17,7 +17,8 @@ public abstract class GenericTupleDispatcher<IN, COLLECTOR, OUT> implements Tupl
 
 	private static final long serialVersionUID = 1L;
 	protected final COLLECTOR collector;
-	protected Processor<IN, COLLECTOR, OUT> processor;
+	protected ProcessorFactory<IN, COLLECTOR, OUT> processorFactory;
+	protected Class<? extends Processor<IN, COLLECTOR, OUT>> processorClass;
 	protected int parallelism = 1;
 	private boolean doAckManaged = true;
 	private boolean doAckFailureManaged = true;
@@ -28,14 +29,19 @@ public abstract class GenericTupleDispatcher<IN, COLLECTOR, OUT> implements Tupl
 	}
 	
 	@Override
-	public void setProcessorWithParallelism(Processor<IN, COLLECTOR, OUT> processor, int parallelism) {
-		this.processor = processor;
+	public void setProcessorFactory(ProcessorFactory<IN, COLLECTOR, OUT> processorFactory) {
+		this.processorFactory = processorFactory;
+	}
+	
+	@Override
+	public void setProcessorParallelism(int parallelism) {
 		this.parallelism = parallelism;		
 	}
 	
 	@Override
-	public void setProcessor(Processor<IN, COLLECTOR, OUT> processor) {
-		setProcessorWithParallelism(processor, 1);	
+	public void setProcessorClass(
+			Class<? extends org.shirdrn.storm.api.TupleDispatcher.Processor<IN, COLLECTOR, OUT>> processorClass) {
+		this.processorClass = processorClass;	
 	}
 
 	@Override

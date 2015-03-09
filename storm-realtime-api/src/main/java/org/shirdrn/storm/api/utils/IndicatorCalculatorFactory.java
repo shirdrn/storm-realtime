@@ -33,7 +33,7 @@ public class IndicatorCalculatorFactory {
 	public static synchronized void registerCalculator(Class<?> calculatorClazz) {
 		IndicatorCalculator<?, ?, ?> instance = CALCULATOR_CLASSES.get(calculatorClazz);
 		if(instance == null) {
-			instance = (IndicatorCalculator<?, ?, ?>) ReflectionUtils.getInstance(calculatorClazz);
+			instance = (IndicatorCalculator<?, ?, ?>) ReflectionUtils.newInstance(calculatorClazz);
 			if(instance == null) {
 				throw new RuntimeException("Fail to reflect class: " + calculatorClazz.getName());
 			}

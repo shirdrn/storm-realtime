@@ -12,7 +12,7 @@ public abstract class DispatchedRichBolt<IN, OUT> extends BaseRichBolt {
 
 	private static final long serialVersionUID = 1L;
 	protected OutputCollector collector;
-	protected TupleDispatcher<IN, OutputCollector, OUT> tupleDispatcher;
+	protected TupleDispatcher<IN, OutputCollector, OUT> dispatcher;
 	
 	@SuppressWarnings("rawtypes")
 	@Override

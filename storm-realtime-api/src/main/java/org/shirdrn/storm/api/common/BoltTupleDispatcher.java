@@ -28,8 +28,8 @@ public class BoltTupleDispatcher<OUT> extends QueuedTupleDispatcher<Tuple, Outpu
 	}
 
 	@Override
-	protected Thread newProcessorRunner() {
-		return new ProcessorRunner();
+	protected ProcessorRunner newProcessorRunner() {
+		return new ProcessorRunnerImpl();
 	}
 
 	/**
@@ -38,7 +38,13 @@ public class BoltTupleDispatcher<OUT> extends QueuedTupleDispatcher<Tuple, Outpu
 	 * 
 	 * @author yanjun
 	 */
-	private final class ProcessorRunner extends Thread {
+	private final class ProcessorRunnerImpl extends ProcessorRunner {
+		
+		private static final long serialVersionUID = 1L;
+
+		public ProcessorRunnerImpl() {
+			super();
+		}
 		
 		@Override
 		public void run() {

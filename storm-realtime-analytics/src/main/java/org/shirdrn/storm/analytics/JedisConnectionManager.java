@@ -1,10 +1,11 @@
-package org.shirdrn.storm.analytics.utils;
+package org.shirdrn.storm.analytics;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.shirdrn.storm.analytics.constants.Constants;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.spring.utils.SpringFactory;
 import org.springframework.context.ApplicationContext;

@@ -20,17 +20,21 @@ public interface TupleDispatcher<IN, COLLECTOR, OUT> extends AckManageable, Seri
 
 	/**
 	 * Set the processor and parallelism of {@link Processor} instances.
-	 * @param processor
-	 * @param parallelism
+	 * @param processorFactory
 	 */
-	void setProcessorWithParallelism(Processor<IN, COLLECTOR, OUT> processor, int parallelism);
+	void setProcessorFactory(ProcessorFactory<IN, COLLECTOR, OUT> processorFactory);
 	
 	/**
-	 * Set the processor with default parallelism=1.
-	 * @param processor
+	 * Set the processor implementation class.
 	 * @param parallelism
 	 */
-	void setProcessor(Processor<IN, COLLECTOR, OUT> processor);
+	void setProcessorClass(Class<? extends Processor<IN, COLLECTOR, OUT>> clazz);
+	
+	/**
+	 * Set the parallelism of processors.
+	 * @param parallelism
+	 */
+	void setProcessorParallelism(int parallelism);
 	
 	/**
 	 * Dispatch <code>input</code>s object to a set of worker threads to process
@@ -70,5 +74,26 @@ public interface TupleDispatcher<IN, COLLECTOR, OUT> extends AckManageable, Seri
 		 * @return
 		 */
 		Values writeOut(OUT output);
+	}
+	
+	
+	
+	/**
+	 * Factory who is responsible for producing {@link Processor} instance.
+	 * 
+	 * @author Yanjun
+	 *
+	 * @param <IN>	IN data object
+	 * @param <COLLECTOR>	collector object
+	 * @param <OUT>	OUT data object
+	 */
+	interface ProcessorFactory<IN, COLLECTOR, OUT> extends Serializable {
+		
+		/**
+		 * Create a {@link Processor} instance.
+		 * @param processorClazz
+		 * @return
+		 */
+		Processor<IN, COLLECTOR, OUT> createProcessor(Class<? extends Processor<IN, COLLECTOR, OUT>> clazz);
 	}
 }

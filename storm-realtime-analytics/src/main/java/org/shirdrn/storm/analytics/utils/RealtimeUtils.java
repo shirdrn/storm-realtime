@@ -13,6 +13,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
+import org.shirdrn.storm.analytics.JedisEventHandlerManager;
 import org.shirdrn.storm.analytics.calculators.OpenAUCalculator;
 import org.shirdrn.storm.analytics.calculators.OpenNUCalculator;
 import org.shirdrn.storm.analytics.calculators.OpenTimesCalculator;

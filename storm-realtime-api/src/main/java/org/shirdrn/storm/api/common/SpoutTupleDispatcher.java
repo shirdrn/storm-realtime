@@ -3,7 +3,6 @@ package org.shirdrn.storm.api.common;
 import java.util.concurrent.BlockingQueue;
 
 import org.shirdrn.storm.api.TupleDispatcher;
-import org.shirdrn.storm.api.TupleDispatcher.Processor;
 
 import backtype.storm.spout.SpoutOutputCollector;
 import backtype.storm.tuple.Tuple;
@@ -29,8 +28,8 @@ public class SpoutTupleDispatcher<OUT> extends QueuedTupleDispatcher<Tuple, Spou
 	}
 
 	@Override
-	protected Thread newProcessorRunner() {
-		return new ProcessorRunner();
+	protected ProcessorRunner newProcessorRunner() {
+		return new ProcessorRunnerImpl();
 	}
 
 	/**
@@ -39,7 +38,13 @@ public class SpoutTupleDispatcher<OUT> extends QueuedTupleDispatcher<Tuple, Spou
 	 * 
 	 * @author yanjun
 	 */
-	private final class ProcessorRunner extends Thread {
+	private final class ProcessorRunnerImpl extends ProcessorRunner {
+		
+		private static final long serialVersionUID = 1L;
+
+		public ProcessorRunnerImpl() {
+			super();
+		}
 		
 		@Override
 		public void run() {

@@ -57,8 +57,9 @@ public class EventFilterBolt extends BaseRichBolt {
 			}
 		} catch (Exception e) {
 			LOG.warn("Illegal JSON format data: " + event);
+		} finally {
+			collector.ack(input);
 		}
-		collector.ack(input);
 	}
 
 	@Override

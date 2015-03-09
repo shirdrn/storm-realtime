@@ -1,5 +1,6 @@
 package org.shirdrn.storm.api.common;
 
+import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -47,10 +48,11 @@ public abstract class QueuedTupleDispatcher<IN, COLLECTOR, OUT> extends GenericT
 	
 	@Override
 	public void start() {
-		Preconditions.checkArgument(processor != null, "Never set a processor for the dispatcher!");
+		Preconditions.checkArgument(processorFactory != null, "Never set a processor factory for the dispatcher!");
+		Preconditions.checkArgument(processorFactory != null, "Never set a processor class for the dispatcher!");
 		executorService = ThreadPoolUtils.newCachedThreadPool("DISPATCHER");
 		for (int i = 0; i < parallelism; i++) {
-			Thread runner = newProcessorRunner();
+			ProcessorRunner runner = newProcessorRunner();
 			executorService.execute(runner);
 			LOG.info("Processor runner started: " + runner);
 		}
@@ -65,6 +67,19 @@ public abstract class QueuedTupleDispatcher<IN, COLLECTOR, OUT> extends GenericT
 	 * Implements and creates a thread to process tuples.
 	 * @return
 	 */
-	protected abstract Thread newProcessorRunner();
+	protected abstract ProcessorRunner newProcessorRunner();
+	
+	abstract class ProcessorRunner extends Thread implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
+		private final Log log = LogFactory.getLog(QueuedTupleDispatcher.class);
+		protected final Processor<IN, COLLECTOR, OUT> processor;
+		
+		public ProcessorRunner() {
+			processor = processorFactory.createProcessor(processorClass);
+			log.info("Processor created: " + processor);
+		}
+		
+	}
 	
 }

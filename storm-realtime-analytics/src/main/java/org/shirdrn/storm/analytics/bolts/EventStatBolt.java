@@ -2,6 +2,7 @@ package org.shirdrn.storm.analytics.bolts;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import net.sf.json.JSONObject;
 
@@ -60,11 +61,14 @@ public class EventStatBolt extends BaseRichBolt {
 				for(Result result : results) {
 					collector.emit(input, new Values(result.getIndicator(), result));
 					LOG.debug("Emitted: results=" + results);
-					collector.ack(input);
 				}
 			} catch (Exception e) {
 				LOG.warn("Fail to handle: handler=" + handler + ", indicators=" + handler.getMappedIndicators() + ", event=" + eventData, e);
+			} finally {
+				collector.ack(input);
 			}
+		} else {
+			throw new NoSuchElementException("Nevet mapping event code to a known handler: eventCode" + eventCode);
 		}
 	}
 	

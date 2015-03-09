@@ -1,4 +1,4 @@
-package org.shirdrn.storm.analytics.utils;
+package org.shirdrn.storm.analytics;
 
 import java.util.Collection;
 
@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.api.EventHandler;
 import org.shirdrn.storm.api.Result;
