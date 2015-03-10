@@ -51,7 +51,7 @@ public abstract class JedisEventHandler extends GenericEventHandler<Result, Jedi
 		}
 		
 		// check availability of the connection
-		if(connection != null && !connection.isConnected()) {
+		if(!connection.isConnected()) {
 			connection = RealtimeUtils.newAvailableConnection(connectionManager);
 		}
 		Result result = calculator.calculate(connection, event);
