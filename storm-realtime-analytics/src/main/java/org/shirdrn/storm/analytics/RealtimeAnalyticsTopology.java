@@ -92,7 +92,7 @@ public class RealtimeAnalyticsTopology {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Configuration externalConf = RealtimeUtils.getConfiguration();
+		Configuration externalConf = RealtimeUtils.getDefaultConfiguration();
 		String topic = externalConf.getString(Keys.KAFKA_BROKER_TOPICS);
 		
 		// submit topology

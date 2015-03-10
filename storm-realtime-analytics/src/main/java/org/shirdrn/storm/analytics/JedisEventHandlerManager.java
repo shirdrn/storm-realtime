@@ -6,7 +6,6 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.api.EventHandler;
 import org.shirdrn.storm.api.Result;
@@ -22,7 +21,7 @@ public class JedisEventHandlerManager extends GenericEventHandlerManager<Collect
 	@Override
 	public void start() {
 		super.start();
-		ConnectionManager<Jedis> connectionManager = new JedisConnectionManager(RealtimeUtils.getConfiguration());
+		ConnectionManager<Jedis> connectionManager = JedisConnectionManager.newInstance();
 		for(EventHandler<Collection<Result>, Jedis, JSONObject> handler : eventHandlers.values()) {
 			handler.setConnectionManager(connectionManager);
 			LOG.info("Initialize event handler: " + handler);

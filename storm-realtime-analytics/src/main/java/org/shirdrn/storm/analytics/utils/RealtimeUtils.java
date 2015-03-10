@@ -31,6 +31,7 @@ import org.shirdrn.storm.analytics.handlers.InstallEventHandler;
 import org.shirdrn.storm.analytics.handlers.OpenEventHandler;
 import org.shirdrn.storm.analytics.handlers.PlayEndEventHandler;
 import org.shirdrn.storm.analytics.handlers.PlayStartEventHandler;
+import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.api.EventHandlerManager;
 import org.shirdrn.storm.api.Result;
 import org.shirdrn.storm.api.utils.IndicatorCalculatorFactory;
@@ -47,19 +48,31 @@ import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.topology.base.BaseRichSpout;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 
 public class RealtimeUtils {
 
 	private static final Log LOG = LogFactory.getLog(RealtimeUtils.class);
 	
-	public static Configuration getConfiguration() {
+	public static Configuration getDefaultConfiguration() {
 		try {
 			return new PropertiesConfiguration("config.properties");
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
-			return null;
+			throw Throwables.propagate(e);
 		}
+	}
+	
+	public static Configuration getConfiguration(String name) {
+		try {
+			return new PropertiesConfiguration(name);
+		} catch (ConfigurationException e) {
+			throw Throwables.propagate(e);
+		}
+	}
+	
+	public static synchronized Jedis newAvailableConnection(final ConnectionManager<Jedis> connectionManager) {
+		return connectionManager.getConnection();
 	}
 	
 	public static EventHandlerManager<Collection<Result>, Jedis, JSONObject> getEventHandlerManager() {

@@ -32,7 +32,7 @@ public class EventStatResultPersistBolt extends DispatchedRichBolt<Tuple, Void> 
 			OutputCollector collector) {
 		super.prepare(stormConf, context, collector);
 		
-		Configuration conf = RealtimeUtils.getConfiguration();
+		Configuration conf = RealtimeUtils.getDefaultConfiguration();
 		// configure tuple dispatcher
 		dispatcher = new BoltTupleDispatcher<Void>(collector);
 		int parallelism = 1;
@@ -41,8 +41,7 @@ public class EventStatResultPersistBolt extends DispatchedRichBolt<Tuple, Void> 
 		} catch (Exception e) { }
 		LOG.info("Configure: parallelism=" + parallelism);
 		
-		connectionManager = new JedisConnectionManager(conf);
-		connectionManager.start();
+		connectionManager = JedisConnectionManager.newInstance();
 		LOG.info("Connection manager started!");
 		
 		dispatcher.setProcessorFactory(new EventProcessorFactory(connectionManager));

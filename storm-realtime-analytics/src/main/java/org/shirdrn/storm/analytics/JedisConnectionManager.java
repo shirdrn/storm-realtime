@@ -1,5 +1,7 @@
 package org.shirdrn.storm.analytics;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,24 +29,21 @@ public class JedisConnectionManager implements ConnectionManager<Jedis> {
 	private static final Log LOG = LogFactory.getLog(JedisConnectionManager.class);
 	private static final String contextID = "realtime";
 	private static final String SPTING_CONFIGS = "classpath*:/applicationContext.xml";
-	private transient final ApplicationContext applicationContext;
-	private transient final JedisPool connectionPool;
+	private transient ApplicationContext applicationContext;
+	private transient JedisPool connectionPool;
 	private Level redisCmdLogLevel = Level.DEBUG;
+	private static final ConnectionManager<Jedis> INSTANCE = new JedisConnectionManager();
+	private static final AtomicBoolean started = new AtomicBoolean(false);
 	
-	public JedisConnectionManager(Configuration conf) {
-		// Spring context
-		applicationContext = SpringFactory.getContextFactory(contextID, SPTING_CONFIGS).getContext(contextID);
-		LOG.info("Spring context initialized: " + applicationContext);
-		
-		connectionPool = applicationContext.getBean(JedisPool.class);
-		LOG.info("Jedis pool created: " + connectionPool);
-				
-		// set print Redis cmd log level
-		String level = conf.getString(Constants.REALTIME_REDIS_CMD_LOG_LEVEL);
-		if(level != null) {
-			redisCmdLogLevel = RealtimeUtils.parseLevel(level);
+	private JedisConnectionManager() {
+		super();
+	}
+	
+	public static ConnectionManager<Jedis> newInstance() {
+		if(!started.get()) {
+			INSTANCE.start();
 		}
-		LOG.info("Print redis command log level: " + redisCmdLogLevel.toString());
+		return INSTANCE;
 	}
 	
 	@Override
@@ -81,7 +80,23 @@ public class JedisConnectionManager implements ConnectionManager<Jedis> {
 
 	@Override
 	public void start() {
+		// Spring context
+		applicationContext = SpringFactory.getContextFactory(contextID, SPTING_CONFIGS).getContext(contextID);
+		LOG.info("Spring context initialized: " + applicationContext);
 		
+		connectionPool = applicationContext.getBean(JedisPool.class);
+		LOG.info("Jedis pool created: " + connectionPool);
+		
+		Configuration conf = RealtimeUtils.getDefaultConfiguration();
+		
+		// set print Redis cmd log level
+		String level = conf.getString(Constants.REALTIME_REDIS_CMD_LOG_LEVEL);
+		if(level != null) {
+			redisCmdLogLevel = RealtimeUtils.parseLevel(level);
+		}
+		LOG.info("Print redis command log level: " + redisCmdLogLevel.toString());
+		
+		started.compareAndSet(false, true);
 	}
 
 	@Override
