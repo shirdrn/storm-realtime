@@ -11,6 +11,7 @@ import org.shirdrn.storm.api.TupleDispatcher;
 import org.shirdrn.storm.commons.utils.ThreadPoolUtils;
 
 import backtype.storm.tuple.Tuple;
+import backtype.storm.tuple.Values;
 
 import com.google.common.base.Preconditions;
 
@@ -80,6 +81,55 @@ public abstract class QueuedTupleDispatcher<IN, COLLECTOR, OUT> extends GenericT
 			log.info("Processor created: " + processor);
 		}
 		
+	}
+	
+	enum Op {
+		EMIT(1),
+		ACK(2),
+		FAIL(3);
+		
+		private int code;
+		
+		private Op(int code) {
+			this.code = code;
+		}
+		
+		public int getCode() {
+			return code;
+		}
+	}
+	
+	protected class Event {
+		
+		private final Op op;
+		private final IN input;
+		private Values values;
+		
+		public Event(Op op, IN input) {
+			super();
+			this.op = op;
+			this.input = input;
+		}
+		
+		public Event(Op op, IN input, Values values) {
+			super();
+			this.op = op;
+			this.input = input;
+			this.values = values;
+		}
+		
+		public Op getOp() {
+			return op;
+		}
+		public IN getInput() {
+			return input;
+		}
+		public Values getValues() {
+			return values;
+		}
+		public void setValues(Values values) {
+			this.values = values;
+		}
 	}
 	
 }
