@@ -30,7 +30,6 @@ public class EventProcessor implements Processor<Tuple, OutputCollector, Void> {
 
 	private static final long serialVersionUID = 1L;
 	private static final Log LOG = LogFactory.getLog(EventProcessor.class);
-	private Jedis connection;
 	private final ProcessorFactory<Tuple, OutputCollector, Void> factory;
 	private final EventProcessorFactory eventProcessorFactory;
 	
@@ -38,8 +37,6 @@ public class EventProcessor implements Processor<Tuple, OutputCollector, Void> {
 		super();
 		this.factory = factory;
 		eventProcessorFactory = (EventProcessorFactory) this.factory;
-		connection = eventProcessorFactory.newConnection();
-		LOG.info("Jedis connection created: " + connection);
 	}
 	
 	@Override
@@ -97,14 +94,15 @@ public class EventProcessor implements Processor<Tuple, OutputCollector, Void> {
 	private void invoke(Tuple input, String key, String field, String value, Result result) throws Exception {
 		CallbackHandler<Jedis> callbackHandler = result.getCallbackHandler();
 		if(callbackHandler != null) {
+			Jedis connection = null;
 			try {
-				if(!connection.isConnected()) {
-					eventProcessorFactory.newConnection();
-				}
+				connection = eventProcessorFactory.getConnectionManager().getConnection();
 				callbackHandler.callback(connection);
 			} catch (Exception e) {
 				LOG.error("Fail to update value for: " + "key=" + key + ", field=" + field + ", value=" + value, e);
 				throw e;
+			} finally {
+				connection.close();
 			}
 		}
 	}

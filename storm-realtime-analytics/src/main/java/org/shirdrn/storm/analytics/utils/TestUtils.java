@@ -65,9 +65,10 @@ public class TestUtils {
 				collector.emit(new Values(data));
 				LOG.info("Spout emitted: " + data);
 				++pointer;
-				Utils.sleep(5);
+				Utils.sleep(1);
 			} else {
-				Utils.sleep(100000);
+				Utils.sleep(5);
+				pointer = 0;
 			}
 		}
 

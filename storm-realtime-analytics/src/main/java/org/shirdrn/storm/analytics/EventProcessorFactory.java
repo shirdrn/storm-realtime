@@ -1,6 +1,5 @@
 package org.shirdrn.storm.analytics;
 
-import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.api.TupleDispatcher;
 import org.shirdrn.storm.api.TupleDispatcher.Processor;
@@ -24,8 +23,8 @@ public class EventProcessorFactory implements TupleDispatcher.ProcessorFactory<T
 	public Processor<Tuple, OutputCollector, Void> createProcessor(Class<? extends Processor<Tuple, OutputCollector, Void>> clazz) {
 		return ReflectionUtils.newInstance(clazz, Processor.class, this);
 	}
-	
-	public Jedis newConnection() {
-		return RealtimeUtils.newAvailableConnection(connectionManager);
+
+	public ConnectionManager<Jedis> getConnectionManager() {
+		return connectionManager;
 	}
 }

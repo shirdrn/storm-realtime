@@ -5,16 +5,15 @@ import java.util.NoSuchElementException;
 
 import net.sf.json.JSONObject;
 
-import org.shirdrn.storm.analytics.utils.RealtimeUtils;
 import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.api.IndicatorCalculator;
 import org.shirdrn.storm.api.Result;
 import org.shirdrn.storm.api.common.GenericEventHandler;
 import org.shirdrn.storm.api.utils.IndicatorCalculatorFactory;
 
-import com.google.common.collect.Sets;
-
 import redis.clients.jedis.Jedis;
+
+import com.google.common.collect.Sets;
 
 /**
  * Event handler abstract implementation base on <code>Redis</code> storage engine.
@@ -25,7 +24,6 @@ public abstract class JedisEventHandler extends GenericEventHandler<Result, Jedi
 
 	private static final long serialVersionUID = 1L;
 	protected transient ConnectionManager<Jedis> connectionManager;
-	protected transient Jedis connection;
 	
 	public JedisEventHandler(String eventCode) {
 		super(eventCode);
@@ -50,18 +48,22 @@ public abstract class JedisEventHandler extends GenericEventHandler<Result, Jedi
 			((Loggingable) calculator).setPrintRedisCmdLogLevel(connectionManager.getCmdLogLevel());
 		}
 		
-		// check availability of the connection
-		if(!connection.isConnected()) {
-			connection = RealtimeUtils.newAvailableConnection(connectionManager);
+		Jedis connection = null;
+		Result result = null;
+		try {
+			connection = connectionManager.getConnection();
+			result = calculator.calculate(connection, event);
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
 		}
-		Result result = calculator.calculate(connection, event);
 		return result;
 	}
 	
 	@Override
 	public void setConnectionManager(ConnectionManager<Jedis> connectionManager) {
 		this.connectionManager = connectionManager;	
-		this.connection = this.connectionManager.getConnection();
 	}
 	
 	@Override
