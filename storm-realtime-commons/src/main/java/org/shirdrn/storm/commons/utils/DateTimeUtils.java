@@ -80,6 +80,10 @@ public class DateTimeUtils {
 		toDate.setSeconds(0);
 		return (int) (toDate.getTime() - date.getTime());
 	}
+	
+	public static long getTimestamp(String date, String format) {
+		return parse(date, format).getTime();
+	}
 
 	public static void main(String[] args) {
 		System.out.println(format(System.currentTimeMillis(), "yyyyMMddHHmmssSSS"));

@@ -11,6 +11,7 @@
 		<module>storm-realtime-spring</module>
 		<module>storm-realtime-mydis</module>
 		<module>storm-realtime-api</module>
+		<module>storm-realtime-live</module>
 	</modules>
 
 	<properties>
