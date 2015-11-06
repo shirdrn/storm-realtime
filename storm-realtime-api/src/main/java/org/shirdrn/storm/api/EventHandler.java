@@ -13,14 +13,7 @@ import java.util.Collection;
  * @param <CONNECTION> Connection object
  * @param <EVENT> Event data object
  */
-public interface EventHandler<RESULT, CONNECTION, EVENT> extends Serializable {
-
-	/**
-	 * Execute statistics computation, and result stat result.
-	 * @param event
-	 * @return
-	 */
-	RESULT handle(EVENT event) throws Exception;
+public interface EventHandler<RESULT, CONNECTION, EVENT> extends SimpleEventHandler<RESULT, EVENT>, Serializable {
 	
 	/**
 	 * Get indicator set related to this  {@link EventHandler}.
@@ -33,13 +26,10 @@ public interface EventHandler<RESULT, CONNECTION, EVENT> extends Serializable {
 	 * @param indicator
 	 */
 	void registerIndicators();
-	
-	/**
-	 * Get event code to identify a event.
-	 * @return
-	 */
-	String getEventCode();
 
+	/**
+	 * Set connection manager.
+	 */
 	void setConnectionManager(ConnectionManager<CONNECTION> connectionManager);
 	
 }
