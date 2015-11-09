@@ -53,7 +53,7 @@ public class RealtimeStatisticsBolt extends JedisRichBolt {
 						&& data.containsKey(EventKeys.FRAGMENT_ID)) {
 					HeartbeatEvent hbEvent = new HeartbeatEvent();
 					hbEvent.setEventCode(eventCode);
-					hbEvent.setRoom(room);
+					hbEvent.setRoomId(room);
 					hbEvent.setUdid(data.getString(EventKeys.UDID));
 					String eventTime = data.getString(EventKeys.EVENT_TIME);
 					hbEvent.setEventTime(eventTime);

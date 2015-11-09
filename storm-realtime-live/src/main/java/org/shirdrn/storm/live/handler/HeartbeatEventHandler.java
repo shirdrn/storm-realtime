@@ -95,7 +95,7 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 		
 		// calculate maximum online user count
 		executorService.execute(maximumOnlineUserCountCalculator);
-		LOG.info("Maximum online user count updater started: " + maximumOnlineUserCountCalculator);
+		LOG.info("Maximum online user count calculator started: " + maximumOnlineUserCountCalculator);
 		
 		executorService.execute(counterRefresher);
 		LOG.info("Room counter refresher started: " + counterRefresher);
@@ -103,41 +103,45 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 
 	@Override
 	public TreeSet<Void> handle(HeartbeatEvent event) {
-		String room = event.getRoom();
+		String roomId = event.getRoomId();
 		String fragmentId = event.getFragmentId();
 		String eventCode = event.getEventCode();
 		if(eventCode.equals(EventCode.ENTER) || eventCode.equals(EventCode.HEART_BEAT)) {
 			// check whether a new room appears, if true then add room to the shared set
-			if(!timestampedRooms.containsKey(room)) {
-				long timestamp = System.currentTimeMillis();
-				timestampedRooms.putIfAbsent(room, timestamp);
-				String roomFragmentPair = new RoomFragmentKey(room, fragmentId).toKey();
-				roomKeyedFragments.put(room, roomFragmentPair);
-				LOG.info("Room added: room=" + room + ", fragment=" + fragmentId +
-						", timestamp=" + timestamp + 
-						"(" + DateTimeUtils.format(timestamp, DATETIME_READABLE_FORMAT) + ")");
-				
-				// check room cache, kick off expired rooms
-				if(timestampedRooms.size() > config.getRoomCacheCapacity()
-						&& System.currentTimeMillis() - lastPurgeTimestamp > config.getRoomCachePurgeInterval()
-						&& executingPurgeOperation.compareAndSet(false, true)) {
-					long current = System.currentTimeMillis();
-					LOG.info("Before purging: " + 
-							"roomCacheSize=" + timestampedRooms.size() + 
-							", fragmentCacheSize=" + roomKeyedFragments.size() + 
-							", lastPurgeTime=" + DateTimeUtils.format(lastPurgeTimestamp, DATETIME_READABLE_FORMAT) + 
-							", currentTime=" + DateTimeUtils.format(current, DATETIME_READABLE_FORMAT));
-					purgeExpirations();
-					lastPurgeTimestamp = System.currentTimeMillis();
-					// unlock
-					executingPurgeOperation.set(false);
-				}
-			}
-			
+			checkRoomCache(roomId, fragmentId);
+
 			// renewer heart beat
 			heartbeatRenewer.addLast(event);
 		} 
 		return null;
+	}
+
+	private void checkRoomCache(String roomId, String fragmentId) {
+		if(!timestampedRooms.containsKey(roomId)) {
+			long timestamp = System.currentTimeMillis();
+			timestampedRooms.putIfAbsent(roomId, timestamp);
+			String roomFragmentPair = new RoomFragmentKey(roomId, fragmentId).toKey();
+			roomKeyedFragments.put(roomId, roomFragmentPair);
+			LOG.info("Room added: room=" + roomId + ", fragment=" + fragmentId +
+					", timestamp=" + timestamp + 
+					"(" + DateTimeUtils.format(timestamp, DATETIME_READABLE_FORMAT) + ")");
+			
+			// check room cache, kick off expired rooms
+			if(timestampedRooms.size() > config.getRoomCacheCapacity()
+					&& System.currentTimeMillis() - lastPurgeTimestamp > config.getRoomCachePurgeInterval()
+					&& executingPurgeOperation.compareAndSet(false, true)) {
+				long current = System.currentTimeMillis();
+				LOG.info("Before purging: " + 
+						"roomCacheSize=" + timestampedRooms.size() + 
+						", fragmentCacheSize=" + roomKeyedFragments.size() + 
+						", lastPurgeTime=" + DateTimeUtils.format(lastPurgeTimestamp, DATETIME_READABLE_FORMAT) + 
+						", currentTime=" + DateTimeUtils.format(current, DATETIME_READABLE_FORMAT));
+				purgeExpirations();
+				lastPurgeTimestamp = System.currentTimeMillis();
+				// unlock
+				executingPurgeOperation.set(false);
+			}
+		}
 	}
 	
 	private void purgeExpirations() {
@@ -148,37 +152,37 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 				LOG.info("Reached capacity(" + config.getRoomCacheCapacity() + "), try to check & kick off from cache: ");
 				Iterator<Entry<String, Long>> iter = timestampedRooms.entrySet().iterator();
 				int removed = 0;
-				Map<String, String> resetRooms = Maps.newHashMap();
+				Map<String, String> resetRoomIds = Maps.newHashMap();
 				while(iter.hasNext()) {
 					Entry<String, Long> entry = iter.next();
-					String cachedRoom = entry.getKey();
+					String cachedRoomId = entry.getKey();
 					Long ts = entry.getValue();
 					if(System.currentTimeMillis() - ts >= config.getRoomCacheExpireTime()) {
 						iter.remove();
 						// remove room_fragmentid pair
-						roomKeyedFragments.remove(cachedRoom);
+						roomKeyedFragments.remove(cachedRoomId);
 						removed += 1;
-						LOG.info("Kicked off: key=" + cachedRoom + ", ts=" + ts + 
+						LOG.info("Kicked off: key=" + cachedRoomId + ", ts=" + ts + 
 								"(" + DateTimeUtils.format(ts, DATETIME_READABLE_FORMAT) + ")");
 						// room counter need to be reset to 0
-						resetRooms.put(cachedRoom, STR_ZERO);
+						resetRoomIds.put(cachedRoomId, STR_ZERO);
 					}
 				}
 				LOG.info(removed + " expirations have been kicked off.");
 				LOG.info("After purged: roomCacheSize=" + timestampedRooms.size() + ", fragmentCacheSize=" + roomKeyedFragments.size());
 				
 				// update counter for the removed room to 0
-				resetRoomCounters(resetRooms);
+				resetRoomCounters(resetRoomIds);
 			}
 
-			private void resetRoomCounters(Map<String, String> resetRooms) {
+			private void resetRoomCounters(Map<String, String> resetRoomIds) {
 				Jedis connection = null;
 				try {
-					if(!resetRooms.isEmpty()) {
+					if(!resetRoomIds.isEmpty()) {
 						String liveRoomUserPlayCounterKey = Constants.KEY_LIVE_ROOM_USER_PLAY_COUNT;
 						connection = jedisBolt.getJedis();
-						connection.hmset(liveRoomUserPlayCounterKey, resetRooms);
-						LiveRealtimeUtils.printRedisCmd(LOG, "HMSET " + liveRoomUserPlayCounterKey + " " + resetRooms);
+						connection.hmset(liveRoomUserPlayCounterKey, resetRoomIds);
+						LiveRealtimeUtils.printRedisCmd(LOG, "HMSET " + liveRoomUserPlayCounterKey + " " + resetRoomIds);
 					} 
 				} catch(Exception e) {
 				} finally {
@@ -220,26 +224,26 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 						// Map<RoomFragmentKey, count>
 						Map<RoomFragmentKey, String> currentRoomFragmentidCounterMap = Maps.newHashMap();
 						String nowDate = DateTimeUtils.format(System.currentTimeMillis(), DATE_READABLE_FORMAT);
-						for(String room : timestampedRooms.keySet()) {
+						for(String roomId : timestampedRooms.keySet()) {
 							// key like: lhb::1000000000::2000000000::ad09dad86caa399497ca9a53f0b9abaf
 							String keyPattern = 
-									heartbeatKeyPrefix + room + Constants.KEY_REDIS_NS_SEPARATOR + "*";
+									heartbeatKeyPrefix + roomId + Constants.KEY_REDIS_NS_SEPARATOR + "*";
 							Set<String> keys = connection.keys(keyPattern);
 							LiveRealtimeUtils.printRedisCmd(logger, Level.DEBUG, "KEYS " + keyPattern);
 							
 							if(keys != null && !keys.isEmpty()) {
 								String count = String.valueOf(keys.size());
-								currentRoomCounterMap.put(room, count);
+								currentRoomCounterMap.put(roomId, count);
 								String key = keys.iterator().next();
 								String[] a = key.split(Constants.KEY_REDIS_NS_SEPARATOR);
 								
 								// no need to store 0 counter for computing maximum online user count
 								if(!STR_ZERO.equals(count) && a.length == 4) {
 									String fragmentId = a[2];
-									currentRoomFragmentidCounterMap.put(new RoomFragmentKey(room, fragmentId), count);
+									currentRoomFragmentidCounterMap.put(new RoomFragmentKey(roomId, fragmentId), count);
 								}
 							} else {
-								currentRoomCounterMap.put(room, STR_ZERO);
+								currentRoomCounterMap.put(roomId, STR_ZERO);
 							}
 						}
 						
@@ -322,18 +326,18 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 	 */
 	private class RoomFragmentKey {
 		
-		private final String room;
+		private final String roomId;
 		private final String fragmentId;
 		
-		public RoomFragmentKey(String room, String fragmentId) {
+		public RoomFragmentKey(String roomId, String fragmentId) {
 			super();
-			this.room = room;
+			this.roomId = roomId;
 			this.fragmentId = fragmentId;
 		}
 		
 		@Override
 		public int hashCode() {
-			return 31 * room.hashCode() + 31 * fragmentId.hashCode();
+			return 31 * roomId.hashCode() + 31 * fragmentId.hashCode();
 		}
 		
 		@Override
@@ -346,7 +350,7 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 			// cache composite key, if necessary
 			String roomfragmentStrKey = roomFragmentPairCache.getIfPresent(this);
 			if(roomfragmentStrKey == null) {
-				roomfragmentStrKey = room + ROOMID_FRAGMENTID_SEPARATOR + fragmentId;
+				roomfragmentStrKey = roomId + ROOMID_FRAGMENTID_SEPARATOR + fragmentId;
 				roomFragmentPairCache.put(this, roomfragmentStrKey);
 			}
 			return roomfragmentStrKey;
@@ -404,12 +408,12 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 		
 		private void processHeartbeat(final Jedis connection, final HeartbeatEvent hb) {
 			String udid = hb.getUdid();
-			String room = hb.getRoom();
+			String roomId = hb.getRoomId();
 			String fragmentId = hb.getFragmentId();
 			// lhb::1000000000::2000000000::a90eaa54aba319bd7c4bb0df7bdadae 1426479011000
 			String heartbeatKey = 
 					liveHeartbeatKeyPrefix + 
-					room + Constants.KEY_REDIS_NS_SEPARATOR + 
+					roomId + Constants.KEY_REDIS_NS_SEPARATOR + 
 					fragmentId + Constants.KEY_REDIS_NS_SEPARATOR + udid;
 			
 			// update heartbeat's timestamp for this user in the room
@@ -419,7 +423,7 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 			// store to compute accumulated users
 			// SADD 1000000000_2000000000 c90eaa542fe319bd7c4bb0df7bd11ae
 			// SADD 1000000000_2000000000 b1986a92f5fa0355bd57de3d1742795b
-			String compositeKey = new RoomFragmentKey(room, fragmentId).toKey();
+			String compositeKey = new RoomFragmentKey(roomId, fragmentId).toKey();
 			connection.sadd(compositeKey, udid);
 		}
 		
@@ -440,9 +444,9 @@ public class HeartbeatEventHandler extends AbstractHeartbeatEventHandler {
 	
 	/**
 	 * Compute maximum online user count on daily basis. Here we compute
-	 * user count of a room occupied by a program. Because each room can arrange
-	 * multiple programs for different time range, we should record the maximum 
-	 * user count for each program.</br>
+	 * user count of a room occupied by a fragment. Because each room can arrange
+	 * multiple fragments for different time range, we should record the maximum 
+	 * user count for each fragment.</br>
 	 *
 	 * @author yanjun
 	 */

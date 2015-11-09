@@ -2,7 +2,6 @@ package org.shirdrn.storm.live.handler;
 
 import java.util.TreeSet;
 
-import org.shirdrn.storm.api.ConnectionManager;
 import org.shirdrn.storm.live.common.HeartbeatEvent;
 import org.shirdrn.storm.live.common.JedisRichBolt;
 
@@ -12,7 +11,6 @@ public abstract class AbstractHeartbeatEventHandler extends JedisEventHandler<Tr
 
 	private static final long serialVersionUID = 1L;
 	protected final JedisRichBolt jedisBolt;
-	protected transient ConnectionManager<Jedis> connectionManager;
 	
 	public AbstractHeartbeatEventHandler(JedisRichBolt jedisBolt, String eventCode) {
 		super(eventCode);

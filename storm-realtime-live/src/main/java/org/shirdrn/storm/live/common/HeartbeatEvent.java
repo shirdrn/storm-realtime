@@ -8,7 +8,7 @@ import backtype.storm.tuple.Tuple;
 public class HeartbeatEvent implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String room;
+	private String roomId;
 	private String udid;
 	private Tuple input;
 	private OutputCollector collector;
@@ -42,11 +42,11 @@ public class HeartbeatEvent implements Serializable {
 	public void setCollector(OutputCollector collector) {
 		this.collector = collector;
 	}
-	public String getRoom() {
-		return room;
+	public String getRoomId() {
+		return roomId;
 	}
-	public void setRoom(String room) {
-		this.room = room;
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
 	}
 	public String getEventCode() {
 		return eventCode;
